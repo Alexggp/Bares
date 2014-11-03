@@ -1,10 +1,23 @@
 <html>
-<body>
-  HOLA
-  
-  
-  
-  
-</body>
-<footer id="footer"><hr>Alejando G-G Pérez © 2014 </footer>	
+    <head>
+        <link rel="stylesheet" type="text/css"   href='/static/css/style_base.css' />
+        <link rel="stylesheet" type="text/css"   href="/static/js/leaflet-0.7.3/leaflet.css" />
+        <script type="text/javascript" src="/static/js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/static/js/leaflet-0.7.3/leaflet.js"></script>
+        <script type="text/javascript" src="/static/js/bares.js"></script>
+    </head>
+    
+    <body>   
+      
+    <div id="map"></div>
+    
+    <!-- convertimos el json en variable de js ¿hay otra manera de hacerlo?¿por qué no puedo desde el .js? -->
+    
+    <script>
+        var bar_list = {{ bars|safe }};
+    </script>
+    
+    
+    
+    <footer id="footer"><hr>Alejando G-G Pérez © 2014 </footer>	
 </html>
