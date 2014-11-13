@@ -8,5 +8,25 @@ body {
 #map{
     height: 500px;
     width: 500px;
+    float:left;
 }
 
+#barList{
+    height: 500px;
+    width: 250px;
+    background:white;
+    float:left;
+}
+#barList span{
+    font-weight:bold;
+}
+#barInfo{
+    height: 500px;
+    width: 250px;
+    background:white;
+    float:left;
+    text-align: center;
+}
+footer{
+    clear:left;
+}
