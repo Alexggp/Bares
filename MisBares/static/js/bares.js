@@ -1,4 +1,20 @@
 $(document).ready(function(){
+    var numIcon = L.Icon.extend({
+        options: {
+            shadowUrl: '/static/js/leaflet-0.7.3/images/marker-shadow.png',
+            iconSize:     [35, 42],
+            shadowSize:   [50, 64],
+            iconAnchor:   [13, 41],
+            shadowAnchor: [9, 63],
+            popupAnchor:  [-3, -76]
+            }
+        });
+    
+
+
+
+
+
     minimap = L.map('minimap');
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -12,6 +28,8 @@ $(document).ready(function(){
     markersLayer = L.layerGroup();   //layer with all markers in the map
    
     
+    
+    
     //bar_list is the list of bars given by django, sorted by price
     bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});    
     paintBars();
@@ -19,9 +37,12 @@ $(document).ready(function(){
     
     
     function paintBars(){          //this function creates markers on the map
-        for (i in bar_list){
+        for (i = 0; i < bar_list.length; i++){
+            var n = i+1;
+            var numberedIcon = new numIcon({iconUrl: '/static/images/markers/number_'+n+'.png'})
             var marker = new L.marker([bar_list[i].fields.latitude, bar_list[i].fields.longitude],{
-                        title:bar_list[i].fields.name+' '+bar_list[i].fields.price+'€'
+                        title:bar_list[i].fields.name+' '+bar_list[i].fields.price+'€',
+                        icon:numberedIcon
                         })   
             marker.on('click',function(e) {
                     var latlng=this.getLatLng();
