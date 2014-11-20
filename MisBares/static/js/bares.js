@@ -1,10 +1,15 @@
 $(document).ready(function(){
-    
-    map = L.map('map').setView([40.4405295, -3.6927629], 15);
+    minimap = L.map('minimap');
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);  
-    markersLayer = L.layerGroup();
+    }).addTo(minimap); 
+    markerDrag = L.marker([0,0],{draggable:true}); //marker draggable to locate the new bar in the minimap
+    
+    map = L.map('map');
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map); 
+    markersLayer = L.layerGroup();   //layer with all markers in the map
    
     
     //bar_list is the list of bars given by django, sorted by price
@@ -50,7 +55,7 @@ $(document).ready(function(){
    
    
    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
-        $('#barInfo').html('<h3>'+bar.fields.name+'</h3> Precio de la caña: '+bar.fields.price+'€')
+        $('#barInfo').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Precio de la caña: '+bar.fields.price+'€')
    };
    
     
@@ -67,6 +72,7 @@ $(document).ready(function(){
         },
         submitHandler: function(form){
             var dataDic =   {"nameForm":$('#nameForm').val(),
+                            "streetForm":$('#streetForm').html(),
                             "priceForm":$('#priceForm').val(),
                             "latForm":$('#latForm').val(),
                             "lonForm":$('#lonForm').val()}
@@ -87,6 +93,72 @@ $(document).ready(function(){
             });          
         }
     });  
+    
+    // Geolocation
+        
+    map.locate();
+    minimap.locate();
+
+    function onLocationFound(e) {
+        
+        var radius = e.accuracy / 2;
+        L.marker(e.latlng).addTo(map);
+        L.circle(e.latlng, radius).addTo(map);
+        map.setView(e.latlng, 17);
+        minimap.setView(e.latlng, 18);
+        
+       
+        markerDrag.setLatLng(e.latlng).addTo(minimap);
+        LatLngOnForm(e.latlng);
+              
+    }
+
+    markerDrag.on('dragend', function(e) { 
+            LatLngOnForm(markerDrag.getLatLng());
+        }); 
+        
+    function LatLngOnForm(latlng){ //fills authomatic values in the form
+            $('#latForm').val(latlng.lat.toFixed(7));
+            $('#lonForm').val(latlng.lng.toFixed(7));
+            
+            
+            var addressInfo = searchAddress(latlng.lat,latlng.lng);
+            
+            var data=addressInfo.display_name.split(', ');
+
+            $('#nameForm').val(data[0]);
+            $('#streetForm').html(data[1]);
+    }
+
+    // geolocation error message
+    map.on('locationfound', onLocationFound);
+    minimap.on('locationfound', onLocationFound);
+
+            function onLocationError(e) {
+        alert(e.message);
+    }
+
+    map.on('locationerror', onLocationError);
+    minimap.on('locationerror', onLocationError);
+    
+    
+    
+    function searchAddress(lat,long) {  //takes the address from nominatim
+          var datos;
+              $.ajax({
+                url: 'http://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&lat='+lat+'&lon='+long,
+                dataType: 'json',
+                async: false,            
+                success: function(data) {
+                  datos = data;
+                }
+              });
+          if (datos==undefined){ return ""}
+          
+          return datos;
+    };
+    
+    
     
 });
 

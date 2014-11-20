@@ -35,11 +35,10 @@ body {
     text-align: center;
     border: medium solid black;
 }
-#minibar{
+#minimap{
     height: 250px;
     width: 250px;    
 }
-
 
 
 footer{
