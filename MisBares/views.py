@@ -6,7 +6,7 @@ from django.core import serializers
 # Create your views here.
 
 
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN error
 
 
 
@@ -23,8 +23,18 @@ def bares(request, resource):
   
 @csrf_exempt   
 def addBar(request):
+
+    namePost=request.POST[u'nameForm']
+    pricePost=request.POST[u'priceForm']
+    latPost=request.POST[u'latForm']
+    lonPost=request.POST[u'lonForm']
     
     
-    json=request.POST[u'priceForm']
-    
-    return HttpResponse(json)
+    if (Bar.objects.filter(latitude=latPost,longitude=lonPost).exists()):  #checks if the bar already exists, sends error message if true
+        data='error'
+    else:
+        r=Bar(name=namePost,price=pricePost,latitude=latPost,longitude=lonPost)
+        r.save()
+        data = serializers.serialize("json", Bar.objects.all())
+
+    return HttpResponse(data)
