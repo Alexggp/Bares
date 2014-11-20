@@ -27,6 +27,21 @@ body {
     float:left;
     text-align: center;
 }
+#addBar{
+    height: 450px;
+    width: 250px;
+    background:white;
+    float:left;
+    text-align: center;
+    border: medium solid black;
+}
+#minibar{
+    height: 250px;
+    width: 250px;    
+}
+
+
+
 footer{
     clear:left;
 }

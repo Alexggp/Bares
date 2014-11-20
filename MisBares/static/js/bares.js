@@ -44,6 +44,33 @@ $(document).ready(function(){
    function fillBarInfo(bar){       //this function print the info of the objet bar given as a parameter
         $('#barInfo').html('<h3>'+bar.fields.name+'</h3> Precio de la caña: '+bar.fields.price+'€')
    };
+   
+
+    $("#addBarForm").validate({
+        rules: {
+            nameForm: { required: true, minlength: 2},
+            priceForm: { required: true},
+            latForm: { required:true},
+            lonForm: { required:true}
+        },
+        messages: {
+            nameForm: "Introduzca el nombre del Bar",
+            priceForm: "Introduzca un precio",
+        },
+        submitHandler: function(form){
+            var dataDic =   {"nameForm":$('#nameForm').val(),
+                            "priceForm":$('#priceForm').val(),
+                            "latForm":$('#latForm').val(),
+                            "lonForm":$('#lonForm').val()}
+                            
+            var responseAjax= $.ajax({
+                type: "POST",
+                url: "/addBar",
+                data: dataDic,
+                success: function(json){console.log(json)}
+            });          
+        }
+    });  
     
 });
 
