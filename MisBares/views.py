@@ -8,15 +8,18 @@ from django.core import serializers
 
 from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN error
 
+def initialize(request):
+   
+    data = serializers.serialize("json", Bar_db.objects.all())    #debo restringir por coordenadas, primero localizacion js, luego query
 
 
+    return HttpResponse(data)
 
 def bares(request, resource):
 
-    data = serializers.serialize("json", Bar_db.objects.all())    #debo restringir por coordenadas, primero localizacion js, luego query
-  
+
     template = loader.get_template('MisBares/base.html')
-    context = RequestContext(request, {'bar_list':data})
+    context = RequestContext(request, {})
     return HttpResponse(template.render(context))
     
   

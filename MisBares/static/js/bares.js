@@ -1,4 +1,14 @@
 $(document).ready(function(){
+
+//bar_list is the list of bars given by django, sorted by price
+    bar_list=[];    
+    clstate=true;                                                                               //true= caña, false= litro
+    tapastate=false;                                                                            //tapa or no tapa
+    
+
+
+// Geolocation
+    
     var numIcon = L.Icon.extend({
         options: {
             shadowUrl: '/static/js/leaflet-0.7.3/images/marker-shadow.png',
@@ -10,11 +20,6 @@ $(document).ready(function(){
             }
         });
     
-
-
-
-
-
     minimap = L.map('minimap');
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -25,17 +30,93 @@ $(document).ready(function(){
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map); 
-    markersLayer = L.layerGroup();   //layer with all markers in the map
-   
+    markersLayer = L.layerGroup();   //layer with all markers in the map    
+        
+        
+    map.locate({setView: true, maxZoom: 16});
+    
+
+    function onLocationFound(e) {
+        
+        var radius = e.accuracy / 2;
+        L.marker(e.latlng).addTo(map);
+        L.circle(e.latlng, radius).addTo(map);
+        map.setView(e.latlng, 16);
+        minimap.setView(e.latlng, 18);
+        
+       
+        markerDrag.setLatLng(e.latlng).addTo(minimap);
+        LatLngOnForm(e.latlng);
+        
+        get_bar_list(e.latlng)      
+    }
+
+    markerDrag.on('dragend', function(e) { 
+            LatLngOnForm(markerDrag.getLatLng());
+        }); 
+        
+    function LatLngOnForm(latlng){ //fills authomatic values in the form
+            $('#latForm').val(latlng.lat.toFixed(7));
+            $('#lonForm').val(latlng.lng.toFixed(7));
+            
+            
+            var addressInfo = searchAddress(latlng.lat,latlng.lng);
+            
+            var data=addressInfo.display_name.split(', ');
+
+            $('#nameForm').val(data[0]);
+            $('#streetForm').html(data[1]);
+    }
+
+    // geolocation error message
+    map.on('locationfound', onLocationFound);
+    minimap.on('locationfound', onLocationFound);
+
+    function onLocationError(e) {
+        alert(e.message);
+    }
+
+    map.on('locationerror', onLocationError);
+    minimap.on('locationerror', onLocationError);
     
     
+
+    function searchAddress(lat,long) {  //takes the address from nominatim
+        var datos;
+        $.ajax({
+            url: 'http://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&lat='+lat+'&lon='+long,
+            dataType: 'json',
+            async: false,            
+            success: function(data) {
+                datos = data;
+            }
+        });
+        if (datos==undefined){ return ""}
+
+        return datos;
+    };  
     
-    //bar_list is the list of bars given by django, sorted by price
-    bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});           
-    clstate=true;                                                                               //true= caña, false= litro
-    tapastate=false;                                                                            //tapa or no tapa
+    
+   //this function takes the location and sends a GET petition to django to take the bar_list value
+   function get_bar_list(latlng){
+
+        var dataDic =   {}
+        var responseAjaxGET= $.ajax({
+            type: "GET",
+            url: "/init",     
+            data: dataDic,       
+            success: function(data){
+                    if (data=='error'){alert("Error de inicializacion!")}
+                    else{
+                        bar_list=jQuery.parseJSON(data);                       
+                        bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});                            
+                        paintBars();
+                    }
+            }
+        }); 
     
     
+    };
     
     paintBars();
     
@@ -107,7 +188,6 @@ $(document).ready(function(){
             priceForm: "Introduzca un precio",
         },
         submitHandler: function(form){
-            console.log($('#tapaForm').is(':checked') )
             var dataDic =   {"nameForm":$('#nameForm').val(),
                             "streetForm":$('#streetForm').html(),
                             "priceForm":$('#priceForm').val(),
@@ -116,7 +196,7 @@ $(document).ready(function(){
                             "latForm":$('#latForm').val(),
                             "lonForm":$('#lonForm').val()}
                             
-            var responseAjax= $.ajax({
+            var responseAjaxPost= $.ajax({
                 type: "POST",
                 url: "/addBar",
                 data: dataDic,
@@ -132,69 +212,7 @@ $(document).ready(function(){
         }
     });  
     
-    // Geolocation
-        
-    map.locate();
-    minimap.locate();
-
-    function onLocationFound(e) {
-        
-        var radius = e.accuracy / 2;
-        L.marker(e.latlng).addTo(map);
-        L.circle(e.latlng, radius).addTo(map);
-        map.setView(e.latlng, 16);
-        minimap.setView(e.latlng, 18);
-        
-       
-        markerDrag.setLatLng(e.latlng).addTo(minimap);
-        LatLngOnForm(e.latlng);
-              
-    }
-
-    markerDrag.on('dragend', function(e) { 
-            LatLngOnForm(markerDrag.getLatLng());
-        }); 
-        
-    function LatLngOnForm(latlng){ //fills authomatic values in the form
-            $('#latForm').val(latlng.lat.toFixed(7));
-            $('#lonForm').val(latlng.lng.toFixed(7));
-            
-            
-            var addressInfo = searchAddress(latlng.lat,latlng.lng);
-            
-            var data=addressInfo.display_name.split(', ');
-
-            $('#nameForm').val(data[0]);
-            $('#streetForm').html(data[1]);
-    }
-
-    // geolocation error message
-    map.on('locationfound', onLocationFound);
-    minimap.on('locationfound', onLocationFound);
-
-    function onLocationError(e) {
-        alert(e.message);
-    }
-
-    map.on('locationerror', onLocationError);
-    minimap.on('locationerror', onLocationError);
     
-    
-    
-    function searchAddress(lat,long) {  //takes the address from nominatim
-        var datos;
-        $.ajax({
-            url: 'http://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&lat='+lat+'&lon='+long,
-            dataType: 'json',
-            async: false,            
-            success: function(data) {
-                datos = data;
-            }
-        });
-        if (datos==undefined){ return ""}
-
-        return datos;
-    };
     
     
   
