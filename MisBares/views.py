@@ -27,6 +27,8 @@ def addBar(request):
     namePost=request.POST[u'nameForm']
     streetPost=request.POST[u'streetForm']
     pricePost=request.POST[u'priceForm']
+    litrePost=request.POST[u'litreForm']
+    tapaPost=request.POST[u'tapaForm']
     latPost=request.POST[u'latForm']
     lonPost=request.POST[u'lonForm']
     
@@ -34,7 +36,7 @@ def addBar(request):
     if (Bar_db.objects.filter(name=namePost,street=streetPost).exists()):  #checks if the bar already exists, sends error message if true
         data='error'
     else:
-        r=Bar_db(name=namePost,street=streetPost,price=pricePost,latitude=latPost,longitude=lonPost)
+        r=Bar_db(name=namePost,street=streetPost,price=pricePost,litre=litrePost,tapa=tapaPost,latitude=latPost,longitude=lonPost)
         r.save()
         data = serializers.serialize("json", Bar_db.objects.all())
 

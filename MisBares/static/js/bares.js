@@ -4,8 +4,8 @@ $(document).ready(function(){
             shadowUrl: '/static/js/leaflet-0.7.3/images/marker-shadow.png',
             iconSize:     [35, 42],
             shadowSize:   [50, 64],
-            iconAnchor:   [13, 41],
-            shadowAnchor: [9, 63],
+            iconAnchor:   [12, 41],
+            shadowAnchor: [8, 63],
             popupAnchor:  [-3, -76]
             }
         });
@@ -76,7 +76,9 @@ $(document).ready(function(){
    
    
    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
-        $('#barInfo').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Precio de la caña: '+bar.fields.price+'€')
+        $('#barInfo').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Caña: '+bar.fields.price+'€')
+        if (bar.fields.litre!=0){$('#barInfo').append('<br>Litro: '+bar.fields.litre+'€')}
+        if (bar.fields.tapa){$('#barInfo').append('<br>Ponen tapa')}else{$('#barInfo').append('<br>No ponen tapa')}
    };
    
     
@@ -84,6 +86,8 @@ $(document).ready(function(){
         rules: {
             nameForm: { required: true, minlength: 2},
             priceForm: { required: true},
+            litreForm: { required: false},
+            tapaForm: { required: true},
             latForm: { required:true},
             lonForm: { required:true}
         },
@@ -92,9 +96,12 @@ $(document).ready(function(){
             priceForm: "Introduzca un precio",
         },
         submitHandler: function(form){
+            console.log($('#tapaForm').is(':checked') )
             var dataDic =   {"nameForm":$('#nameForm').val(),
                             "streetForm":$('#streetForm').html(),
                             "priceForm":$('#priceForm').val(),
+                            "litreForm":$('#litreForm').val(),
+                            "tapaForm":$('#tapaForm').is(':checked'),
                             "latForm":$('#latForm').val(),
                             "lonForm":$('#lonForm').val()}
                             
@@ -179,7 +186,7 @@ $(document).ready(function(){
           return datos;
     };
     
-    
+    $( '#beerIcon' ).click(function( event ) {console.log("caña")});
     
 });
 

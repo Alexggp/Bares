@@ -28,7 +28,7 @@ body {
     text-align: center;
 }
 #addBar{
-    height: 450px;
+    height: auto;
     width: 250px;
     background:white;
     float:left;
@@ -39,7 +39,20 @@ body {
     height: 250px;
     width: 250px;    
 }
+.moneyIn {
+   width: 60px;
+}
+.latlngIn {
+   width: 100px;
+}
 
+#beerIcon{
+    position:absolute;
+    left:310;
+    top:20;
+    cursor:pointer;
+    z-index:10;
+}
 
 footer{
     clear:left;
