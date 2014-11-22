@@ -13,7 +13,9 @@ from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN e
 
 def bares(request, resource):
 
-    data = serializers.serialize("json", Bar_db.objects.all())
+    data = serializers.serialize("json", Bar_db.objects.order_by('price')[:10])
+
+    #coge los 10 mas baratos por precio, pero no por litro, mejor hacer dos querys o coger 20 y filtrar?
 
     
     template = loader.get_template('MisBares/base.html')

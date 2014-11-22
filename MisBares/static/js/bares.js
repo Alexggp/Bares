@@ -31,7 +31,7 @@ $(document).ready(function(){
     
     
     //bar_list is the list of bars given by django, sorted by price
-    bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});    
+       
     clstate=true;                                                                               //true= caña, false= litro
     tapastate=false;                                                                            //tapa or no tapa
     
@@ -67,7 +67,11 @@ $(document).ready(function(){
     
    function fillBarList(list){         //this function lists the bars on the left side of the map inside the div "barList"
         for (i in list){
-            $('#barList ul').append('<li id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</li>');
+            if (clstate){
+                $('#barList ul').append('<li id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
+            }else{
+                $('#barList ul').append('<li id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.litre+'€'+'</span></li>');
+            }
         }
         
         
@@ -138,7 +142,7 @@ $(document).ready(function(){
         var radius = e.accuracy / 2;
         L.marker(e.latlng).addTo(map);
         L.circle(e.latlng, radius).addTo(map);
-        map.setView(e.latlng, 17);
+        map.setView(e.latlng, 16);
         minimap.setView(e.latlng, 18);
         
        
