@@ -32,21 +32,28 @@ $(document).ready(function(){
     
     //bar_list is the list of bars given by django, sorted by price
     bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});    
+    clstate=true;                                                                               //true= caña, false= litro
+    tapastate=false;                                                                            //tapa or no tapa
+    
+    
+    
     paintBars();
     
     
     
     function paintBars(){          //this function creates markers on the map
-        for (i = 0; i < bar_list.length; i++){
+        markersLayer.clearLayers();
+        list=getList();
+        for (i = 0; i < list.length; i++){
             var n = i+1;
             var numberedIcon = new numIcon({iconUrl: '/static/images/markers/number_'+n+'.png'})
-            var marker = new L.marker([bar_list[i].fields.latitude, bar_list[i].fields.longitude],{
-                        title:bar_list[i].fields.name+' '+bar_list[i].fields.price+'€',
+            var marker = new L.marker([list[i].fields.latitude, list[i].fields.longitude],{
+                        title:list[i].fields.name+' '+list[i].fields.price+'€',
                         icon:numberedIcon
                         })   
             marker.on('click',function(e) {
                     var latlng=this.getLatLng();
-                    var barfound = _.find(bar_list, function(obj){ 
+                    var barfound = _.find(list, function(obj){ 
                                         return obj.fields.latitude == latlng.lat && obj.fields.longitude == latlng.lng; });
                     fillBarInfo(barfound);
             });
@@ -54,19 +61,19 @@ $(document).ready(function(){
         }
         markersLayer.addTo(map);
         $('#barList ul').html('');
-        fillBarList();
+        fillBarList(list);
     }
     
     
-   function fillBarList(){         //this function lists the bars on the left side of the map inside the div "barList"
-        for (i in bar_list){
-            $('#barList ul').append('<li id='+bar_list[i].pk+'>'+bar_list[i].fields.name+' <span>'+bar_list[i].fields.price+'€'+'</li>');
+   function fillBarList(list){         //this function lists the bars on the left side of the map inside the div "barList"
+        for (i in list){
+            $('#barList ul').append('<li id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</li>');
         }
         
         
         $( '#barList li' ).click(function( event ) {
           var pk=this.id;
-          var barfound = _.find(bar_list, function(obj){ 
+          var barfound = _.find(list, function(obj){ 
                                             return obj.pk == pk; });
           fillBarInfo(barfound);
         });
@@ -113,8 +120,7 @@ $(document).ready(function(){
                         if (data=='error'){alert("Este bar ya existe!")}
                         else{
                             bar_list=jQuery.parseJSON(data);                       
-                            bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;}); 
-                            markersLayer.clearLayers();
+                            bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});                            
                             paintBars();
                         }
                 }
@@ -162,7 +168,7 @@ $(document).ready(function(){
     map.on('locationfound', onLocationFound);
     minimap.on('locationfound', onLocationFound);
 
-            function onLocationError(e) {
+    function onLocationError(e) {
         alert(e.message);
     }
 
@@ -172,22 +178,62 @@ $(document).ready(function(){
     
     
     function searchAddress(lat,long) {  //takes the address from nominatim
-          var datos;
-              $.ajax({
-                url: 'http://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&lat='+lat+'&lon='+long,
-                dataType: 'json',
-                async: false,            
-                success: function(data) {
-                  datos = data;
-                }
-              });
-          if (datos==undefined){ return ""}
-          
-          return datos;
+        var datos;
+        $.ajax({
+            url: 'http://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&lat='+lat+'&lon='+long,
+            dataType: 'json',
+            async: false,            
+            success: function(data) {
+                datos = data;
+            }
+        });
+        if (datos==undefined){ return ""}
+
+        return datos;
     };
     
-    $( '#beerIcon' ).click(function( event ) {console.log("caña")});
+    
+  
+    $( '#beerIcon' ).click(function( event ) {                                  //changes clstate and the png icon
+         if($('#beerIcon').attr('src') == "/static/images/beer_glass.png") {
+           $('#beerIcon').attr('src',"/static/images/beer_jar.png");
+           clstate=false;
+        } else {
+           $('#beerIcon').attr('src',"/static/images/beer_glass.png");
+           clstate=true;           
+        }
+        paintBars();
+    });
+    $( '#plateIcon' ).click(function( event ) {                                 //changes tapastate and the png icon
+        if($('#plateIcon').attr('src') == "/static/images/plate_false.png") {
+            $('#plateIcon').attr('src',"/static/images/plate_true.png");
+            tapastate=true;
+        } else {
+            $('#plateIcon').attr('src',"/static/images/plate_false.png");
+            tapastate=false;           
+        }
+        paintBars();
+    });
+    
+    function getList(){   //check tapastate and clstate and filters bar_list, it returns the correct list of bars
+        var current_bar_list;
+        if (tapastate){
+            current_bar_list = _.filter(bar_list, function(obj){ return obj.fields.tapa == true; });
+        }else{
+            current_bar_list = bar_list;
+        }
+        if(!clstate) {
+            var filtered_bar_list = _.filter(current_bar_list, function(obj){ return obj.fields.litre != "0"; });
+            filtered_bar_list = _.sortBy(filtered_bar_list, function(obj){ return obj.fields.litre;});
+            return filtered_bar_list;
+        }else{
+            return current_bar_list;
+        }
+    
+    
+    }
     
 });
+    
 
 

@@ -53,6 +53,13 @@ body {
     cursor:pointer;
     z-index:10;
 }
+#plateIcon{
+    position:absolute;
+    left:350;
+    top:20;
+    cursor:pointer;
+    z-index:10;
+}
 
 footer{
     clear:left;
