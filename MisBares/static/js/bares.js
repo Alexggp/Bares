@@ -31,7 +31,7 @@ $(document).ready(function(){
     
     
     //bar_list is the list of bars given by django, sorted by price
-       
+    bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});           
     clstate=true;                                                                               //true= caña, false= litro
     tapastate=false;                                                                            //tapa or no tapa
     
@@ -229,9 +229,9 @@ $(document).ready(function(){
         if(!clstate) {
             var filtered_bar_list = _.filter(current_bar_list, function(obj){ return obj.fields.litre != "0"; });
             filtered_bar_list = _.sortBy(filtered_bar_list, function(obj){ return obj.fields.litre;});
-            return filtered_bar_list;
+            return filtered_bar_list.slice(0, 10);;
         }else{
-            return current_bar_list;
+            return current_bar_list.slice(0, 10);;
         }
     
     
