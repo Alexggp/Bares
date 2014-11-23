@@ -2,18 +2,13 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseNotAllow
 from django.template import RequestContext, loader
 from MisBares.models import Bar_db
 from django.core import serializers
+from django.db.models import Q
 
 # Create your views here.
 
 
 from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN error
 
-def initialize(request):
-   
-    data = serializers.serialize("json", Bar_db.objects.all())    #debo restringir por coordenadas, primero localizacion js, luego query
-
-
-    return HttpResponse(data)
 
 def bares(request, resource):
 
@@ -22,6 +17,27 @@ def bares(request, resource):
     context = RequestContext(request, {})
     return HttpResponse(template.render(context))
     
+
+
+def initialize(request):
+
+    EastGet=request.GET[u'East']
+    WestGet=request.GET[u'West']
+    NorthGet=request.GET[u'North']
+    SouthGet=request.GET[u'South']
+    
+    bar_list = Bar_db.objects.filter(Q(latitude__lte = NorthGet), 
+                                    Q(latitude__gte = SouthGet),
+                                    Q(longitude__lte = EastGet),
+                                    Q(longitude__gte = WestGet) )
+    
+    data = serializers.serialize("json", bar_list)   
+    
+
+
+    return HttpResponse(data)
+
+
   
 @csrf_exempt   
 def addBar(request):

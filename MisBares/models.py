@@ -13,4 +13,5 @@ class Bar_db(models.Model):
     longitude=models.DecimalField(max_digits=9, decimal_places=7)
     
     
-    
+    def __str__(self):            
+        return self.id

@@ -14,8 +14,8 @@ $(document).ready(function(){
             shadowUrl: '/static/js/leaflet-0.7.3/images/marker-shadow.png',
             iconSize:     [35, 42],
             shadowSize:   [50, 64],
-            iconAnchor:   [12, 41],
-            shadowAnchor: [8, 63],
+            iconAnchor:   [16, 41],
+            shadowAnchor: [14, 64],
             popupAnchor:  [-3, -76]
             }
         });
@@ -32,13 +32,16 @@ $(document).ready(function(){
     }).addTo(map); 
     markersLayer = L.layerGroup();   //layer with all markers in the map    
         
-        
+    map.on('click',function(e) {
+                    
+                    console.log(e.latlng.lat,e.latlng.lng);
+    });    
     map.locate({setView: true, maxZoom: 16});
     
 
     function onLocationFound(e) {
         
-        var radius = e.accuracy / 2;
+        var radius =e.accuracy / 2;
         L.marker(e.latlng).addTo(map);
         L.circle(e.latlng, radius).addTo(map);
         map.setView(e.latlng, 16);
@@ -48,7 +51,7 @@ $(document).ready(function(){
         markerDrag.setLatLng(e.latlng).addTo(minimap);
         LatLngOnForm(e.latlng);
         
-        get_bar_list(e.latlng)      
+        get_bar_list()      
     }
 
     markerDrag.on('dragend', function(e) { 
@@ -98,9 +101,11 @@ $(document).ready(function(){
     
     
    //this function takes the location and sends a GET petition to django to take the bar_list value
-   function get_bar_list(latlng){
-
-        var dataDic =   {}
+   function get_bar_list(){
+        
+        var dataD =  map.getBounds();
+        console.log(dataD);       
+        var dataDic={'East':dataD.getEast(),'West':dataD.getWest(),'North':dataD.getNorth(),'South':dataD.getSouth()} 
         var responseAjaxGET= $.ajax({
             type: "GET",
             url: "/init",     
@@ -118,13 +123,13 @@ $(document).ready(function(){
     
     };
     
-    paintBars();
+
     
     
     
     function paintBars(){          //this function creates markers on the map
         markersLayer.clearLayers();
-        list=getList();
+        list=getFilteredList();
         for (i = 0; i < list.length; i++){
             var n = i+1;
             var numberedIcon = new numIcon({iconUrl: '/static/images/markers/number_'+n+'.png'})
@@ -179,7 +184,7 @@ $(document).ready(function(){
             nameForm: { required: true, minlength: 2},
             priceForm: { required: true},
             litreForm: { required: false},
-            tapaForm: { required: true},
+            tapaForm: { required: false},
             latForm: { required:true},
             lonForm: { required:true}
         },
@@ -203,17 +208,13 @@ $(document).ready(function(){
                 success: function(data){
                         if (data=='error'){alert("Este bar ya existe!")}
                         else{
-                            bar_list=jQuery.parseJSON(data);                       
-                            bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});                            
-                            paintBars();
+                            get_bar_list()                         
+
                         }
                 }
             });          
         }
     });  
-    
-    
-    
     
   
     $( '#beerIcon' ).click(function( event ) {                                  //changes clstate and the png icon
@@ -237,7 +238,7 @@ $(document).ready(function(){
         paintBars();
     });
     
-    function getList(){   //check tapastate and clstate and filters bar_list, it returns the correct list of bars
+    function getFilteredList(){   //check tapastate and clstate and filters bar_list, it returns the correct list of bars
         var current_bar_list;
         if (tapastate){
             current_bar_list = _.filter(bar_list, function(obj){ return obj.fields.tapa == true; });
