@@ -31,12 +31,17 @@ $(document).ready(function(){
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map); 
     markersLayer = L.layerGroup();   //layer with all markers in the map    
-        
-    map.on('click',function(e) {
-                    
-                    console.log(e.latlng.lat,e.latlng.lng);
-    });    
-    map.locate({setView: true, maxZoom: 16});
+    map.locate({setView: true, maxZoom: 16});    
+ 
+ 
+ 
+ 
+ 
+  //  map.on('click',function(e) {
+  //                                                                                            For debugging
+  //                  console.log(e.latlng.lat,e.latlng.lng);
+  //  });    
+
     
 
     function onLocationFound(e) {
@@ -103,8 +108,7 @@ $(document).ready(function(){
    //this function takes the location and sends a GET petition to django to take the bar_list value
    function get_bar_list(){
         
-        var dataD =  map.getBounds();
-        console.log(dataD);       
+        var dataD =  map.getBounds();     
         var dataDic={'East':dataD.getEast(),'West':dataD.getWest(),'North':dataD.getNorth(),'South':dataD.getSouth()} 
         var responseAjaxGET= $.ajax({
             type: "GET",
@@ -171,7 +175,6 @@ $(document).ready(function(){
    };
    
    
-   
    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
         $('#barInfo').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Caña: '+bar.fields.price+'€')
         if (bar.fields.litre!=0){$('#barInfo').append('<br>Litro: '+bar.fields.litre+'€')}
@@ -199,8 +202,7 @@ $(document).ready(function(){
                             "litreForm":$('#litreForm').val(),
                             "tapaForm":$('#tapaForm').is(':checked'),
                             "latForm":$('#latForm').val(),
-                            "lonForm":$('#lonForm').val()}
-                            
+                            "lonForm":$('#lonForm').val()}       
             var responseAjaxPost= $.ajax({
                 type: "POST",
                 url: "/addBar",

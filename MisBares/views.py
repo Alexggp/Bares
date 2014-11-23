@@ -50,6 +50,8 @@ def addBar(request):
     latPost=request.POST[u'latForm']
     lonPost=request.POST[u'lonForm']
     
+    if (tapaPost=="false"):
+        tapaPost=False
     
     if (Bar_db.objects.filter(name=namePost,street=streetPost).exists()):  #checks if the bar already exists, sends error message if true
         data='error'
