@@ -1,5 +1,39 @@
 $(document).ready(function(){
 
+//first, will set relative positions and behaviour of divs
+
+$("#authentication").css("left",$(window).width()-$("#authentication").width());
+function setIconsPosition(){
+    $("#beerIcon").css("left",$("#map").offset().left+50); 
+    $("#plateIcon").css("left",$("#map").offset().left+95);
+    
+};
+setIconsPosition();
+$( '#auxBarList' ).click(function( event ) {  
+    $( '#auxBarList' ).hide();
+    $('#barList').show();
+    if ($('#barInfo').css("display")== "none"){
+        $('#map').css("width","75%");        
+    }else{
+        $('#map').css("width","50%");  
+    }
+    setIconsPosition();
+    map.invalidateSize();
+});
+
+function setBarInfo(){                                                  //called by fillBarInfo()
+    $('#barInfo').show();
+    if ($('#barList').css("display")== "none"){
+        $('#map').css("width","74%");        
+    }else{
+        $('#map').css("width","50%");  
+    }
+    $("#authentication").hide();
+    map.invalidateSize();
+};
+    
+
+
 //bar_list is the list of bars given by django, sorted by price
     bar_list=[];    
     clstate=true;                                                                               //true= caña, false= litro
@@ -176,6 +210,7 @@ $(document).ready(function(){
    
    
    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
+        setBarInfo();
         $('#barInfo').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Caña: '+bar.fields.price+'€')
         if (bar.fields.litre!=0){$('#barInfo').append('<br>Litro: '+bar.fields.litre+'€')}
         if (bar.fields.tapa){$('#barInfo').append('<br>Ponen tapa')}else{$('#barInfo').append('<br>No ponen tapa')}

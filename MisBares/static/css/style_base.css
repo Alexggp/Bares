@@ -1,33 +1,46 @@
 body {
-	margin: 10px 10px 10px 10px;
+	margin: 0;
 	font-family:"Verdana", sans-serif;
-	color: blue;
-	background: #F5F6CE;
-} 
-
-#map{
-    height: 500px;
-    width: 500px;
-    float:left;
+	background-color: D5D2D0;
 }
 
-#barList{
-    height: 500px;
-    width: 250px;
-    background:white;
+#map{
+    height: 100%;
+    width: 99%;
     float:left;
+}
+#auxBarList{
+    height:100%;
+    width:1%;
+    background-color:#C45E0B;
+    float:left;
+    cursor:pointer;
+    -webkit-border-radius: 0px 15px 15px 0px;
+    border-radius: 0px 15px 15px 0px;
+}
+#barList{
+    height: 100%;
+    width: 25%;
+    float:left;
+    display:none;
+    background-color:#C45E0B;
+    -webkit-border-radius: 0px 15px 15px 0px;
+    border-radius: 0px 15px 15px 0px;
 }
 #barList span{
     font-weight:bold;
 }
 #barInfo{
-    height: 500px;
-    width: 250px;
-    background:white;
+    display:none;
+    height: 100%;
+    width: 25%;
+    background-color:#C45E0B;
     float:left;
     text-align: center;
+    z-index:2;
 }
 #addBar{
+    display:none;
     height: auto;
     width: 250px;
     background:white;
@@ -48,26 +61,30 @@ body {
 
 #beerIcon{
     position:absolute;
-    left:310;
-    top:60;
+    top:10px;
     cursor:pointer;
     z-index:1;
 }
 #plateIcon{
     position:absolute;
-    left:350;
-    top:60;
+    top:10px;
     cursor:pointer;
     z-index:1;
 }
-/*
+
 #authentication{
     position:absolute;
     left:80%;
-    top:20;
     z-index:1;
+    background-color: rgba(55,55,55,0.2);
+    padding: 10px;
+
 }
-*/
+
 footer{
-    clear:left;
+    position:absolute;
+    top:95%;
+    left:2%;
+    z-index:1;
+    color: #50503E;
 }
