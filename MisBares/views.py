@@ -3,18 +3,24 @@ from django.template import RequestContext, loader
 from MisBares.models import Bar_db
 from django.core import serializers
 from django.db.models import Q
-
-# Create your views here.
-
-
+from django.contrib.auth.forms import AuthenticationForm 
+from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN error
+
+login_form=AuthenticationForm()
+
+
+def logout_user(request):
+  logout(request)
+
+  return HttpResponseRedirect('/')
 
 
 def bares(request, resource):
-
+    user_name=request.user.username
 
     template = loader.get_template('MisBares/base.html')
-    context = RequestContext(request, {})
+    context = RequestContext(request, {'user_name':user_name ,'login_form':login_form})
     return HttpResponse(template.render(context))
     
 
@@ -53,7 +59,8 @@ def addBar(request):
     if (tapaPost=="false"):
         tapaPost=False
     
-    if (Bar_db.objects.filter(name=namePost,street=streetPost).exists()):  #checks if the bar already exists, sends error message if true
+    if (Bar_db.objects.filter(Q(name=namePost),Q(street=streetPost)).exists()):  
+                                                                    #checks if the bar already exists, sends error message if true
         data='error'
     else:
         r=Bar_db(name=namePost,street=streetPost,price=pricePost,litre=litrePost,tapa=tapaPost,latitude=latPost,longitude=lonPost)

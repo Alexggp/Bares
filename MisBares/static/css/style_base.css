@@ -49,18 +49,25 @@ body {
 #beerIcon{
     position:absolute;
     left:310;
-    top:20;
+    top:60;
     cursor:pointer;
-    z-index:10;
+    z-index:1;
 }
 #plateIcon{
     position:absolute;
     left:350;
-    top:20;
+    top:60;
     cursor:pointer;
-    z-index:10;
+    z-index:1;
 }
-
+/*
+#authentication{
+    position:absolute;
+    left:80%;
+    top:20;
+    z-index:1;
+}
+*/
 footer{
     clear:left;
 }

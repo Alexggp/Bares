@@ -10,6 +10,24 @@
     </head>
  
     <body>   
+    <div id="authentication">
+    {% if user_name %}
+	        <p>{{user_name}} <a href = '/logout'> Salir </a> </p>
+    {% else %} 
+        <p>
+          <form method="post" action="/login"> {% csrf_token %}
+            <a>Nombre {{ login_form.username }}</a>
+            <a>Contraseña {{ login_form.password }}</a>
+            <input type="submit" value="entrar" />
+          </form></a>
+        </p>
+    {% endif %}
+    </div>
+    
+    
+    
+    
+    
       
     <div id="barList"><ul></ul></div>
     <img src="/static/images/beer_glass.png" alt="Caña" id="beerIcon">
@@ -41,8 +59,6 @@
         </form>
         <div id="minimap"></div>
     </div>
-    
-    <!-- convertimos el json en variable de js ¿hay otra manera de hacerlo?¿por qué no puedo desde el .js? -->
     
 
     
