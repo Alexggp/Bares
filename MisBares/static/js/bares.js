@@ -223,11 +223,33 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
         }
         markersLayer.addTo(map);
         $('#barList ol').html('');
+        paintDescarted(list);
         fillBarList(list);
+    }
+    function paintDescarted(list){
+    descartedList = _.reject(bar_list, function(obj){ return  _.find(list, function(bar){return obj.pk == bar.pk; }) });
+    console.log(descartedList);
+    for (i = 0; i < descartedList.length; i++){
+            var n = i+1;
+            var numberedIcon = new numIcon({iconUrl: '/static/images/markers/number_'+n+'.png'})
+            var circle = new L.circle([descartedList[i].fields.latitude, descartedList[i].fields.longitude],5,{
+                                            title:descartedList[i].fields.name+' '+descartedList[i].fields.price+'€',
+                                            color: 'black',
+                                            fillColor: 'black',
+                                            fillOpacity: 1
+                                        })   
+            circle.on('click',function(e) {
+                    var latlng=this.getLatLng();
+                    var barfound = _.find(bar_list, function(obj){ 
+                                        return obj.fields.latitude == latlng.lat && obj.fields.longitude == latlng.lng; });
+                    fillBarInfo(barfound);
+            });
+            markersLayer.addLayer(circle);
+        }
     }
     
     
-   function fillBarList(list){         //this function lists the bars on the left side of the map inside the div "barList"
+    function fillBarList(list){         //this function lists the bars on the left side of the map inside the div "barList"
         for (i in list){
             if (clstate){
                 $('#barList ol').append('<li class="ui-widget-content" id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
@@ -239,8 +261,7 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
         
         $( '#barList li' ).click(function( event ) {
           var pk=this.id;
-          var barfound = _.find(list, function(obj){ 
-                                            return obj.pk == pk; });
+          var barfound = _.find(list, function(obj){return obj.pk == pk; });
           fillBarInfo(barfound);
         });
    
@@ -323,9 +344,9 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
         if(!clstate) {
             var filtered_bar_list = _.filter(current_bar_list, function(obj){ return obj.fields.litre != "0"; });
             filtered_bar_list = _.sortBy(filtered_bar_list, function(obj){ return obj.fields.litre;});
-            return filtered_bar_list.slice(0, 10);;
+            return filtered_bar_list.slice(0, 10);
         }else{
-            return current_bar_list.slice(0, 10);;
+            return current_bar_list.slice(0, 10);
         }
     
     
