@@ -39,24 +39,52 @@ body {
     text-align: center;
     z-index:2;
 }
-#addBar{
-    display:none;
-    height: auto;
-    width: 250px;
-    background:white;
-    float:left;
+#addBarContainer{
+    position:absolute;
+    width:auto;
+    height:auto;
+    top:10px;
+    z-index:3;
+    background-color:#C45E0B;
     text-align: center;
-    border: medium solid black;
+    /*display:none;*/
+    left:25%;
+}
+
+#background{
+    display:none;
+    position:absolute;
+    background-color: rgba(180,180,180,0.5);
+    color: transparent;
+    z-index:2;
+    width:100%;
+    height:100%; 
+
+}
+#addBar{
+    height: 300px;
+    width: 300px; 
+    float:left;
+    margin:10px;
 }
 #minimap{
-    height: 250px;
-    width: 250px;    
+    height: 300px;
+    width: 300px;  
+    float:left;  
+    margin:10px;
 }
 .moneyIn {
    width: 60px;
 }
 .latlngIn {
    width: 100px;
+}
+
+#addIcon{
+    position:absolute;
+    top:10px;
+    cursor:pointer;
+    z-index:1;
 }
 
 #beerIcon{
@@ -88,3 +116,17 @@ footer{
     z-index:1;
     color: #50503E;
 }
+
+#feedback { font-size: 1.4em; }
+#selectable .ui-selecting { background: #FECA40; }
+#selectable .ui-selected { background: #F39814; color: white; }
+#selectable { list-style-type: none; margin: 10px; padding: 0; width: auto; }
+#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: auto; cursor:pointer; }
+
+#barListClose,#barInfoClose,#addBarClose{
+    margin:10px;
+    cursor:pointer;
+}
+
+
+

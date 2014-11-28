@@ -2,7 +2,9 @@ $(document).ready(function(){
 
 //first, will set relative positions and behaviour of divs
 
+
 $("#authentication").css("left",$(window).width()-$("#authentication").width());
+$("#addIcon").css("left",$(window).width()-$("#authentication").width()-75);
 function setIconsPosition(){
     $("#beerIcon").css("left",$("#map").offset().left+50); 
     $("#plateIcon").css("left",$("#map").offset().left+95);
@@ -20,6 +22,30 @@ $( '#auxBarList' ).click(function( event ) {
     setIconsPosition();
     map.invalidateSize();
 });
+$('#barListClose').click(function(event){
+    $( '#auxBarList' ).show();
+    $('#barList').hide();
+    if ($('#barInfo').css("display")== "none"){
+        $('#map').css("width","99%");        
+    }else{
+        $('#map').css("width","74%");  
+    }
+    setIconsPosition();
+    map.invalidateSize();
+});
+
+$('#barInfoClose').click(function(event){
+    $('#barInfo').hide();
+    if ($('#barList').css("display")== "none"){
+        $('#map').css("width","99%");        
+    }else{
+        $('#map').css("width","74%");  
+    }
+    $("#authentication").show();
+    $("#addIcon").show();
+    setIconsPosition();
+    map.invalidateSize();
+});
 
 function setBarInfo(){                                                  //called by fillBarInfo()
     $('#barInfo').show();
@@ -29,9 +55,21 @@ function setBarInfo(){                                                  //called
         $('#map').css("width","50%");  
     }
     $("#authentication").hide();
+    $("#addIcon").hide();
     map.invalidateSize();
 };
+
+$( '#addIcon' ).click(function( event ) {  
+    $( '#addBarContainer' ).show();
+    $( '#background').show();
+    minimap.invalidateSize();
     
+});
+$( '#background, #addBarClose,#sendAddBar' ).click(function(event){
+    $( '#addBarContainer' ).hide();
+    $( '#background').hide();
+});
+
 
 
 //bar_list is the list of bars given by django, sorted by price
@@ -184,7 +222,7 @@ function setBarInfo(){                                                  //called
             markersLayer.addLayer(marker);
         }
         markersLayer.addTo(map);
-        $('#barList ul').html('');
+        $('#barList ol').html('');
         fillBarList(list);
     }
     
@@ -192,9 +230,9 @@ function setBarInfo(){                                                  //called
    function fillBarList(list){         //this function lists the bars on the left side of the map inside the div "barList"
         for (i in list){
             if (clstate){
-                $('#barList ul').append('<li id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
+                $('#barList ol').append('<li class="ui-widget-content" id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
             }else{
-                $('#barList ul').append('<li id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.litre+'€'+'</span></li>');
+                $('#barList ol').append('<li class="ui-widget-content" id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.litre+'€'+'</span></li>');
             }
         }
         
@@ -211,9 +249,9 @@ function setBarInfo(){                                                  //called
    
    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
         setBarInfo();
-        $('#barInfo').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Caña: '+bar.fields.price+'€')
-        if (bar.fields.litre!=0){$('#barInfo').append('<br>Litro: '+bar.fields.litre+'€')}
-        if (bar.fields.tapa){$('#barInfo').append('<br>Ponen tapa')}else{$('#barInfo').append('<br>No ponen tapa')}
+        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Caña: '+bar.fields.price+'€')
+        if (bar.fields.litre!=0){$('#barInfoContainer').append('<br>Litro: '+bar.fields.litre+'€')}
+        if (bar.fields.tapa){$('#barInfoContainer').append('<br>Ponen tapa')}else{$('#barInfoContainer').append('<br>No ponen tapa')}
    };
    
     

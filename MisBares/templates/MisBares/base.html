@@ -7,6 +7,10 @@
         <script type="text/javascript" src="/static/js/bares.js"></script>
         <script type="text/javascript" src="/static/js/underscore.js"></script>
         <script type="text/javascript" src="/static/js/jquery-validation-1.13.1/dist/jquery.validate.js"></script>
+        
+        <script type="text/javascript" src="/static/js/jquery-ui-1.11.2/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css"   href='/static/js/jquery-ui-1.11.2/jquery-ui.css' />
+        
     </head>
  
     <body>   
@@ -29,35 +33,47 @@
     
     
     <div id="auxBarList"></div>  
-    <div id="barList"><ul></ul></div>
-    <img src="/static/images/beer_glass.png" alt="Caña" id="beerIcon">
-    <img src="/static/images/plate_false.png" alt="Tapa" id="plateIcon">
+    <div id="barList">
+        <span id="barListClose" title="Cerrar" class="ui-icon ui-icon-closethick"></span>
+        <ol id="selectable"></ol>
+    </div>
+    <img src="/static/images/beer_glass.png" title="Caña/Litro" id="beerIcon">
+    <img src="/static/images/plate_false.png" title="Tapa" id="plateIcon">
+    <img src="/static/images/add_icon.png" title="Añadir bar" id="addIcon">
     <div id="map"></div>
-    <div id="barInfo"></div>
-    <div id="addBar">
-         <span id="streetForm"></span>
-         <form method="post" id="addBarForm">
-              <div class="ui-field-contain">
-                <label for="nameForm">Nombre del bar:</label>
-                <input type="text" name="nameForm" id="nameForm">
+    <div id="barInfo">
+        <span id="barInfoClose" title="Cerrar" class="ui-icon ui-icon-closethick"></span>
+        <div id="barInfoContainer"></div>
+    </div>
+    <div id="background"></div>
+    <div id="addBarContainer">
+         <span id="addBarClose" title="Cerrar" class="ui-icon ui-icon-closethick"></span>
+         <div id="minimap"></div>
+         <div id='addBar'>
+             <h4><span id="streetForm"></span></h4>
+             <form method="post" id="addBarForm">
+                  <div class="ui-field-contain">
+                    <label for="nameForm">Nombre del bar:</label>
+                    <input type="text" name="nameForm" id="nameForm">
 
-                <label for="priceForm">Caña(€):</label>
-                <input type="number" step="0.05" class="moneyIn" min="0" name="priceForm" id="priceForm"><br>
-                
-                <label for="priceForm">Litro(€):</label>
-                <input type="number" step="0.05" class="moneyIn" min="0" name="litreForm" id="litreForm"><br>
-                
-                <input type="checkbox" id="tapaForm" name="tapaForm">Ponen tapa<br>
-                
-                <label for="latForm">Latitud:</label>
-                <input type="number"  name="latForm" class="latlngIn" id="latForm" readonly='readonly'><br>
-                
-                <label for="lonForm">Longitud:</label>
-                <input type="number"  name="lonForm" class="latlngIn" id="lonForm" readonly='readonly'><br>
-                <input type="submit" value="Enviar"/>
-              </div>
-        </form>
-        <div id="minimap"></div>
+                    <label for="priceForm">Caña(€):</label>
+                    <input type="number" step="0.05" class="moneyIn" min="0" name="priceForm" id="priceForm"><br>
+                    
+                    <label for="priceForm">Litro(€):</label>
+                    <input type="number" step="0.05" class="moneyIn" min="0" name="litreForm" id="litreForm"><br>
+                    
+                    <input type="checkbox" id="tapaForm" name="tapaForm">Ponen tapa<br>
+                    
+                    <label for="latForm">Latitud:</label>
+                    <input type="number"  name="latForm" class="latlngIn" id="latForm" readonly='readonly'><br>
+                    
+                    <label for="lonForm">Longitud:</label>
+                    <input type="number"  name="lonForm" class="latlngIn" id="lonForm" readonly='readonly'><br>
+                    <input type="submit" id='sendAddBar' value="Enviar"/>
+                  </div>
+            </form>
+        </div>
+        
     </div>
     
 
