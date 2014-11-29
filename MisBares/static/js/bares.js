@@ -228,13 +228,12 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
     }
     function paintDescarted(list){
     descartedList = _.reject(bar_list, function(obj){ return  _.find(list, function(bar){return obj.pk == bar.pk; }) });
-    console.log(descartedList);
     for (i = 0; i < descartedList.length; i++){
             var n = i+1;
             var numberedIcon = new numIcon({iconUrl: '/static/images/markers/number_'+n+'.png'})
             var circle = new L.circle([descartedList[i].fields.latitude, descartedList[i].fields.longitude],5,{
                                             title:descartedList[i].fields.name+' '+descartedList[i].fields.price+'€',
-                                            color: 'black',
+                                            color: '#FF8000',
                                             fillColor: 'black',
                                             fillOpacity: 1
                                         })   

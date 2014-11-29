@@ -1,7 +1,8 @@
 body {
 	margin: 0;
-	font-family:"Verdana", sans-serif;
-	background-color: D5D2D0;
+	font-family:"Arial", sans-serif;
+	color: #F5EBDF;
+	
 }
 
 #map{
@@ -12,29 +13,30 @@ body {
 #auxBarList{
     height:100%;
     width:1%;
-    background-color:#C45E0B;
+    background-color:#2E76DB;
     float:left;
     cursor:pointer;
-    -webkit-border-radius: 0px 15px 15px 0px;
-    border-radius: 0px 15px 15px 0px;
 }
 #barList{
     height: 100%;
     width: 25%;
     float:left;
     display:none;
-    background-color:#C45E0B;
-    -webkit-border-radius: 0px 15px 15px 0px;
-    border-radius: 0px 15px 15px 0px;
+    background-color:#2E76DB; 
+}
+#barList ol{
+    position:relative;
+    top:20px;
 }
 #barList span{
     font-weight:bold;
 }
+
 #barInfo{
     display:none;
     height: 100%;
     width: 25%;
-    background-color:#C45E0B;
+    background-color:#2E76DB;
     float:left;
     text-align: center;
     z-index:2;
@@ -45,7 +47,7 @@ body {
     height:auto;
     top:10px;
     z-index:3;
-    background-color:#C45E0B;
+    background-color:#2E76DB;
     text-align: center;
     display:none;
     left:25%;
@@ -123,10 +125,14 @@ footer{
 #selectable { list-style-type: none; margin: 10px; padding: 0; width: auto; }
 #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: auto; cursor:pointer; }
 
-#barListClose,#barInfoClose,#addBarClose{
+#barInfoClose,#addBarClose{
     margin:10px;
     cursor:pointer;
 }
-
+#barListClose{
+    float:right;
+    margin:10px;
+    cursor:pointer; 
+}
 
 
