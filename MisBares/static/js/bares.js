@@ -6,54 +6,43 @@ $(document).ready(function(){
 $("#authentication").css("left",$(window).width()-$("#authentication").width());
 $("#addIcon").css("left",$(window).width()-$("#authentication").width()-75);
 function setIconsPosition(){
-    $("#beerIcon").css("left",$("#map").offset().left+50); 
-    $("#plateIcon").css("left",$("#map").offset().left+95);
-    
+    if ($('#barList').css("display")== "none"){
+        $("#beerIcon").css("left",30); 
+        $("#plateIcon").css("left",75);
+    }else{
+
+        $("#beerIcon").css("left",$('#barList').width()+30); 
+        $("#plateIcon").css("left",$('#barList').width()+75);
+    };   
 };
 setIconsPosition();
+
 $( '#auxBarList' ).click(function( event ) {  
     $( '#auxBarList' ).hide();
-    $('#barList').show();
-    if ($('#barInfo').css("display")== "none"){
-        $('#map').css("width","75%");        
-    }else{
-        $('#map').css("width","50%");  
-    }
+    $('#barList').show();         
     setIconsPosition();
-    map.invalidateSize();
+
 });
-$('#barListClose').click(function(event){
+$('#barList').click(function(event){
+    if(event.target != this) return false;
     $( '#auxBarList' ).show();
-    $('#barList').hide();
-    if ($('#barInfo').css("display")== "none"){
-        $('#map').css("width","99%");        
-    }else{
-        $('#map').css("width","74%");  
-    }
+    $('#barList').hide();       
     setIconsPosition();
-    map.invalidateSize();
 });
 
-$('#barInfoClose').click(function(event){
+$('#barInfo').click(function(event){
+    if(event.target != this) return false;
     $('#barInfo').hide();
-    if ($('#barList').css("display")== "none"){
-        $('#map').css("width","99%");        
-    }else{
-        $('#map').css("width","74%");  
-    }
     $("#authentication").show();
     $("#addIcon").show();
     setIconsPosition();
     map.invalidateSize();
 });
 
-function setBarInfo(){                                                  //called by fillBarInfo()
+function setBarInfo(){ 
+                                                 //called by fillBarInfo()
+    $('#barInfo').css("left",$(window).width()-$('#barInfo').width());   
     $('#barInfo').show();
-    if ($('#barList').css("display")== "none"){
-        $('#map').css("width","74%");        
-    }else{
-        $('#map').css("width","50%");  
-    }
     $("#authentication").hide();
     $("#addIcon").hide();
     map.invalidateSize();
@@ -98,7 +87,8 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
     }).addTo(minimap); 
     markerDrag = L.marker([0,0],{draggable:true}); //marker draggable to locate the new bar in the minimap
     
-    map = L.map('map');
+    map = L.map('map', {zoomControl: false});
+    map.addControl( L.control.zoom({position: 'bottomleft'}) )
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map); 
@@ -251,9 +241,9 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
     function fillBarList(list){         //this function lists the bars on the left side of the map inside the div "barList"
         for (i in list){
             if (clstate){
-                $('#barList ol').append('<li class="ui-widget-content" id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
+                $('#barList ol').append('<li  id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
             }else{
-                $('#barList ol').append('<li class="ui-widget-content" id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.litre+'€'+'</span></li>');
+                $('#barList ol').append('<li  id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.litre+'€'+'</span></li>');
             }
         }
         
