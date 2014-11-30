@@ -1,66 +1,5 @@
 $(document).ready(function(){
 
-//first, will set relative positions and behaviour of divs
-
-
-$("#authentication").css("left",$(window).width()-$("#authentication").width());
-$("#addIcon").css("left",$(window).width()-$("#authentication").width()-75);
-function setIconsPosition(){
-    if ($('#barList').css("display")== "none"){
-        $("#beerIcon").css("left",30); 
-        $("#plateIcon").css("left",75);
-    }else{
-
-        $("#beerIcon").css("left",$('#barList').width()+30); 
-        $("#plateIcon").css("left",$('#barList').width()+75);
-    };   
-};
-setIconsPosition();
-
-$( '#auxBarList' ).click(function( event ) {  
-    $( '#auxBarList' ).hide();
-    $('#barList').show();         
-    setIconsPosition();
-
-});
-$('#barList').click(function(event){
-    if(event.target != this) return false;
-    $( '#auxBarList' ).show();
-    $('#barList').hide();       
-    setIconsPosition();
-});
-
-$('#barInfo').click(function(event){
-    if(event.target != this) return false;
-    $('#barInfo').hide();
-    $("#authentication").show();
-    $("#addIcon").show();
-    setIconsPosition();
-    map.invalidateSize();
-});
-
-function setBarInfo(){ 
-                                                 //called by fillBarInfo()
-    $('#barInfo').css("left",$(window).width()-$('#barInfo').width());   
-    $('#barInfo').show();
-    $("#authentication").hide();
-    $("#addIcon").hide();
-    map.invalidateSize();
-};
-
-$( '#addIcon' ).click(function( event ) {  
-    $( '#addBarContainer' ).show();
-    $( '#background').show();
-    minimap.invalidateSize();
-    
-});
-$( '#background, #addBarClose,#sendAddBar' ).click(function(event){
-    $( '#addBarContainer' ).hide();
-    $( '#background').hide();
-});
-
-
-
 //bar_list is the list of bars given by django, sorted by price
     bar_list=[];    
     clstate=true;                                                                               //true= caña, false= litro
@@ -144,6 +83,7 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
 
     function onLocationError(e) {
         alert(e.message);
+        stopLoading();
     }
 
     map.on('locationerror', onLocationError);
@@ -215,6 +155,7 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
         $('#barList ol').html('');
         paintDescarted(list);
         fillBarList(list);
+        stopLoading();
     }
     function paintDescarted(list){
     descartedList = _.reject(bar_list, function(obj){ return  _.find(list, function(bar){return obj.pk == bar.pk; }) });
@@ -223,8 +164,8 @@ $( '#background, #addBarClose,#sendAddBar' ).click(function(event){
             var numberedIcon = new numIcon({iconUrl: '/static/images/markers/number_'+n+'.png'})
             var circle = new L.circle([descartedList[i].fields.latitude, descartedList[i].fields.longitude],5,{
                                             title:descartedList[i].fields.name+' '+descartedList[i].fields.price+'€',
-                                            color: '#FF8000',
-                                            fillColor: 'black',
+                                            color: 'black',
+                                            fillColor: '#FF8000',
                                             fillOpacity: 1
                                         })   
             circle.on('click',function(e) {

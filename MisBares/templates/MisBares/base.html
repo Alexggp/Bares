@@ -4,7 +4,8 @@
         <link rel="stylesheet" type="text/css"   href="/static/js/leaflet-0.7.3/leaflet.css" />
         <script type="text/javascript" src="/static/js/jquery-1.11.1.js"></script>
         <script type="text/javascript" src="/static/js/leaflet-0.7.3/leaflet.js"></script>
-        <script type="text/javascript" src="/static/js/bares.js"></script>
+        <script type="text/javascript" src="/static/js/style.js"></script>
+        <script type="text/javascript" src="/static/js/bares.js"></script>        
         <script type="text/javascript" src="/static/js/underscore.js"></script>
         <script type="text/javascript" src="/static/js/jquery-validation-1.13.1/dist/jquery.validate.js"></script>
         
@@ -19,8 +20,8 @@
     {% else %} 
         <p>
           <form method="post" action="/login"> {% csrf_token %}
-            <a>Nombre {{ login_form.username }}</a>
-            <a>Contraseña {{ login_form.password }}</a>
+            <a>Nombre<br> {{ login_form.username }}</a><br>
+            <a>Contraseña<br>{{ login_form.password }}</a>
             <input type="submit" value="entrar" />
           </form></a>
         </p>
@@ -29,15 +30,17 @@
     
     
     
-    
-    
+    <img src="/static/images/loading.gif" id="loading">
+    <div id="backgroundLoad"></div>
     <div id="auxBarList" title="Desplegar lista de bares"></div>  
     <div id="barList">
         <ol id="selectable"></ol>
     </div>
     <img src="/static/images/beer_glass.png" title="Caña/Litro" id="beerIcon">
     <img src="/static/images/plate_false.png" title="Tapa" id="plateIcon">
-    <img src="/static/images/add_icon.png" title="Añadir bar" id="addIcon">
+    {% if user_name %}
+        <img src="/static/images/add_icon.png" title="Añadir bar" id="addIcon">
+    {% endif %}
     <div id="map"></div>
     <div id="barInfo">
         <div id="barInfoContainer"></div>

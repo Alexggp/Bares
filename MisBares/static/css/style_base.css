@@ -45,18 +45,15 @@ body {
     position:absolute;
     width:auto;
     height:auto;
-    top:10px;
     z-index:3;
     background-color:#2E76DB;
     text-align: center;
     display:none;
-    left:25%;
     margin:10px;
     padding:10px;
 }
 
-#background{
-    display:none;
+#background,#backgroundLoad{
     position:absolute;
     background-color: rgba(180,180,180,0.5);
     color: transparent;
@@ -64,6 +61,17 @@ body {
     width:100%;
     height:100%; 
 
+}
+#background{
+    display:none;
+}
+
+#loading{
+    position:absolute;
+    z-index:3;
+    left:0;
+    width:200px;
+    height:200px;
 }
 #addBar{
     height: 300px;
@@ -76,6 +84,7 @@ body {
     width: 300px;  
     float:left;  
     margin:10px;
+    display:none;
 }
 .moneyIn {
    width: 60px;
@@ -106,17 +115,19 @@ body {
 
 #authentication{
     position:absolute;
-    left:80%;
     z-index:1;
     background-color: rgba(55,55,55,0.2);
-    padding: 10px;
+    padding:10px;
+    width: auto;
+    
 
 }
-
+#id_username,#id_password{
+    width:100px;
+}
 footer{
     position:absolute;
     top:96%;
-    left:45%;
     z-index:1;
     color: #50503E;
     font-size: 0.8em;
