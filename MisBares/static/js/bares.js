@@ -152,7 +152,7 @@ $(document).ready(function(){
                     var barfound = _.find(list, function(obj){ 
                                         return obj.fields.latitude == latlng.lat && obj.fields.longitude == latlng.lng; });
                     fillBarInfo(barfound);
-                    selectBarList(barfound)   
+                    selectBarList(barfound); 
             });
             markersLayer.addLayer(marker);
         }
@@ -161,7 +161,9 @@ $(document).ready(function(){
         fillBarList(list);
         stopLoading();
     }
-    function paintDescarted(list){
+    
+    function paintDescarted(list){            // Paints bars out of the #barList ol like circles on the map
+    
     descartedList = _.reject(bar_list, function(obj){ return  _.find(list, function(bar){return obj.pk == bar.pk; }) });
     for (i = 0; i < descartedList.length; i++){
             var n = i+1;
@@ -177,7 +179,7 @@ $(document).ready(function(){
                     var barfound = _.find(bar_list, function(obj){ 
                                         return obj.fields.latitude == latlng.lat && obj.fields.longitude == latlng.lng; });
                     fillBarInfo(barfound);
-                    selectBarList(barfound)  
+                    selectBarList(barfound); 
             });
             markersLayer.addLayer(circle);
         }
@@ -197,8 +199,9 @@ $(document).ready(function(){
         $( '#barList li' ).click(function( event ) {
           var pk=this.id;
           var barfound = _.find(list, function(obj){return obj.pk == pk; });
+          fillBarInfo(barfound);                //in style.js
           selectBarList(barfound);
-          fillBarInfo(barfound);
+                     
         });
    
    };
