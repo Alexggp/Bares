@@ -19,6 +19,9 @@ body {
     position:absolute;
     z-index:1;
 }
+#auxBarList:hover{
+    width:2%;
+}
 #barList{
     height: 75%;
     width: 25%;
@@ -144,17 +147,25 @@ footer{
     padding: 0;
     width: auto;
 }
+
 #selectable li { 
     margin: 3px; 
     padding: 0.4em; 
     height: auto; 
     cursor:pointer;
     color: black;
-    background-color: #F5EBDF;
+ 
 }
 
 #selectable li:hover {
-    background: #C1CEE1;
+    background-color: #C1CEE1;
 }
 
+.barli{
+   background-color: #F5EBDF;
+}
+
+.selectedLi{
+    background-color:#C1CEE1;
+}
 

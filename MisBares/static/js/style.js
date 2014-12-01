@@ -36,6 +36,8 @@ $(document).ready(function(){
         $('#barInfo').hide();
         $("#authentication").show();
         $("#addIcon").show();
+        markers_blueLayer.clearLayers();                 //delete selections on map
+        $('#selectable li').removeClass( "selectedLi" );
         setIconsPosition();
         
     });
@@ -82,4 +84,29 @@ function setBarInfo(){
     $("#authentication").hide();
     $("#addIcon").hide();
 };
+
+var numIcon_blue = L.Icon.extend({
+    options: {
+        shadowUrl: '/static/js/leaflet-0.7.3/images/marker-shadow.png',
+        iconSize:     [35, 42],
+        shadowSize:   [50, 64],
+        iconAnchor:   [17, 40],
+        shadowAnchor: [14, 64]
+        }
+    });
+
+
+function selectBarList(bar){    
+    $('#selectable li').removeClass( "selectedLi" );
+    $('#'+bar.pk).addClass( "selectedLi" );
+    markers_blueLayer.clearLayers();
+    var numberedIcon = new numIcon_blue({iconUrl: '/static/images/marker_blue.png'})
+    var marker = new L.marker([bar.fields.latitude, bar.fields.longitude],{
+                        title:bar.fields.name+' '+bar.fields.price+'€',
+                        icon:numberedIcon
+                        }) 
+    markers_blueLayer.addLayer(marker);
+
+}
+
 

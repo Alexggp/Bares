@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN error
+from django.contrib.auth.decorators import login_required
 
 login_form=AuthenticationForm()
 
@@ -44,7 +45,7 @@ def initialize(request):
     return HttpResponse(data)
 
 
-  
+@login_required  
 @csrf_exempt   
 def addBar(request):
 

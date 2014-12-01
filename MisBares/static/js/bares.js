@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
 //bar_list is the list of bars given by django, sorted by price
     bar_list=[];    
     clstate=true;                                                                               //true= caña, false= litro
@@ -14,11 +15,12 @@ $(document).ready(function(){
             shadowUrl: '/static/js/leaflet-0.7.3/images/marker-shadow.png',
             iconSize:     [35, 42],
             shadowSize:   [50, 64],
-            iconAnchor:   [16, 41],
-            shadowAnchor: [14, 64],
-            popupAnchor:  [-3, -76]
+            iconAnchor:   [17, 40],
+            shadowAnchor: [14, 64]
             }
         });
+    
+
     
     minimap = L.map('minimap');
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -31,7 +33,8 @@ $(document).ready(function(){
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map); 
-    markersLayer = L.layerGroup();   //layer with all markers in the map    
+    markersLayer = L.layerGroup().addTo(map);   //layer with all markers in the map    
+    markers_blueLayer= L.layerGroup().addTo(map);   //layer to stand out the selected bar in the map with a blue marker
     map.locate({setView: true, maxZoom: 16});    
  
  
@@ -135,6 +138,7 @@ $(document).ready(function(){
     
     function paintBars(){          //this function creates markers on the map
         markersLayer.clearLayers();
+        markers_blueLayer.clearLayers();
         list=getFilteredList();
         for (i = 0; i < list.length; i++){
             var n = i+1;
@@ -148,10 +152,10 @@ $(document).ready(function(){
                     var barfound = _.find(list, function(obj){ 
                                         return obj.fields.latitude == latlng.lat && obj.fields.longitude == latlng.lng; });
                     fillBarInfo(barfound);
+                    selectBarList(barfound)   
             });
             markersLayer.addLayer(marker);
         }
-        markersLayer.addTo(map);
         $('#barList ol').html('');
         paintDescarted(list);
         fillBarList(list);
@@ -173,6 +177,7 @@ $(document).ready(function(){
                     var barfound = _.find(bar_list, function(obj){ 
                                         return obj.fields.latitude == latlng.lat && obj.fields.longitude == latlng.lng; });
                     fillBarInfo(barfound);
+                    selectBarList(barfound)  
             });
             markersLayer.addLayer(circle);
         }
@@ -182,9 +187,9 @@ $(document).ready(function(){
     function fillBarList(list){         //this function lists the bars on the left side of the map inside the div "barList"
         for (i in list){
             if (clstate){
-                $('#barList ol').append('<li  id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
+                $('#barList ol').append('<li class="barli" id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.price+'€'+'</span></li>');
             }else{
-                $('#barList ol').append('<li  id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.litre+'€'+'</span></li>');
+                $('#barList ol').append('<li  class="barli" id='+list[i].pk+'>'+list[i].fields.name+' <span>'+list[i].fields.litre+'€'+'</span></li>');
             }
         }
         
@@ -192,6 +197,7 @@ $(document).ready(function(){
         $( '#barList li' ).click(function( event ) {
           var pk=this.id;
           var barfound = _.find(list, function(obj){return obj.pk == pk; });
+          selectBarList(barfound);
           fillBarInfo(barfound);
         });
    
