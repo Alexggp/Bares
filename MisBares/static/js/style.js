@@ -34,6 +34,7 @@ $(document).ready(function(){
         $("#addIcon").show();
         markers_blueLayer.clearLayers();                 //delete selections on map
         $('#selectable li').removeClass( "selectedLi" );
+        $('#selectable li').addClass( "barli" );
 
         
     });

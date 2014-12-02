@@ -15,7 +15,7 @@ class Bar_db(models.Model):
     def __str__(self):              
         return self.name
       
-class MySpecialUser(models.Model):
+class UserExtended_db(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     birthday=models.DateField()    
     points=models.IntegerField(default=0)
