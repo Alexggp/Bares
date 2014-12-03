@@ -75,9 +75,11 @@
         
     </div>
     
-
-    
-    
+    <form enctype="multipart/form-data" method="POST" action="/upload">
+        {% csrf_token %}
+        {{file_form}}
+    <input type="submit" value="enviar" />
+    </form>
     
     <footer>Alejando G-G Pérez © 2014 </footer>	
 </html>

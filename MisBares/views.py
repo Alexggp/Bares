@@ -1,15 +1,18 @@
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseNotAllowed, HttpResponseRedirect
 from django.template import RequestContext, loader
-from MisBares.models import Bar_db
+from MisBares.models import Bar_db,BarImages_db
+from MisBares.forms import UploadFileForm
 from django.core import serializers
 from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN error
 from django.contrib.auth.decorators import login_required
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 login_form=AuthenticationForm()
-
+file_form=UploadFileForm()
 
 def logout_user(request):
   logout(request)
@@ -21,7 +24,7 @@ def bares(request, resource):
     user_name=request.user.username
 
     template = loader.get_template('MisBares/base.html')
-    context = RequestContext(request, {'user_name':user_name ,'login_form':login_form})
+    context = RequestContext(request, {'user_name':user_name ,'login_form':login_form,'file_form':file_form})
     return HttpResponse(template.render(context))
     
 
@@ -69,3 +72,20 @@ def addBar(request):
         data = serializers.serialize("json", Bar_db.objects.all())
 
     return HttpResponse(data)
+
+@csrf_exempt  
+def upload(request):
+    print(request)
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = BarImages_db(image=request.FILES['image'],name=request.POST['title'])
+            instance.save()
+        
+        
+            return HttpResponse('data')   
+        else:
+            return HttpResponse('fracaso 2')
+       
+    else:
+        return HttpResponse('data3')

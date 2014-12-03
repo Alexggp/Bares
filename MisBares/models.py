@@ -21,6 +21,10 @@ class UserExtended_db(models.Model):
     points=models.IntegerField(default=0)
     
 
+class BarImages_db(models.Model):
+    name=models.CharField(max_length=30)  
+    image = models.ImageField(upload_to="uploads/images")
+
 #40.2868591, -3.8208389
 #40.2874319, -3.8234138
 #40.284191, -3.8216543 Cafeteria urjc
