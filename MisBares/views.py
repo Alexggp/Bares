@@ -75,11 +75,11 @@ def addBar(request):
 
 @csrf_exempt  
 def upload(request):
-    print(request)
+
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            instance = BarImages_db(image=request.FILES['image'],name=request.POST['title'])
+            instance = BarImages_db(image=request.FILES['image'],name=request.POST['name'])
             instance.save()
         
         

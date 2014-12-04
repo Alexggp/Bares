@@ -75,7 +75,7 @@
         
     </div>
     
-    <form enctype="multipart/form-data" method="POST" action="/upload">
+    <form id='barImageForm' enctype="multipart/form-data" method='post' action="/upload" >
         {% csrf_token %}
         {{file_form}}
     <input type="submit" value="enviar" />

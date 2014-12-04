@@ -291,6 +291,27 @@ $(document).ready(function(){
     
     }
     
+    
+    var frm = $('#barImageForm');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: new FormData( this ),
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function(data) {
+                console.log("Something went wrong!");
+            }
+        });
+        return false;
+    });
+    
+    
+    
 });
     
 
