@@ -47,21 +47,27 @@ body {
 }
 #barAlbum{
     margin-top:10px;
-    background-color:blue;
-    padding:10px;
-
+    background-color:#095FD7;
+    
 }
 #carrusel{
-       height:100px;
+       
        width: 80%;
        margin: 0 auto;
 }
-
+#carrusel div{
+    margin-left: 10px;
+}
+.miniIcon{
+    
+    height:1.5em;
+}
 .barImg{
+    margin-top:10px;
     height:80px;
 }
 
-#addBarContainer{
+.hidable{
     position:absolute;
     width:auto;
     height:auto;
@@ -69,10 +75,14 @@ body {
     background-color:#2E76DB;
     text-align: center;
     display:none;
-
 }
 
-#background,#backgroundLoad{
+#addImage{
+    padding:20px;
+}
+#id_bar_id{display:none}
+
+#background{
     position:absolute;
     background-color: rgba(180,180,180,0.5);
     color: transparent;
@@ -81,9 +91,7 @@ body {
     height:100%; 
 
 }
-#background{
-    display:none;
-}
+
 
 #loading{
     position:absolute;
@@ -98,6 +106,7 @@ body {
     float:left;
     margin:10px;
 }
+
 #minimap{
     height: 300px;
     width: 300px;  
@@ -117,6 +126,9 @@ body {
     top:10px;
     cursor:pointer;
     z-index:1;
+}
+#cameraIcon{
+    cursor:pointer;
 }
 
 #beerIcon{
@@ -188,3 +200,8 @@ footer{
     width:100px;
     height:100px;
 }
+
+#addImage{
+    margin-top:20px;
+}
+

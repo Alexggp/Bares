@@ -209,33 +209,43 @@ $(document).ready(function(){
    
    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
         setBarInfo();
-        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Caña: '+bar.fields.price+'€')
+        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+
+                            '</h6><br><img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">'+
+                            bar.fields.price+'€')
         if (bar.fields.litre!=0){$('#barInfoContainer').append('<br>Litro: '+bar.fields.litre+'€')}
         if (bar.fields.tapa){$('#barInfoContainer').append('<br>Ponen tapa')}else{$('#barInfoContainer').append('<br>No ponen tapa')}
-       
+        $('#barAlbum').html('<div id="carrusel"></div>');
+        $('#id_bar_id').val(bar.pk);
+        
         var responseAjaxGET= $.ajax({
             type: "GET",
             url: "/images",     
             data: {'bar_id':bar.pk},       
             success: function(data){
-                $('#barAlbum').html('<div id="carrusel"></div>');
+                                    
                 var img_list=jQuery.parseJSON(data);
-                for (i in img_list){
-                    $('#carrusel').append(                                
-                                '<div><a href=/media/'+img_list[i].fields.image+' title='+bar.fields.name+'>'+
-                                '<img class="barImg" src=/media/'+img_list[i].fields.image+'>'+
-                                '</a></div>'
-                    );
-                }
-                $('#carrusel').slick({
-                                dots: true,
-                                infinite: true,
-                                slidesToShow: 1,
-                                speed: 500,
-                                touchMove: true,
-                                slidesToScroll: 1,  
-                                centerMode: true,                           
-                              });  
+                if(img_list.length){   
+                    for (i in img_list){
+                        $('#carrusel').append(                                
+                                    '<div><a href=/media/'+img_list[i].fields.image+' title='+bar.fields.name+'>'+
+                                    '<img class="barImg" src=/media/'+img_list[i].fields.image+'>'+
+                                    '</a></div>'
+                        );
+                    }
+                    $('#carrusel').height(100);
+                    if(img_list.length>1){
+                        $('#carrusel').slick({
+                                        dots: false,
+                                        infinite: true,
+                                        slidesToShow: 1,
+                                        speed: 500,
+                                        touchMove: true,
+                                        slidesToScroll: 1,  
+                                        centerMode: true,
+                                        variableWidth: true                           
+                                      });
+                    } 
+               }
              	
             }            
         });        
@@ -270,6 +280,7 @@ $(document).ready(function(){
                 success: function(data){
                         if (data=='error'){alert("Este bar ya existe!")}
                         else{
+                            $( '.hidable' ).hide();
                             get_bar_list()                         
 
                         }
@@ -329,10 +340,13 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function (data) {
-                console.log(data);
+                $( '.hidable' ).hide();
+                var barfound = _.find(bar_list, function(obj){return obj.pk == data; });
+                fillBarInfo(barfound);
             },
             error: function(data) {
-                console.log("Something went wrong!");
+                alert('Introduce una imagen, por favor.');
+                console.log("Something went wrong!: ",data.responseText);
             }
         });
         return false;

@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseRedirect
 from django.template import RequestContext, loader
 from MisBares.models import Bar_db,BarImages_db
 from MisBares.forms import UploadFileForm
@@ -89,14 +89,13 @@ def images(request):
         if form.is_valid():
             
             barq = Bar_db.objects.get(pk=request.POST['bar_id'])
-            print barq
             instance = BarImages_db(bar=barq,image=request.FILES['image'])
             instance.save()
         
-        
-            return HttpResponse('data')   
+            
+            return HttpResponse(request.POST['bar_id'])   
         else:
-            return HttpResponse('fracaso 2')
+            return HttpResponseBadRequest('Form is not valid')
     
     elif request.method == 'GET':
         barq = Bar_db.objects.get(pk=request.GET[u'bar_id'])
@@ -104,6 +103,6 @@ def images(request):
         data = serializers.serialize("json", images_list)
         return HttpResponse(data)
     else:
-        return HttpResponse('Method error')
+        return HttpResponseBadRequest('Method error')
         
 

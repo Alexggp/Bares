@@ -40,7 +40,6 @@
     
     
     <img src="/static/images/loading.gif" id="loading">
-    <div id="backgroundLoad"></div>
     <div id="auxBarList" title="Desplegar lista de bares"></div>  
     <div id="barList">
         <ol id="selectable"></ol>
@@ -52,11 +51,12 @@
     {% endif %}
     <div id="map"></div>
     <div id="barInfo">
+        <img src="/static/images/camera.png" title="Añade una foto del bar" id="cameraIcon">
         <div id="barInfoContainer"></div>
         <div id="barAlbum" class="popup-gallery"></div>
     </div>
-    <div id="background"></div>
-    <div id="addBarContainer">
+    <div id="background" class="hidable"></div>
+    <div id="addBarContainer" class="hidable">
          <div id="minimap"></div>
          <div id='addBar'>
              <h4><span id="streetForm"></span></h4>
@@ -84,13 +84,15 @@
         </div>
         
     </div>
-<!--    
-    <form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
-        {% csrf_token %}
-        {{file_form}}
-    <input type="submit" value="enviar" /> 
-    </form>
--->    
+   <div id='addImage' class="hidable">
+        <form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
+            {% csrf_token %}
+            Selecciona una imagen:<br>
+            {{file_form.image}}<br>
+            {{file_form.bar_id}}
+            <input type="submit" value="enviar" /> 
+        </form>    
+    </div>   
  
 
     <footer>Alejando G-G Pérez © 2014 </footer>	

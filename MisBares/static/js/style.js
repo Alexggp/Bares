@@ -6,8 +6,11 @@ $(document).ready(function(){
 
 //the following statements sets css position for diferent divs
 
-    $("#loading").css("left",$(window).width()/2-$("#loading").width()/2);
-    $("#loading").css("top",$(window).height()/2-$("#loading").height()/2);
+    function center(obj){
+        $(obj).css("left",$(window).width()/2-$(obj).width()/2);
+        $(obj).css("top",$(window).height()/2-$(obj).height()/2);
+    }
+    center("#loading");
     $("footer").css("left",$(window).width()/2-$("footer").width()/2);
     $("#authentication").css("left",$(window).width()-$("#authentication").width());
     $("#addIcon").css("left",$(window).width()-$("#authentication").width()-75);
@@ -43,25 +46,29 @@ $(document).ready(function(){
         $( '#addBarContainer' ).show();
         $( '#background').show();
         $( '#minimap').show();
-                                                   
-        $("#addBarContainer").css("left",$(window).width()/2-$("#addBarContainer").width()/2);   
-        $("#addBarContainer").css("top",$(window).height()/2-$("#addBarContainer").height()/2);
+        
+        center("#addBarContainer");                                  
         minimap.invalidateSize();
         
     });
-    $( '#background,#sendAddBar' ).click(function(event){           //Closes addBar by clicking on the background or
-        $( '#addBarContainer' ).hide();                             //sending information
-        $( '#background').hide();
+    $( '#background' ).click(function(event){           //Closes addBar by clicking on the background or
+        $( '.hidable' ).hide();                                     //sending information
+       
+    });
+    $('#cameraIcon').click(function( event ){
+        $('#addImage').show();
+        $( '#background').show();
+        center("#addImage"); 
     });
     
-
+ 
     
 });
 
 
 function stopLoading(){                                             //Deletes the loading gif
     $("#loading").remove();
-    $("#backgroundLoad").remove();
+    $("#background").hide();
 }
 
 function setIconsPosition(){                                        // Sets Icons position over the map
