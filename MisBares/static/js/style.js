@@ -30,8 +30,6 @@ $(document).ready(function(){
     $('#barInfo').click(function(event){            //Closes barInfo by clicking on it self
         if(event.target != this) return false;
         $('#barInfo').hide();
-        $("#authentication").show();
-        $("#addIcon").show();
         markers_blueLayer.clearLayers();                 //delete selections on map
         $('#selectable li').removeClass( "selectedLi" );
         $('#selectable li').addClass( "barli" );
@@ -81,8 +79,7 @@ function setBarInfo(){
                                                  //called by fillBarInfo(), set info about bars in #barInfo
     $('#barInfo').css("left",$(window).width()-$('#barInfo').width());   
     $('#barInfo').show();
-    $("#authentication").hide();
-    $("#addIcon").hide();
+
 };
 
 var numIcon_blue = L.Icon.extend({                  // new marker to stand out the selected bar on the map

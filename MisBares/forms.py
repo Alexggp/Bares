@@ -1,5 +1,5 @@
 from django import forms
 
 class UploadFileForm(forms.Form):
-    name = forms.CharField(max_length=30)
+    bar_id= forms.IntegerField()
     image = forms. ImageField ()

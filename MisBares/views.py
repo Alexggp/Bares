@@ -20,7 +20,7 @@ def logout_user(request):
   return HttpResponseRedirect('/')
 
 
-def bares(request, resource):
+def bares(request):
     user_name=request.user.username
 
     template = loader.get_template('MisBares/base.html')
@@ -59,6 +59,7 @@ def addBar(request):
     tapaPost=request.POST[u'tapaForm']
     latPost=request.POST[u'latForm']
     lonPost=request.POST[u'lonForm']
+    imgPost=request.FILES['imgForm']
     
     if (tapaPost=="false"):
         tapaPost=False
@@ -69,23 +70,40 @@ def addBar(request):
     else:
         r=Bar_db(name=namePost,street=streetPost,price=pricePost,litre=litrePost,tapa=tapaPost,latitude=latPost,longitude=lonPost)
         r.save()
+        
+        instance = BarImages_db(image=request.FILES['image'],name='nameiin')            
+        instance.save()
+        
+        
         data = serializers.serialize("json", Bar_db.objects.all())
 
     return HttpResponse(data)
 
+
+
 @csrf_exempt  
-def upload(request):
+def images(request):
 
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            instance = BarImages_db(image=request.FILES['image'],name=request.POST['name'])
+            
+            barq = Bar_db.objects.get(pk=request.POST['bar_id'])
+            print barq
+            instance = BarImages_db(bar=barq,image=request.FILES['image'])
             instance.save()
         
         
             return HttpResponse('data')   
         else:
             return HttpResponse('fracaso 2')
-       
+    
+    elif request.method == 'GET':
+        barq = Bar_db.objects.get(pk=request.GET[u'bar_id'])
+        images_list= BarImages_db.objects.filter(bar=barq)
+        data = serializers.serialize("json", images_list)
+        return HttpResponse(data)
     else:
-        return HttpResponse('data3')
+        return HttpResponse('Method error')
+        
+

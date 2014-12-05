@@ -1,5 +1,9 @@
 from django.conf import settings
 from django.db import models
+import os
+from uuid import uuid4
+from django.utils.deconstruct import deconstructible
+import datetime
 
 
 class Bar_db(models.Model):
@@ -12,7 +16,7 @@ class Bar_db(models.Model):
     latitude=models.DecimalField(max_digits=9, decimal_places=7)
     longitude=models.DecimalField(max_digits=9, decimal_places=7)
     
-    def __str__(self):              
+    def __unicode__(self):              
         return self.name
       
 class UserExtended_db(models.Model):
@@ -20,10 +24,27 @@ class UserExtended_db(models.Model):
     birthday=models.DateField()    
     points=models.IntegerField(default=0)
     
+@deconstructible
+class PathAndRename(object):
+
+    def __init__(self, sub_path):
+        self.path = sub_path
+
+    def __call__(self, instance, filename):
+        ext = filename.split('.')[-1]
+        # set filename as random string
+        today = datetime.datetime.now()
+        filename = '{}/{}/{}/{}.{}'.format(today.strftime("%Y"),today.strftime("%m"),today.strftime("%d"),uuid4().hex, ext)
+        # return the whole path to the file
+        return os.path.join(self.path, filename)
+
+path_and_rename = PathAndRename("images")
+
+
 
 class BarImages_db(models.Model):
-    name=models.CharField(max_length=30)  
-    image = models.ImageField(upload_to="uploads/images")
+    bar = models.ForeignKey(Bar_db)
+    image = models.ImageField(upload_to=path_and_rename)
 
 #40.2868591, -3.8208389
 #40.2874319, -3.8234138

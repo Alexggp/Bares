@@ -212,6 +212,29 @@ $(document).ready(function(){
         $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6> Caña: '+bar.fields.price+'€')
         if (bar.fields.litre!=0){$('#barInfoContainer').append('<br>Litro: '+bar.fields.litre+'€')}
         if (bar.fields.tapa){$('#barInfoContainer').append('<br>Ponen tapa')}else{$('#barInfoContainer').append('<br>No ponen tapa')}
+       
+        var responseAjaxGET= $.ajax({
+            type: "GET",
+            url: "/images",     
+            data: {'bar_id':bar.pk},       
+            success: function(data){
+                $('#barAlbum').html('');
+                var img_list=jQuery.parseJSON(data);
+                for (i in img_list){
+                    console.log(img_list);
+                    $('#barAlbum').append(                                
+                                '<a href=/media/'+img_list[i].fields.image+' title='+bar.fields.name+'>'+
+                                '<img class="barImg" src=/media/'+img_list[i].fields.image+'>'+
+                                '</a>'
+                    );
+                    
+                   
+                }
+                
+            	
+            }
+            
+        });        
    };
    
     
@@ -275,6 +298,7 @@ $(document).ready(function(){
     
     function getFilteredList(){   //check tapastate and clstate and filters bar_list, it returns the correct list of bars
         var current_bar_list;
+        
         if (tapastate){
             current_bar_list = _.filter(bar_list, function(obj){ return obj.fields.tapa == true; });
         }else{
@@ -310,7 +334,28 @@ $(document).ready(function(){
         return false;
     });
     
-    
+    $('.popup-gallery').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                tLoading: 'Loading image #%curr%...',
+                mainClass: 'mfp-img-mobile',
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+                },
+                image: {
+                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                    titleSrc: function(item) {
+	                    return item.el.attr('title');
+                    }
+                }
+    });
+                
+                
+                
+
+
     
 });
     

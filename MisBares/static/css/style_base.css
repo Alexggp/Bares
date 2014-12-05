@@ -5,6 +5,7 @@ body {
 	
 }
 
+
 #map{
     height: 100%;
     width: 100%;
@@ -44,6 +45,17 @@ body {
     z-index:1;
     text-align: center;
 }
+#barAlbum{
+    margin-top:10px;
+    background-color:blue;
+    padding:10px;
+}
+
+.barImg{
+    padding:5px;
+    width:35%;
+}
+
 #addBarContainer{
     position:absolute;
     width:auto;
@@ -52,8 +64,7 @@ body {
     background-color:#2E76DB;
     text-align: center;
     display:none;
-    margin:10px;
-    padding:10px;
+
 }
 
 #background,#backgroundLoad{

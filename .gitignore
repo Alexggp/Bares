@@ -84,3 +84,11 @@ Icon
 ._*
 .Spotlight-V100
 .Trashes
+
+
+#for this
+uploads/
+*.pyc
+
+
+
