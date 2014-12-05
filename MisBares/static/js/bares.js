@@ -218,22 +218,26 @@ $(document).ready(function(){
             url: "/images",     
             data: {'bar_id':bar.pk},       
             success: function(data){
-                $('#barAlbum').html('');
+                $('#barAlbum').html('<div id="carrusel"></div>');
                 var img_list=jQuery.parseJSON(data);
                 for (i in img_list){
-                    console.log(img_list);
-                    $('#barAlbum').append(                                
-                                '<a href=/media/'+img_list[i].fields.image+' title='+bar.fields.name+'>'+
+                    $('#carrusel').append(                                
+                                '<div><a href=/media/'+img_list[i].fields.image+' title='+bar.fields.name+'>'+
                                 '<img class="barImg" src=/media/'+img_list[i].fields.image+'>'+
-                                '</a>'
+                                '</a></div>'
                     );
-                    
-                   
                 }
-                
-            	
-            }
-            
+                $('#carrusel').slick({
+                                dots: true,
+                                infinite: true,
+                                slidesToShow: 1,
+                                speed: 500,
+                                touchMove: true,
+                                slidesToScroll: 1,  
+                                centerMode: true,                           
+                              });  
+             	
+            }            
         });        
    };
    
@@ -352,8 +356,7 @@ $(document).ready(function(){
                 }
     });
                 
-                
-                
+      
 
 
     

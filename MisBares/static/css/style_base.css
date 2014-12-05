@@ -49,11 +49,16 @@ body {
     margin-top:10px;
     background-color:blue;
     padding:10px;
+
+}
+#carrusel{
+       height:100px;
+       width: 80%;
+       margin: 0 auto;
 }
 
 .barImg{
-    padding:5px;
-    width:35%;
+    height:80px;
 }
 
 #addBarContainer{
@@ -179,4 +184,7 @@ footer{
 .selectedLi{
     background-color:#C1CEE1;
 }
-
+.variable-width{
+    width:100px;
+    height:100px;
+}
