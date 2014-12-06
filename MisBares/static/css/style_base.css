@@ -56,11 +56,20 @@ body {
 }
 
 
+#barInfoHeader{
+    height:40px;
+}
+#barInfoHeader div{
+    display:inline-block;
+}
+#barInfoHeader img{
+    margin-left:30px;
+}
 
 #barAlbum{
     margin-top:10px;
     background-color:#095FD7;
-    
+    overflow:hidden;   
 }
 #carrusel{     
        width: 80%;
@@ -135,9 +144,7 @@ body {
     cursor:pointer;
     z-index:1;
 }
-#cameraIcon{
-    cursor:pointer;
-}
+
 
 #beerIcon{
     position:absolute;
@@ -209,7 +216,34 @@ footer{
     height:100px;
 }
 
-#addImage{
-    margin-top:20px;
+
+/*for the rate stars, to make them big*/
+
+div.bigstars div.rateit-range
+{
+    background: url(/static/images/star-white32.png);
+    height: 32px;
+}
+ 
+div.bigstars div.rateit-hover
+{
+    background: url(/static/images/star-gold32.png);
+}
+ 
+div.bigstars div.rateit-selected
+{
+    background: url(/static/images/star-gold32.png);
+}
+ 
+div.bigstars div.rateit-reset
+{
+    background: url(/static/images/star-black32.png);
+    width: 32px;
+    height: 32px;
+}
+ 
+div.bigstars div.rateit-reset:hover
+{
+    background: url(/static/images/star-white32.png);
 }
 

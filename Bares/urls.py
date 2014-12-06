@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^logout', 'MisBares.views.logout_user'),
     url(r'^addBar', 'MisBares.views.addBar'),
     url(r'^images', 'MisBares.views.images'),
+    url(r'^rates', 'MisBares.views.rates'),
     url(r'^bares', 'MisBares.views.bares')    
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

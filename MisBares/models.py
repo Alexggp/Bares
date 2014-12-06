@@ -46,6 +46,13 @@ class BarImages_db(models.Model):
     bar = models.ForeignKey(Bar_db)
     image = models.ImageField(upload_to=path_and_rename)
 
+    
+class Rates_db(models.Model):
+    bar = models.ForeignKey(Bar_db)
+    points=models.IntegerField()
+
+    
+    
 #40.2868591, -3.8208389
 #40.2874319, -3.8234138
 #40.284191, -3.8216543 Cafeteria urjc

@@ -204,20 +204,32 @@ $(document).ready(function(){
                      
         });
    
-   };
+    };
    
    
-   function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
-        setBarInfo();
-        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6><div id="BIprices"/>');
-        $('#BIprices').html('<div><img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">  '+
-                            bar.fields.price+'€</div>')
-        if (bar.fields.litre!=0){$('#BIprices').append('<div><img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">  '+bar.fields.litre+'€</div>')}
-        if (bar.fields.tapa){$('#barInfoContainer').append('</div><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">')}
-        $('#barAlbum').html('<div id="carrusel"></div>');
-        $('#id_bar_id').val(bar.pk);
-        
-        var responseAjaxGET= $.ajax({
+    function setRates(bar_id){
+         var responseAjaxGET= $.ajax({           // Ask Django for bar images
+            type: "GET",
+            url: "/rates",     
+            data: {'bar_id':bar_id},       
+            success: function(data){
+                var rate_list=jQuery.parseJSON(data);
+                var average=0;
+                for (i in rate_list){
+                        average+=rate_list[i].fields.points;    
+                    };
+                average=average/rate_list.length;
+                $('#starsRate').rateit('reset')
+                if (average){
+                    $('#starsRate').rateit('value',average/2)
+                }
+            }
+        });      
+    }
+    
+    
+    function setImages(bar){
+        var responseAjaxGET= $.ajax({           // Ask Django for bar images
             type: "GET",
             url: "/images",     
             data: {'bar_id':bar.pk},       
@@ -233,14 +245,14 @@ $(document).ready(function(){
                         );
                     }
                     $('#carrusel').height(100);
-                    if(img_list.length>1){
+                    if(img_list.length>1){                      //Sets the photos carousel
                         $('#carrusel').slick({
                                         dots: false,
                                         infinite: false,
-                                        slidesToShow: 1,
+                                        slidesToShow: 2,
                                         speed: 500,
                                         touchMove: true,
-                                        slidesToScroll: 1,  
+                                        slidesToScroll: 2,  
                                         centerMode: false,
                                         variableWidth: true                           
                                       });
@@ -248,7 +260,26 @@ $(document).ready(function(){
                }
              	
             }            
-        });        
+        }); 
+    }
+    
+   
+   
+   
+    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
+        setBarInfo();
+        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6><div id="BIprices"/>');
+        $('#BIprices').html('<div><img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">  '+
+                            bar.fields.price+'€</div>')
+        if (bar.fields.litre!=0){$('#BIprices').append('<div><img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">  '+bar.fields.litre+'€</div>')}
+        if (bar.fields.tapa){$('#barInfoContainer').append('</div><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">')}
+        $('#barAlbum').html('<div id="carrusel"></div>');
+        $('#id_bar_id').val(bar.pk);            //sets the bar id in the form, #ib_bar_id is hidden. 
+        
+        
+        setImages(bar);
+        setRates(bar.pk);
+        
    };
    
     
@@ -370,8 +401,26 @@ $(document).ready(function(){
                 }
     });
                 
-      
-
+    // rating star functions:
+    
+    $("#starsRate").bind('over', function (event,value) { $(this).attr('title', value*2); });   
+    $('#starsRate').bind('rated', function (e) {
+            $.ajax({
+                type: 'POST',
+                url: '/rates', 
+                data: { 'bar_id': $('#id_bar_id').val(), 'value': $(this).rateit('value')*2 }, //our data
+                type: 'POST',
+                success: function (data) {
+                    setRates(data);
+                },
+                error: function () {
+                    console.log("Something went wrong!");
+                }
+            });
+            
+            
+            
+    });
 
     
 });

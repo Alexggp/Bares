@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseRedirect
 from django.template import RequestContext, loader
-from MisBares.models import Bar_db,BarImages_db
+from MisBares.models import Bar_db,BarImages_db,Rates_db
 from MisBares.forms import UploadFileForm
 from django.core import serializers
 from django.db.models import Q
@@ -101,6 +101,29 @@ def images(request):
         barq = Bar_db.objects.get(pk=request.GET[u'bar_id'])
         images_list= BarImages_db.objects.filter(bar=barq)
         data = serializers.serialize("json", images_list)
+        return HttpResponse(data)
+    else:
+        return HttpResponseBadRequest('Method error')
+        
+@csrf_exempt  
+def rates(request):
+
+    if request.method == 'POST':
+        points= request.POST[u'value']
+        print points
+        if 0 < int(points) < 10 :
+            barq = Bar_db.objects.get(pk=request.POST[u'bar_id'])
+            instance = Rates_db(bar=barq,points=points)
+            instance.save()
+            
+            return HttpResponse(request.POST[u'bar_id'])   
+        else:
+            return HttpResponseBadRequest('Not valid range')
+    
+    elif request.method == 'GET':
+        barq = Bar_db.objects.get(pk=request.GET[u'bar_id'])
+        rates_list= Rates_db.objects.filter(bar=barq)
+        data = serializers.serialize("json", rates_list)
         return HttpResponse(data)
     else:
         return HttpResponseBadRequest('Method error')

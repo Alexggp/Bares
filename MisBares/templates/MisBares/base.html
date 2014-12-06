@@ -17,7 +17,14 @@
         <script src="/static/js/jquery.magnific-popup.min.js"></script> 
 	    <!-- SLICK -->
 	    <link rel="stylesheet" type="text/css" href="/static/js/slick-1.3.15/slick/slick.css"/>
-	    <script type="text/javascript" src="/static/js/slick-1.3.15/slick/slick.min.js"></script>      
+	    <script type="text/javascript" src="/static/js/slick-1.3.15/slick/slick.min.js"></script>  
+	    <!-- JQUERY.RATEIT -->
+	    <link rel="stylesheet" href="/static/js/rateit/rateit.css"> 
+        <script src="/static/js/rateit/jquery.rateit.js"></script> 
+	    
+	    
+	    
+	        
       
         
     </head>
@@ -51,7 +58,22 @@
     {% endif %}
     <div id="map"></div>
     <div id="barInfo">
-        <img src="/static/images/camera.png" title="Añade una foto del bar" id="cameraIcon">
+        <div id='barInfoHeader'>
+        
+        
+        
+        
+        
+            
+            <div class="rateit rateit bigstars" id="starsRate" data-rateit-resetable="false" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-min="0" data-rateit-max="5">
+            </div>
+            
+            
+            
+            
+            
+            <div><img src="/static/images/camera.png" title="Añade una foto del bar" id="cameraIcon"></div>
+        </div>
         <div id="barInfoContainer"></div>
         <div id="barAlbum" class="popup-gallery"></div>
     </div>
