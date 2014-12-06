@@ -209,11 +209,11 @@ $(document).ready(function(){
    
    function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
         setBarInfo();
-        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+
-                            '</h6><br><img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">'+
-                            bar.fields.price+'€')
-        if (bar.fields.litre!=0){$('#barInfoContainer').append('<br>Litro: '+bar.fields.litre+'€')}
-        if (bar.fields.tapa){$('#barInfoContainer').append('<br>Ponen tapa')}else{$('#barInfoContainer').append('<br>No ponen tapa')}
+        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6><div id="BIprices"/>');
+        $('#BIprices').html('<div><img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">  '+
+                            bar.fields.price+'€</div>')
+        if (bar.fields.litre!=0){$('#BIprices').append('<div><img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">  '+bar.fields.litre+'€</div>')}
+        if (bar.fields.tapa){$('#barInfoContainer').append('</div><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">')}
         $('#barAlbum').html('<div id="carrusel"></div>');
         $('#id_bar_id').val(bar.pk);
         
@@ -236,12 +236,12 @@ $(document).ready(function(){
                     if(img_list.length>1){
                         $('#carrusel').slick({
                                         dots: false,
-                                        infinite: true,
+                                        infinite: false,
                                         slidesToShow: 1,
                                         speed: 500,
                                         touchMove: true,
                                         slidesToScroll: 1,  
-                                        centerMode: true,
+                                        centerMode: false,
                                         variableWidth: true                           
                                       });
                     } 

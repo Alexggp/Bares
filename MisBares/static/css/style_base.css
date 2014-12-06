@@ -45,23 +45,31 @@ body {
     z-index:1;
     text-align: center;
 }
+.miniIcon{    
+    height:1.5em;
+}
+
+#BIprices div{
+    margin:2.5px;
+    width:100px;
+    display:inline-block;
+}
+
+
+
 #barAlbum{
     margin-top:10px;
     background-color:#095FD7;
     
 }
-#carrusel{
-       
+#carrusel{     
        width: 80%;
        margin: 0 auto;
 }
 #carrusel div{
-    margin-left: 10px;
+    margin-left: 5px;
 }
-.miniIcon{
-    
-    height:1.5em;
-}
+
 .barImg{
     margin-top:10px;
     height:80px;
