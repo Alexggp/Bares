@@ -12,6 +12,8 @@
         <script type="text/javascript" src="/static/js/underscore.js"></script>
         <script type="text/javascript" src="/static/js/jquery-validation-1.13.1/dist/jquery.validate.js"></script>
         
+        <!-- Date.js to parse dates -->
+        <script type="text/javascript" src="/static/js/Date.min.js"></script>  
         <!-- Magnific Popup core CSS file -->
         <link rel="stylesheet" href="/static/css/magnific-popup.css"> 
         <script src="/static/js/jquery.magnific-popup.min.js"></script> 
@@ -57,26 +59,20 @@
         <img src="/static/images/add_icon.png" title="Añadir bar" id="addIcon">
     {% endif %}
     <div id="map"></div>
+    
+    
     <div id="barInfo">
         <div id='barInfoHeader'>
-        
-        
-        
-        
-        
-            
-            <div class="rateit rateit bigstars" id="starsRate" data-rateit-resetable="false" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-min="0" data-rateit-max="5">
-            </div>
-            
-            
-            
-            
-            
+<div class="rateit rateit bigstars" id="starsRate" data-rateit-resetable="false" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-min="0" data-rateit-max="5">
+            </div>          
             <div><img src="/static/images/camera.png" title="Añade una foto del bar" id="cameraIcon"></div>
         </div>
         <div id="barInfoContainer"></div>
         <div id="barAlbum" class="popup-gallery"></div>
+        <div id="oneComnt" title="Ver mas comentarios"></div>
     </div>
+    
+    
     <div id="background" class="hidable"></div>
     <div id="addBarContainer" class="hidable">
          <div id="minimap"></div>

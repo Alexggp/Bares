@@ -21,7 +21,7 @@ class Bar_db(models.Model):
       
 class UserExtended_db(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    birthday=models.DateField()    
+    birthday=models.DateField()
     points=models.IntegerField(default=0)
     
 @deconstructible
@@ -50,7 +50,13 @@ class BarImages_db(models.Model):
 class Rates_db(models.Model):
     bar = models.ForeignKey(Bar_db)
     points=models.IntegerField()
-
+    
+class Comments_db(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author_name=models.CharField(max_length=30)  
+    bar = models.ForeignKey(Bar_db)
+    text = models.TextField()
+    date = models.DateTimeField(auto_now=False,auto_now_add=True)
     
     
 #40.2868591, -3.8208389

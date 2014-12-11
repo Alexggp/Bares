@@ -64,6 +64,7 @@ body {
 }
 #barInfoHeader img{
     margin-left:30px;
+    cursor:pointer;
 }
 
 #barAlbum{
@@ -83,6 +84,36 @@ body {
     margin-top:10px;
     height:80px;
 }
+
+#oneComnt{
+    max-height:100px;
+    overflow:hidden;
+    text-align:left;
+    padding:20px;
+    font-size:0.90em;
+    background-color:#2E76DB; 
+}
+
+#oneComnt p{
+    font-style: italic;
+}
+
+.author{
+    border-bottom: 1px dotted #900;
+    color: #900;
+    font-weight:bold;
+
+}
+.date{
+    color:gray;
+    font-size:0.75em;
+    color: #c0b9ab;
+    display: block;
+    float: right;
+}
+
+
+
 
 .hidable{
     position:absolute;
@@ -228,6 +259,7 @@ div.bigstars div.rateit-range
 div.bigstars div.rateit-hover
 {
     background: url(/static/images/star-gold32.png);
+    cursor:pointer;
 }
  
 div.bigstars div.rateit-selected

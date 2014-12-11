@@ -263,7 +263,23 @@ $(document).ready(function(){
         }); 
     }
     
-   
+    function setFirstComment(bar_id){
+        var responseAjaxGet= $.ajax({
+            type:"GET",
+            url: "/comments",
+            data: {'first':true,'bar_id':bar_id},       
+            success: function(data){
+                var comment=jQuery.parseJSON(data);
+                console.log(comment);
+                $("#oneComnt").html('');
+                if (comment.length){
+                    for (i in comment){
+                        $("#oneComnt").append('<p>"'+comment[i].fields.text+'" - @'+comment[i].fields.author_name+'</p>');
+                    }
+                };
+            }
+        });
+    }
    
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
@@ -279,6 +295,7 @@ $(document).ready(function(){
         
         setImages(bar);
         setRates(bar.pk);
+        setFirstComment(bar.pk);
         
    };
    
@@ -424,6 +441,9 @@ $(document).ready(function(){
 
     
 });
-    
-
-
+    /*
+                    var date = comment[0].fields.date; 
+                    date = date.substring(0, date.length-1);
+                    date = $D(date).strftime('%m/%d/%Y | %R');
+                    $("#oneComnt").append('<span class="date">'+date+'</span>');
+*/
