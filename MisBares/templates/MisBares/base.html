@@ -34,7 +34,7 @@
     <body>   
     <div id="authentication">
     {% if user_name %}
-	        <p>{{user_name}} <a href = '/logout'> Salir </a> </p>
+	        <p><span id='#userName'>{{user_name}}</span><a href = '/logout'> Salir </a> </p>
     {% else %} 
         <p>
           <form method="post" action="/login"> {% csrf_token %}
@@ -49,14 +49,14 @@
     
     
     <img src="/static/images/loading.gif" id="loading">
-    <div id="auxBarList" title="Desplegar lista de bares"></div>  
+    <div id="auxBarList" class='clickable' title="Desplegar lista de bares"></div>  
     <div id="barList">
         <ol id="selectable"></ol>
     </div>
-    <img src="/static/images/beer_glass.png" title="Caña/Litro" id="beerIcon">
-    <img src="/static/images/plate_false.png" title="Tapa" id="plateIcon">
+    <img src="/static/images/beer_glass.png" class='clickable' title="Caña/Litro" id="beerIcon">
+    <img src="/static/images/plate_false.png" class='clickable' title="Tapa" id="plateIcon">
     {% if user_name %}
-        <img src="/static/images/add_icon.png" title="Añadir bar" id="addIcon">
+        <img src="/static/images/add_icon.png" class='clickable' title="Añadir bar" id="addIcon">
     {% endif %}
     <div id="map"></div>
     
@@ -65,15 +65,31 @@
         <div id='barInfoHeader'>
 <div class="rateit rateit bigstars" id="starsRate" data-rateit-resetable="false" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-min="0" data-rateit-max="5">
             </div>          
-            <div><img src="/static/images/camera.png" title="Añade una foto del bar" id="cameraIcon"></div>
+            <div><img src="/static/images/camera.png" class='clickable' title="Añade una foto del bar" id="cameraIcon"></div>
         </div>
         <div id="barInfoContainer"></div>
         <div id="barAlbum" class="popup-gallery"></div>
-        <div id="oneComnt" title="Ver mas comentarios"></div>
+        <div id="oneComnt"></div>
+        <hr>
+        <a id='openComnts'  title="Ver comentarios" class='clickable'>Ver comentarios</a>
+    </div>
+   
+    <div id="background"  class="hidable"></div>
+    <div id='comntContainer' class="hidable">
+        <div id='Comments'></div>
+        <div id='writeCmnt'>
+        {% if user_name %}
+            <form method='post' id='addComntForm'>
+                {% csrf_token %}
+                <textarea name='textComnt' rows="4" id='textComnt' placeholder="Cuéntanos tu opinion sobre éste bar"></textarea><br>
+                <input type="submit" class='clickable' id='sendComnt' value="Enviar"/>
+            </form>
+        {% else %}
+            Si quieres contarnos tu opinión sobre este bar, ¡registrate!
+        {% endif %}
+        </div>
     </div>
     
-    
-    <div id="background" class="hidable"></div>
     <div id="addBarContainer" class="hidable">
          <div id="minimap"></div>
          <div id='addBar'>
@@ -96,7 +112,7 @@
                     
                     <label for="lonForm">Longitud:</label>
                     <input type="number"  name="lonForm" class="latlngIn" id="lonForm" readonly='readonly'><br>
-                    <input type="submit" id='sendAddBar' value="Enviar"/>
+                    <input type="submit" class='clickable' id='sendAddBar' value="Enviar"/>
                   </div>
             </form>
         </div>
@@ -108,7 +124,7 @@
             Selecciona una imagen:<br>
             {{file_form.image}}<br>
             {{file_form.bar_id}}
-            <input type="submit" value="enviar" /> 
+            <input type="submit" class='clickable' value="enviar" /> 
         </form>    
     </div>   
  

@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseForbidden
 from django.template import RequestContext, loader
 from MisBares.models import Bar_db,BarImages_db,Rates_db,Comments_db
 from MisBares.forms import UploadFileForm
@@ -17,7 +17,7 @@ file_form=UploadFileForm()
 def logout_user(request):
   logout(request)
 
-  return HttpResponseRedirect('/')
+  return HttpResponseRedirect('/bares')
 
 
 def bares(request):
@@ -48,7 +48,7 @@ def initialize(request):
     return HttpResponse(data)
 
 
-@login_required  
+
 @csrf_exempt   
 def addBar(request):
 
@@ -91,9 +91,9 @@ def images(request):
             barq = Bar_db.objects.get(pk=request.POST['bar_id'])
             instance = BarImages_db(bar=barq,image=request.FILES['image'])
             instance.save()
-        
+            data = serializers.serialize("json", [barq])
             
-            return HttpResponse(request.POST['bar_id'])   
+            return HttpResponse(data)   
         else:
             return HttpResponseBadRequest('Form is not valid')
     
@@ -127,25 +127,30 @@ def rates(request):
     else:
         return HttpResponseBadRequest('Method error')
 
-@login_required        
+      
 @csrf_exempt  
 def comments(request):
 
     if request.method == 'POST':
-        points= request.POST[u'value']
-        if 0 < int(points) < 10 :
-            barq = Bar_db.objects.get(pk=request.POST[u'bar_id'])
-            instance = Rates_db(bar=barq,points=points)
-            instance.save()
-            
-            return HttpResponse(request.POST[u'bar_id'])   
+        if request.user.is_authenticated():            
+            textPost=request.POST[u'text']
+            bar_idPost=request.POST[u'bar_id']
+            barq = Bar_db.objects.get(pk=bar_idPost)
+            instance = Comments_db(bar=barq,author=request.user,author_name=request.user.username,text=textPost)
+            instance.save()            
+            return HttpResponse(bar_idPost)
         else:
-            return HttpResponseBadRequest('Not valid range')
-    
+            return HttpResponseForbidden('Authentication error')
+        
+        
     elif request.method == 'GET':
-        if request.GET[u'first']:
-            barq = Bar_db.objects.get(pk=request.GET[u'bar_id'])
+        barq = Bar_db.objects.get(pk=request.GET[u'bar_id'])
+        if request.GET[u'first']=="true": 
             comment= Comments_db.objects.filter(bar=barq).order_by('-date')[:2]
+            data = serializers.serialize("json", comment)
+            return HttpResponse(data)
+        else: 
+            comment= Comments_db.objects.filter(bar=barq).order_by('-date')
             data = serializers.serialize("json", comment)
             return HttpResponse(data)
     else:

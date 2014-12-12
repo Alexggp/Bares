@@ -6,11 +6,8 @@ $(document).ready(function(){
 
 //the following statements sets css position for diferent divs
 
-    function center(obj){
-        $(obj).css("left",$(window).width()/2-$(obj).width()/2);
-        $(obj).css("top",$(window).height()/2-$(obj).height()/2);
-    }
-    center("#loading");
+
+    center("#loading");  //defined below
     $("footer").css("left",$(window).width()/2-$("footer").width()/2);
     $("#authentication").css("left",$(window).width()-$("#authentication").width());
     $("#addIcon").css("left",$(window).width()-$("#authentication").width()-75);
@@ -61,9 +58,14 @@ $(document).ready(function(){
         center("#addImage"); 
     });
     
- 
-    
+
 });
+
+
+function center(obj){                                               //Center divs 
+        $(obj).css("left",$(window).width()/2-$(obj).width()/2);
+        $(obj).css("top",$(window).height()/2-$(obj).height()/2);
+    }
 
 
 function stopLoading(){                                             //Deletes the loading gif

@@ -236,17 +236,18 @@ $(document).ready(function(){
             success: function(data){
                                     
                 var img_list=jQuery.parseJSON(data);
+                $('#carrousel').html('');
                 if(img_list.length){   
                     for (i in img_list){
-                        $('#carrusel').append(                                
+                        $('#carrousel').append(                                
                                     '<div><a href=/media/'+img_list[i].fields.image+' title='+bar.fields.name+'>'+
                                     '<img class="barImg" src=/media/'+img_list[i].fields.image+'>'+
                                     '</a></div>'
                         );
                     }
-                    $('#carrusel').height(100);
+                    $('#carrousel').height(100);
                     if(img_list.length>1){                      //Sets the photos carousel
-                        $('#carrusel').slick({
+                        $('#carrousel').slick({
                                         dots: false,
                                         infinite: false,
                                         slidesToShow: 2,
@@ -270,7 +271,7 @@ $(document).ready(function(){
             data: {'first':true,'bar_id':bar_id},       
             success: function(data){
                 var comment=jQuery.parseJSON(data);
-                console.log(comment);
+
                 $("#oneComnt").html('');
                 if (comment.length){
                     for (i in comment){
@@ -280,6 +281,35 @@ $(document).ready(function(){
             }
         });
     }
+    
+    
+    
+    function setComments(bar_id){
+        var responseAjaxGet= $.ajax({
+            type:"GET",
+            url: "/comments",
+            data: {'first':false,'bar_id':bar_id},       
+            success: function(data){
+                var comment=jQuery.parseJSON(data);
+                $("#Comments").html('');
+                if (comment.length){
+                    console.log(comment);
+                    for (i in comment){
+                        $("#Comments").append('<span class="author">@'+comment[i].fields.author_name+'</span>');
+                        
+                        var date = comment[i].fields.date; 
+                        date = date.substring(0, date.length-1);
+                        date = $D(date).strftime('%m/%d/%Y | %R');
+                        $("#Comments").append('<span class="date">'+date+'</span>');
+                        $("#Comments").append('<p>'+comment[i].fields.text+'</p><hr>');
+                    }
+                }else{
+                    $("#Comments").append('<h3>Se el primero en poner un comentario</h3>');
+                }
+            }
+        });
+    }
+    
    
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
@@ -289,13 +319,17 @@ $(document).ready(function(){
                             bar.fields.price+'€</div>')
         if (bar.fields.litre!=0){$('#BIprices').append('<div><img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">  '+bar.fields.litre+'€</div>')}
         if (bar.fields.tapa){$('#barInfoContainer').append('</div><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">')}
-        $('#barAlbum').html('<div id="carrusel"></div>');
+        $('#barAlbum').html('<div id="carrousel"></div>');
         $('#id_bar_id').val(bar.pk);            //sets the bar id in the form, #ib_bar_id is hidden. 
         
         
         setImages(bar);
         setRates(bar.pk);
         setFirstComment(bar.pk);
+        
+
+        
+        
         
    };
    
@@ -389,8 +423,8 @@ $(document).ready(function(){
             contentType: false,
             success: function (data) {
                 $( '.hidable' ).hide();
-                var barfound = _.find(bar_list, function(obj){return obj.pk == data; });
-                fillBarInfo(barfound);
+                var barfound=jQuery.parseJSON(data);
+                setImages(barfound[0]);
             },
             error: function(data) {
                 alert('Introduce una imagen, por favor.');
@@ -426,7 +460,6 @@ $(document).ready(function(){
                 type: 'POST',
                 url: '/rates', 
                 data: { 'bar_id': $('#id_bar_id').val(), 'value': $(this).rateit('value')*2 }, //our data
-                type: 'POST',
                 success: function (data) {
                     setRates(data);
                 },
@@ -438,12 +471,35 @@ $(document).ready(function(){
             
             
     });
-
+    
+    
+    $('#addComntForm').submit(function () {
+        if ($('#textComnt').val()){
+            $.ajax({
+                type: 'POST',
+                url: '/comments',
+                data: { 'bar_id': $('#id_bar_id').val(),'text':$('#textComnt').val()},
+                success: function (bar_id) {
+                    setComments(bar_id);
+                },
+                error: function(data) {
+                    console.log("Something went wrong!: ",data.responseText);
+                }
+            });
+        }else{
+            alert('No has escrito nada');
+        }
+        return false;
+    });
+    
+    $('#openComnts').click(function(event){
+        $('#comntContainer').show();
+        $( '#background').show();
+        center("#comntContainer"); 
+        setComments($('#id_bar_id').val());
+    });
     
 });
     /*
-                    var date = comment[0].fields.date; 
-                    date = date.substring(0, date.length-1);
-                    date = $D(date).strftime('%m/%d/%Y | %R');
-                    $("#oneComnt").append('<span class="date">'+date+'</span>');
+
 */

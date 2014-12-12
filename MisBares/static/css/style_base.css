@@ -16,7 +16,6 @@ body {
     width:1%;
     background-color:#2E76DB;
     float:left;
-    cursor:pointer;
     position:absolute;
     z-index:1;
 }
@@ -24,7 +23,8 @@ body {
     width:2%;
 }
 #barList{
-    height: 75%;
+    min-height: 75%;
+    height:auto;
     width: 25%;
     display:none;
     background-color:#2E76DB; 
@@ -37,7 +37,8 @@ body {
 }
 
 #barInfo{
-    height: 75%;
+    min-height: 75%;
+    height:auto;
     width: 25%;
     display:none;
     background-color:#2E76DB; 
@@ -64,7 +65,6 @@ body {
 }
 #barInfoHeader img{
     margin-left:30px;
-    cursor:pointer;
 }
 
 #barAlbum{
@@ -72,11 +72,11 @@ body {
     background-color:#095FD7;
     overflow:hidden;   
 }
-#carrusel{     
+#carrousel{     
        width: 80%;
        margin: 0 auto;
 }
-#carrusel div{
+#carrousel div{
     margin-left: 5px;
 }
 
@@ -86,16 +86,22 @@ body {
 }
 
 #oneComnt{
-    max-height:100px;
-    overflow:hidden;
-    text-align:left;
-    padding:20px;
-    font-size:0.90em;
     background-color:#2E76DB; 
+    max-height:100px;
+    text-align:left;
+    padding:0 20px 0 20px;
+    font-size:0.90em;
+
+    overflow:hidden;
 }
 
 #oneComnt p{
+
     font-style: italic;
+}
+
+#openComnts{
+    font-size:0.75em;
 }
 
 .author{
@@ -111,12 +117,8 @@ body {
     display: block;
     float: right;
 }
-
-
-
-
 .hidable{
-    position:absolute;
+    position:fixed;
     width:auto;
     height:auto;
     z-index:3;
@@ -172,7 +174,6 @@ body {
 #addIcon{
     position:absolute;
     top:10px;
-    cursor:pointer;
     z-index:1;
 }
 
@@ -180,13 +181,11 @@ body {
 #beerIcon{
     position:absolute;
     top:10px;
-    cursor:pointer;
     z-index:1;
 }
 #plateIcon{
     position:absolute;
     top:10px;
-    cursor:pointer;
     z-index:1;
 }
 
@@ -246,6 +245,38 @@ footer{
     width:100px;
     height:100px;
 }
+
+.clickable{
+    cursor:pointer;
+}
+
+#comntContainer{
+    width:60%;
+    min-height:500px;
+    text-align:left;
+    overflow:hidden;
+}
+#Comments{
+    padding:20px;
+    height:310px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#writeCmnt{
+    height:110px;    
+    padding:20px;
+    text-align:center;
+}
+#textComnt{
+    width:100%;
+}
+textarea {
+    resize: none;
+    font-size:1.2em;
+}
+
+hr{ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
 
 
 /*for the rate stars, to make them big*/

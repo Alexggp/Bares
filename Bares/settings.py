@@ -80,7 +80,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
+LOGIN_REDIRECT_URL='/bares/'
 STATIC_URL = '/static/'
 MEDIA_ROOT = 'uploads/'
 MEDIA_URL = '/media/'
