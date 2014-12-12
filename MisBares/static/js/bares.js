@@ -5,6 +5,8 @@ $(document).ready(function(){
     bar_list=[];    
     clstate=true;                                                                               //true= caña, false= litro
     tapastate=false;                                                                            //tapa or no tapa
+
+
     
 
 
@@ -264,6 +266,17 @@ $(document).ready(function(){
         }); 
     }
     
+    function deleteComment(bar_id,cmnt_id){
+        var responseAjaxGet= $.ajax({
+            type:"GET",
+            url: "/delcom",
+            data: {'cmnt_id':cmnt_id},       
+            success: function(data){
+                setComments(bar_id);               
+            }
+        });
+    }
+   
     function setFirstComment(bar_id){
         var responseAjaxGet= $.ajax({
             type:"GET",
@@ -293,15 +306,25 @@ $(document).ready(function(){
                 var comment=jQuery.parseJSON(data);
                 $("#Comments").html('');
                 if (comment.length){
-                    console.log(comment);
                     for (i in comment){
                         $("#Comments").append('<span class="author">@'+comment[i].fields.author_name+'</span>');
-                        
+                        if (comment[i].fields.author_name==user){
+                           $("#Comments").append('<span id="deleteComnt_'+comment[i].pk+'" class="clickable deleteComnt">Eliminar<span>');
+                            
+                           $('#deleteComnt_'+comment[i].pk).click(function(event){
+                                var res = event.target.id.split("_");
+                                deleteComment(bar_id,res[1]);
+                           });
+                            
+                            
+                        }
                         var date = comment[i].fields.date; 
                         date = date.substring(0, date.length-1);
                         date = $D(date).strftime('%m/%d/%Y | %R');
                         $("#Comments").append('<span class="date">'+date+'</span>');
-                        $("#Comments").append('<p>'+comment[i].fields.text+'</p><hr>');
+                        $("#Comments").append('<p>'+comment[i].fields.text+'</p>');
+                        
+                        $("#Comments").append('</div><hr>');
                     }
                 }else{
                     $("#Comments").append('<h3>Se el primero en poner un comentario</h3>');

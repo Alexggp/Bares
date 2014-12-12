@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'^images', 'MisBares.views.images'),
     url(r'^rates', 'MisBares.views.rates'),
     url(r'^comments', 'MisBares.views.comments'),
+    url(r'^delcom', 'MisBares.views.DeleteComments'),
     url(r'^bares', 'MisBares.views.bares')    
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

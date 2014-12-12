@@ -156,3 +156,10 @@ def comments(request):
     else:
         return HttpResponseBadRequest('Method error')
 
+def DeleteComments(request):
+    if request.method == 'GET':
+        Comments_db.objects.get(pk=request.GET[u'cmnt_id']).delete()
+        return HttpResponse('ok')
+    else:
+        return HttpResponseBadRequest('Method error')
+

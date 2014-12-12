@@ -104,6 +104,7 @@ body {
     font-size:0.75em;
 }
 
+
 .author{
     border-bottom: 1px dotted #900;
     color: #900;
@@ -274,6 +275,11 @@ footer{
 textarea {
     resize: none;
     font-size:1.2em;
+}
+.deleteComnt{
+    margin-left:10px;
+    color: #c0b9ab;
+    font-size: 0.75em;
 }
 
 hr{ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
