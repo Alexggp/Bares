@@ -36,6 +36,8 @@ body {
     font-weight:bold;
 }
 
+
+
 #barInfo{
     min-height: 75%;
     height:auto;
@@ -50,7 +52,9 @@ body {
     height:1.5em;
 }
 
-#BIprices div{
+
+
+.BIprices div{
     margin:2.5px;
     width:100px;
     display:inline-block;
@@ -64,7 +68,8 @@ body {
     display:inline-block;
 }
 #barInfoHeader img{
-    margin-left:30px;
+    margin-left:15px;
+    
 }
 
 #barAlbum{
@@ -102,12 +107,14 @@ body {
 
 #openComnts{
     font-size:0.75em;
+    margin-bottom:10px;
 }
-
-
+#changeBar{
+    display:none;   
+}
 .author{
-    border-bottom: 1px dotted #900;
-    color: #900;
+    border-bottom: 1px dotted #072957;
+    color: #072957;
     font-weight:bold;
 
 }
@@ -129,7 +136,7 @@ body {
 }
 
 #addImage{
-    padding:20px;
+    padding:40px;
 }
 #id_bar_id{display:none}
 

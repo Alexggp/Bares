@@ -333,27 +333,33 @@ $(document).ready(function(){
         });
     }
     
-   
+    function setPrices(bar){
+    
+         $('#BIpr').html('<div><img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">  '+
+                                bar.fields.price+'€</div>')
+            if (bar.fields.litre!=0){$('#BIpr').append('<div><img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">  '+bar.fields.litre+'€</div>')}
+            if (bar.fields.tapa){
+                $('#BIpr').append('<br><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">')
+               $('#tapaFormCh').prop('checked', true);//**
+            }else{$('#tapaFormCh').prop('checked',false);}
+            $('#barAlbum').html('<div id="carrousel"></div>');
+            $('#id_bar_id').val(bar.pk);            //sets the bar id in the form, #ib_bar_id is hidden. 
+            
+            
+            //sets values in hidden change bar values form  **
+            $('#litreFormCh').val(bar.fields.litre);
+            $('#priceFormCh').val(bar.fields.price); 
+    }
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
         setBarInfo();
-        $('#barInfoContainer').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6><div id="BIprices"/>');
-        $('#BIprices').html('<div><img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">  '+
-                            bar.fields.price+'€</div>')
-        if (bar.fields.litre!=0){$('#BIprices').append('<div><img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">  '+bar.fields.litre+'€</div>')}
-        if (bar.fields.tapa){$('#barInfoContainer').append('</div><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">')}
-        $('#barAlbum').html('<div id="carrousel"></div>');
-        $('#id_bar_id').val(bar.pk);            //sets the bar id in the form, #ib_bar_id is hidden. 
         
+        $('#barName').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6>');
         
+        setPrices(bar);
         setImages(bar);
         setRates(bar.pk);
         setFirstComment(bar.pk);
-        
-
-        
-        
-        
    };
    
     
@@ -522,7 +528,78 @@ $(document).ready(function(){
         setComments($('#id_bar_id').val());
     });
     
-});
-    /*
 
-*/
+    
+    $('#pencilIcon').click(function(event){
+        $('#changeBar').show();
+        $( '#background').show();
+        center("#changeBar"); 
+        setComments($('#id_bar_id').val());
+    });
+    
+    $('#chBarForm').submit(function () {
+        var dataDic= { 'bar_id': $('#id_bar_id').val(),
+                "priceForm":$('#priceFormCh').val(),
+                "litreForm":$('#litreFormCh').val(),
+                "tapaForm":$('#tapaFormCh').is(':checked')
+               }
+        $.ajax({
+                type: 'POST',
+                url: '/chbar',
+                data: dataDic,
+                success: function (data) {
+                    var barfound=jQuery.parseJSON(data)[0];                
+                    $('#changeBar').hide();
+                    $( '#background').hide();
+                    get_bar_list();
+                    fillBarInfo(barfound);
+                    
+                },
+                error: function(data) {
+                    console.log("Something went wrong!: ",data.responseText);
+                }
+            });
+        return false;
+    });
+    
+    
+    
+    
+    /*
+        if  ($('#changeBar').is(":visible")){
+            $('#BIpr').show();
+            $('#changeBar').hide();
+        }else{
+
+            $('#BIpr').hide();
+            $('#changeBar').show();
+        }
+        
+    });
+    
+    $('#chBarForm').submit(function () {
+        var dataDic= { 'bar_id': $('#id_bar_id').val(),
+                    "priceForm":$('#priceFormCh').val(),
+                    "litreForm":$('#litreFormCh').val(),
+                    "tapaForm":$('#tapaFormCh').is(':checked')
+                   }
+        $.ajax({
+            type: 'POST',
+            url: '/chbar',
+            data: dataDic,
+            success: function (data) {
+                console.log(data);
+                //$('#changeBar').hide();
+                //$('#BIpr).show();
+                //var bar=jQuery.parseJSON(data)[0]
+                //setPrices(bar);
+            },
+            error: function(data) {
+                console.log("Something went wrong!: ",data.responseText);
+            }
+        });
+    });
+    
+    */
+});
+

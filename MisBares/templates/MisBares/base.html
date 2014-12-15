@@ -70,13 +70,20 @@
         <div id='barInfoHeader'>
 <div class="rateit rateit bigstars" id="starsRate" data-rateit-resetable="false" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-min="0" data-rateit-max="5">
             </div>          
-            <div><img src="/static/images/camera.png" class='clickable' title="Añade una foto del bar" id="cameraIcon"></div>
+            <div><img src="/static/images/camera.png" class='clickable' title="Añade una foto del bar" id="cameraIcon">
+                <img src="/static/images/pencil.png" class='clickable' title="Editar" id="pencilIcon"></div>
         </div>
-        <div id="barInfoContainer"></div>
+        <div id="barInfoContainer">
+            <div id="barName"></div>
+            <div id="BIpr" class="BIprices" ></div>
+            
+        
+        </div>
         <div id="barAlbum" class="popup-gallery"></div>
         <div id="oneComnt"></div>
         <hr>
         <a id='openComnts'  title="Ver comentarios" class='clickable'>Ver comentarios</a>
+        
     </div>
    
     <div id="background"  class="hidable"></div>
@@ -126,13 +133,43 @@
    <div id='addImage' class="hidable">
         <form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
             {% csrf_token %}
-            Selecciona una imagen:<br>
+            <h4>Selecciona una imagen:<h4>
             {{file_form.image}}<br>
             {{file_form.bar_id}}
             <input type="submit" class='clickable' value="enviar" /> 
         </form>    
-    </div>   
- 
-
+    </div> 
+    
+    <div id="changeBar" class="hidable">
+        <form method="post" id="chBarForm">    
+                    <label for="priceFormCh">Caña(€):</label>
+                    <input type="number" step="0.05" class="moneyIn" min="0" name="priceFormCh" id="priceFormCh"><br>
+                    
+                    <label for="priceFormCh">Litro(€):</label>
+                    <input type="number" step="0.05" class="moneyIn" min="0" name="litreFormCh" id="litreFormCh"><br>
+                    
+                    <input type="checkbox" id="tapaFormCh" name="tapaFormCh">Ponen tapa<br>
+                    <input type="submit" class='clickable' id='sendChBar' value="Enviar"/>
+        </form>
+    
+      
+    <!--
+     <div id="changeBar" class="BIprices">
+                    <form   id="changeBarForm">    
+                        <div>
+                            <img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">
+                            <input type="number" step="0.05" class="moneyIn" min="0" name="priceFormCh" id="priceFormCh">
+                        </div>
+                        <div>
+                            <img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">
+                            <input type="number" step="0.05" class="moneyIn" min="0" name="litreFormCh" id="litreFormCh">
+                        </div>
+                        <br><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">
+                        <input type="checkbox" id="tapaFormCh" name="tapaFormCh">
+                        <input type="submit" class='clickable' id='sendChangeBar' value="Enviar">
+                    </form>
+    </div>
+    -->
     <footer>Alejando G-G Pérez © 2014 </footer>	
+
 </html>

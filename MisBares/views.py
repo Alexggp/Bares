@@ -59,7 +59,6 @@ def addBar(request):
     tapaPost=request.POST[u'tapaForm']
     latPost=request.POST[u'latForm']
     lonPost=request.POST[u'lonForm']
-    imgPost=request.FILES['imgForm']
     
     if (tapaPost=="false"):
         tapaPost=False
@@ -70,14 +69,31 @@ def addBar(request):
     else:
         r=Bar_db(name=namePost,street=streetPost,price=pricePost,litre=litrePost,tapa=tapaPost,latitude=latPost,longitude=lonPost)
         r.save()
-        
-        instance = BarImages_db(image=request.FILES['image'],name='nameiin')            
-        instance.save()
-        
+      
         
         data = serializers.serialize("json", Bar_db.objects.all())
 
     return HttpResponse(data)
+
+@csrf_exempt
+def changeBar(request):
+
+    bar_idPost=request.POST[u'bar_id']
+    pricePost=request.POST[u'priceForm']
+    litrePost=request.POST[u'litreForm']
+    tapaPost=request.POST[u'tapaForm']
+
+    barq = Bar_db.objects.get(pk=bar_idPost)
+    if (barq):
+        barq.price=pricePost
+        barq.litre=litrePost
+        barq.tapa=tapaPost
+        barq.save()
+        data = serializers.serialize("json",[barq])
+        return HttpResponse(data)
+
+    else:
+        return HttpResponseNotFound('No bar matches the id')
 
 
 
@@ -110,7 +126,7 @@ def rates(request):
 
     if request.method == 'POST':
         points= request.POST[u'value']
-        if 0 < int(points) < 10 :
+        if 0 < int(points) <= 10 :
             barq = Bar_db.objects.get(pk=request.POST[u'bar_id'])
             instance = Rates_db(bar=barq,points=points)
             instance.save()
@@ -156,10 +172,9 @@ def comments(request):
     else:
         return HttpResponseBadRequest('Method error')
 
-def DeleteComments(request):
+def deleteComments(request):
     if request.method == 'GET':
         Comments_db.objects.get(pk=request.GET[u'cmnt_id']).delete()
         return HttpResponse('ok')
     else:
-        return HttpResponseBadRequest('Method error')
-
+        return HttpResponseBadRequest('Method error') 
