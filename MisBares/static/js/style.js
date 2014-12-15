@@ -52,10 +52,16 @@ $(document).ready(function(){
         $( '.hidable' ).hide();                                     //sending information
        
     });
-    $('#cameraIcon').click(function( event ){
+    $('#cameraIcon').click(function( event ){        //Displays the form to add bar images, centered on the window
         $('#addImage').show();
         $( '#background').show();
         center("#addImage"); 
+    });
+    
+    $('#pencilIcon').click(function(event){           //Displays the form to update bar, centered on the window
+        $('#changeBar').show();
+        $( '#background').show();
+        center("#changeBar"); 
     });
     
 

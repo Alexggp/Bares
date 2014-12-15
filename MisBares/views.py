@@ -71,7 +71,7 @@ def addBar(request):
         r.save()
       
         
-        data = serializers.serialize("json", Bar_db.objects.all())
+        data = serializers.serialize("json", [r])
 
     return HttpResponse(data)
 
@@ -82,6 +82,11 @@ def changeBar(request):
     pricePost=request.POST[u'priceForm']
     litrePost=request.POST[u'litreForm']
     tapaPost=request.POST[u'tapaForm']
+
+    
+    if (tapaPost=="false"):
+        tapaPost=False
+
 
     barq = Bar_db.objects.get(pk=bar_idPost)
     if (barq):

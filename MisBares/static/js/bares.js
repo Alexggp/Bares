@@ -113,7 +113,7 @@ $(document).ready(function(){
     
     
    //this function takes the location and sends a GET petition to django to take the bar_list value
-   function get_bar_list(){
+   function get_bar_list(barfound){
         
         var dataD =  map.getBounds();     
         var dataDic={'East':dataD.getEast(),'West':dataD.getWest(),'North':dataD.getNorth(),'South':dataD.getSouth()} 
@@ -127,6 +127,10 @@ $(document).ready(function(){
                         bar_list=jQuery.parseJSON(data);                       
                         bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});                            
                         paintBars();
+                        if (barfound){                      //that means it has been called by changeBar callback
+                            selectBarList(barfound);        //it stands out again the updated bar
+                            fillBarInfo(barfound);          //and updates the information
+                        }
                     }
             }
         }); 
@@ -349,6 +353,7 @@ $(document).ready(function(){
             //sets values in hidden change bar values form  **
             $('#litreFormCh').val(bar.fields.litre);
             $('#priceFormCh').val(bar.fields.price); 
+            $('#changeBar h3').html(bar.fields.name); 
     }
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
@@ -392,7 +397,8 @@ $(document).ready(function(){
                         if (data=='error'){alert("Este bar ya existe!")}
                         else{
                             $( '.hidable' ).hide();
-                            get_bar_list()                         
+                            var barfound=jQuery.parseJSON(data)[0]; 
+                            get_bar_list(barfound);               
 
                         }
                 }
@@ -441,7 +447,7 @@ $(document).ready(function(){
     
     }
     
-    
+    // form to upload bar images
     var frm = $('#barImageForm');
     frm.submit(function () {
         $.ajax({
@@ -463,7 +469,7 @@ $(document).ready(function(){
         return false;
     });
     
-    $('.popup-gallery').magnificPopup({
+    $('.popup-gallery').magnificPopup({             //magnific Popup functions (full screan image carrousel)
                 delegate: 'a',
                 type: 'image',
                 tLoading: 'Loading image #%curr%...',
@@ -502,6 +508,7 @@ $(document).ready(function(){
     });
     
     
+    // form to leave bar opinions
     $('#addComntForm').submit(function () {
         if ($('#textComnt').val()){
             $.ajax({
@@ -521,22 +528,17 @@ $(document).ready(function(){
         return false;
     });
     
-    $('#openComnts').click(function(event){
+    
+    $('#openComnts').click(function(event){             //This opens a window with comments inside
         $('#comntContainer').show();
         $( '#background').show();
         center("#comntContainer"); 
         setComments($('#id_bar_id').val());
     });
     
-
+               
     
-    $('#pencilIcon').click(function(event){
-        $('#changeBar').show();
-        $( '#background').show();
-        center("#changeBar"); 
-        setComments($('#id_bar_id').val());
-    });
-    
+    // Form to update bar prices
     $('#chBarForm').submit(function () {
         var dataDic= { 'bar_id': $('#id_bar_id').val(),
                 "priceForm":$('#priceFormCh').val(),
@@ -549,11 +551,8 @@ $(document).ready(function(){
                 data: dataDic,
                 success: function (data) {
                     var barfound=jQuery.parseJSON(data)[0];                
-                    $('#changeBar').hide();
-                    $( '#background').hide();
-                    get_bar_list();
-                    fillBarInfo(barfound);
-                    
+                    $('.hidable').hide();
+                    get_bar_list(barfound);                     //we have to rebuild bar_list                      
                 },
                 error: function(data) {
                     console.log("Something went wrong!: ",data.responseText);
@@ -565,41 +564,6 @@ $(document).ready(function(){
     
     
     
-    /*
-        if  ($('#changeBar').is(":visible")){
-            $('#BIpr').show();
-            $('#changeBar').hide();
-        }else{
-
-            $('#BIpr').hide();
-            $('#changeBar').show();
-        }
-        
-    });
-    
-    $('#chBarForm').submit(function () {
-        var dataDic= { 'bar_id': $('#id_bar_id').val(),
-                    "priceForm":$('#priceFormCh').val(),
-                    "litreForm":$('#litreFormCh').val(),
-                    "tapaForm":$('#tapaFormCh').is(':checked')
-                   }
-        $.ajax({
-            type: 'POST',
-            url: '/chbar',
-            data: dataDic,
-            success: function (data) {
-                console.log(data);
-                //$('#changeBar').hide();
-                //$('#BIpr).show();
-                //var bar=jQuery.parseJSON(data)[0]
-                //setPrices(bar);
-            },
-            error: function(data) {
-                console.log("Something went wrong!: ",data.responseText);
-            }
-        });
-    });
-    
-    */
+  
 });
 
