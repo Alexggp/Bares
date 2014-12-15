@@ -44,9 +44,7 @@ def initialize(request):
     
     data = serializers.serialize("json", bar_list)   
     
-    if request.session.test_cookie_worked():
-        print ">>>> TEST COOKIE WORKED!"
-        request.session.delete_test_cookie()
+
 
     return HttpResponse(data)
 
@@ -131,31 +129,37 @@ def images(request):
         
 @csrf_exempt  
 def rates(request):
-
+    
     if request.method == 'POST':
-        points= request.POST[u'value']
-        if 0 < int(points) <= 10 :
-            if request.COOKIES.has_key( request.POST[u'bar_id'] ):
-                instance = Rates_db.objects.get(pk=request.COOKIES[ request.POST[u'bar_id'] ])
-                instance.points=points
-                instance.save()
-                
-            else:      
-                barq = Bar_db.objects.get(pk=request.POST[u'bar_id'])
-                instance = Rates_db(bar=barq,points=points)
-                instance.save()
-          
-            key=request.POST[u'bar_id']
-            value=instance.pk
-            max_age= 100 *24 * 60 * 60
-            
-            response = HttpResponse(request.POST[u'bar_id'])        
-            response.set_cookie(key, value, max_age)
+    
+    
+        if request.session.test_cookie_worked():
 
-            return response
+            points= request.POST[u'value']
+            if 0 < int(points) <= 10 :
+                if request.COOKIES.has_key( 'rated'+request.POST[u'bar_id'] ):
+                    instance = Rates_db.objects.get(pk=request.COOKIES[ 'rated'+request.POST[u'bar_id'] ])
+                    instance.points=points
+                    instance.save()
+                    
+                else:      
+                    barq = Bar_db.objects.get(pk=request.POST[u'bar_id'])
+                    instance = Rates_db(bar=barq,points=points)
+                    instance.save()
               
+                key='rated'+request.POST[u'bar_id']
+                value=instance.pk
+                max_age= 100 *24 * 60 * 60
+                
+                response = HttpResponse(request.POST[u'bar_id'])        
+                response.set_cookie(key, value, max_age)
+
+                return response
+                  
+            else:
+                return HttpResponseBadRequest('Not valid range')
         else:
-            return HttpResponseBadRequest('Not valid range')
+            return HttpResponseForbidden('It needs cookies to be acepted')
     
     elif request.method == 'GET':
         barq = Bar_db.objects.get(pk=request.GET[u'bar_id'])
