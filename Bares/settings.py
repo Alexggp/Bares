@@ -22,12 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 #            'PORT': '',                      # Set to empty string for default.
 #        }
 #    }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -109,13 +109,13 @@ STATICFILES_DIRS = (
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
+DATABASES={}
+DATABASES['default'] =  dj_database_url.config(default='postgres://alexggp:zjones90@localhost/baresdb')
 
-
-DATABASES['default'] =  dj_database_url.config()
-
+#DATABASES['default'] =  dj_database_url.config()
 # Enable Connection Pooling
-DATABASES['default']['ENGINE'] = 'django_postgrespool'
-DATABASES['default']['NAME'] = 'baresdb'
+#DATABASES['default']['ENGINE'] = 'django_postgrespool'
+#DATABASES['default']['NAME'] = 'baresdb'
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
