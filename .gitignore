@@ -89,6 +89,6 @@ Icon
 #for this
 uploads/
 *.pyc
-
-
+myenv
+staticfiles
 
