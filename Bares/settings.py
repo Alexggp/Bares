@@ -116,7 +116,7 @@ DATABASES['default'] =  dj_database_url.config()
 
 # Enable Connection Pooling
 DATABASES['default']['ENGINE'] = 'django_postgrespool'
-DATABASES['default']['NAME'] = 'baresdb'
+#DATABASES['default']['NAME'] = 'baresdb'
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
