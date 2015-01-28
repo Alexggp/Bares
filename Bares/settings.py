@@ -100,12 +100,11 @@ MEDIA_URL = '/media/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'MisBares/static'),
 )
 
 # Parse database configuration from $DATABASE_URL
@@ -116,7 +115,7 @@ DATABASES['default'] =  dj_database_url.config()
 
 # Enable Connection Pooling
 DATABASES['default']['ENGINE'] = 'django_postgrespool'
-#DATABASES['default']['NAME'] = 'baresdb'
+DATABASES['default']['NAME'] = 'baresdb'
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
