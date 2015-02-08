@@ -74,12 +74,16 @@ $(document).ready(function(){
             $('#lonForm').val(latlng.lng.toFixed(7));
             
             
-            var addressInfo = searchAddress(latlng.lat,latlng.lng);
+            /*var addressInfo = searchAddress(latlng.lat,latlng.lng);
             
-            var data=addressInfo.display_name.split(', ');
+           / var data=addressInfo.display_name.split(', ');
 
             $('#nameForm').val(data[0]);
             $('#streetForm').html(data[1]);
+           */
+            $('#nameForm').val("Bar Generico");
+            $('#streetForm').html("Calle Generica");
+           
     }
 
     // geolocation error message
