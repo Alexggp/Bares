@@ -1,39 +1,38 @@
 body {
 	margin: 0;
-	font-family:"Arial", sans-serif;
-	color: #F5EBDF;
+	font-family:"Arial", sans-serif !important;
+	color: #F5EBDF !important;
 	
 }
 
+.panel{
+    background-color:#2E76DB !important; 
+    height:100%;
+}
 
 #map{
     height: 100%;
     width: 100%;
-    float:left;
-}
-#auxBarList{
-    height:75%;
-    width:1%;
-    background-color:#2E76DB;
-    float:left;
     position:absolute;
-    z-index:1;
+
 }
-#auxBarList:hover{
-    width:2%;
-}
-#barList{
-    min-height: 75%;
-    height:auto;
-    width: 25%;
-    display:none;
-    background-color:#2E76DB; 
-    position:absolute;
-    z-index:1;
-}
+
 
 #barList span{
     font-weight:bold;
+}
+
+#authentication{
+    z-index:1003;
+}
+#authentication form{
+    top:60px;
+    position:relative;
+}
+
+
+#id_username,#id_password{
+    width:100px;
 }
 
 
@@ -189,44 +188,56 @@ body {
 #beerIcon{
     position:absolute;
     top:10px;
-    z-index:1;
+    left:40px;
+    z-index:1002;
 }
 #plateIcon{
+    position:absolute;
+    left:85px;
+    top:10px;
+    z-index:1002;
+}
+
+#backIconl{
+    float:right;
+}
+
+#listIcon{
+    position:absolute;
+    top:10px;
+    left:5px;  
+    z-index:1; 
+}
+
+#logIcon{
     position:absolute;
     top:10px;
     z-index:1;
 }
 
-#authentication{
-    position:absolute;
-    z-index:1;
-    background-color: rgba(55,55,55,0.2);
-    padding:10px;
-    width: auto;
-    
+.jqmIcon{
+    background:#2E76DB !important;
+}
 
-}
-#id_username,#id_password{
-    width:100px;
-}
 footer{
     position:absolute;
     top:96%;
     z-index:1;
     color: #50503E;
     font-size: 0.8em;
- 
 }
 
 
 
 #selectable { 
     list-style-type: none;
-    position:relative;
-    top:40px;
-    margin: 10px; 
-    padding: 0;
+    position:absolute;
+    margin-right: 15px;
+    padding:0;
+    top:60px;
     width: auto;
+    height: 75%;
+    overflow-y:auto;
 }
 
 #selectable li { 
@@ -235,6 +246,7 @@ footer{
     height: auto; 
     cursor:pointer;
     color: black;
+
  
 }
 
@@ -322,4 +334,7 @@ div.bigstars div.rateit-reset:hover
 {
     background: url(/static/images/star-white32.png);
 }
+
+
+
 

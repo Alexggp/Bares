@@ -43,28 +43,41 @@ $(document).ready(function(){
  
  
  
-  //  map.on('click',function(e) {
-  //                                                                                            For debugging
-  //                  console.log(e.latlng.lat,e.latlng.lng);
-  //  });    
+    //map.on('click',function(e) {
+    //                                                                                          For debugging
+    //                console.log(e.latlng.lat,e.latlng.lng);
+    //});    
 
+  
     
-
     function onLocationFound(e) {
         
         var radius =e.accuracy / 2;
         L.marker(e.latlng).addTo(map);
         L.circle(e.latlng, radius).addTo(map);
-        map.setView(e.latlng, 16);
-        minimap.setView(e.latlng, 18);
         
+        
+        var zoom=16;
+        var minizoom=18;
+        
+        if (mobile){
+            zoom=19;
+            minizoom=19;
+        }
+        
+        map.setView(e.latlng, zoom);
+        minimap.setView(e.latlng, minizoom);
+        
+       
+               
+       
        
         markerDrag.setLatLng(e.latlng).addTo(minimap);
         LatLngOnForm(e.latlng);
         
         get_bar_list()      
     }
-
+    
     markerDrag.on('dragend', function(e) { 
             LatLngOnForm(markerDrag.getLatLng());
         }); 
@@ -74,15 +87,13 @@ $(document).ready(function(){
             $('#lonForm').val(latlng.lng.toFixed(7));
             
             
-            /*var addressInfo = searchAddress(latlng.lat,latlng.lng);
+            var addressInfo = searchAddress(latlng.lat,latlng.lng);
             
-           / var data=addressInfo.display_name.split(', ');
+           var data=addressInfo.display_name.split(', ');
 
             $('#nameForm').val(data[0]);
             $('#streetForm').html(data[1]);
-           */
-            $('#nameForm').val("Bar Generico");
-            $('#streetForm').html("Calle Generica");
+
            
     }
 
@@ -92,7 +103,7 @@ $(document).ready(function(){
 
     function onLocationError(e) {
         alert(e.message);
-        stopLoading();
+        stopLoading();            
     }
 
     map.on('locationerror', onLocationError);
@@ -564,10 +575,5 @@ $(document).ready(function(){
             });
         return false;
     });
-    
-    
-    
-    
-  
+     
 });
-
