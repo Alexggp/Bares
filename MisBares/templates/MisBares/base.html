@@ -113,27 +113,16 @@
             <div id="barAlbum" class="popup-gallery"></div>
             <div id="oneComnt"></div>
             <hr>
-            <a class="ui-btn ui-corner-all ui-icon-comment ui-btn-icon-notext jqmIcon" id='openComnts'  title="Ver comentarios" class='clickable'></a>
-            <div id="barInfoFooter"><img src="/static/images/camera.png" class='clickable' title="Añade una foto del bar" id="cameraIcon">
-                    <img src="/static/images/pencil.png" class='clickable' title="Editar" id="pencilIcon">
+            
+            <div id="barInfoFooter"> 
+                    <a class="ui-btn ui-corner-all ui-icon-comment ui-btn-icon-notext jqmIcon" href="#comntPage"  title="Ver comentarios" class='clickable'></a>
+                    <img src="/static/images/camera.png" class='clickable miniIcon' title="Añade una foto del bar" id="cameraIcon">
+                    <img src="/static/images/pencil.png" class='clickable miniIcon' title="Editar" id="pencilIcon">
             </div>
         </div>
        
         <div id="background"  class="hidable"></div>
-        <div id='comntContainer' class="hidable">
-            <div id='Comments'></div>
-            <div id='writeCmnt'>
-            {% if user_name %}
-                <form method='post' id='addComntForm'>
-                    {% csrf_token %}
-                    <textarea name='textComnt' rows="4" id='textComnt' placeholder="Cuéntanos tu opinion sobre éste bar"></textarea><br>
-                    <input type="submit" class='clickable' id='sendComnt' value="Enviar"/>
-                </form>
-            {% else %}
-                Si quieres contarnos tu opinión sobre este bar, ¡registrate!
-            {% endif %}
-            </div>
-        </div>
+        
         
         <div id="addBarContainer" class="hidable">
              <div id="minimap"></div>
@@ -197,6 +186,27 @@
                     </form>
         </div>
     </div> <!-- #mainPage -->
+   
+    <div data-role="page" id="comntPage">
+        <div id='Comments'></div>
+        <div id='writeCmnt'>
+        {% if user_name %}
+            <div id='addComnContainer'>
+            <form method='post' id='addComntForm'>
+                {% csrf_token %}          
+                    
+                <textarea name='textComnt' rows="4" id='textComnt' placeholder="Cuéntanos tu opinion sobre éste bar"></textarea><br>
+                <div id='sendComnt'>
+                    <a class="clickable ui-btn ui-corner-all ui-icon-carat-r ui-btn-icon-notext"> </a>
+                </div>
+            </form>
+            </div>
+        {% else %}
+            Si quieres contarnos tu opinión sobre este bar, ¡registrate!
+        {% endif %}
+        </div>
+    </div>
+   
    
     </body>
     <footer>Alejando G-G Pérez © 2014 </footer>	

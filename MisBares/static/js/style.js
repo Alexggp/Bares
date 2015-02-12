@@ -67,13 +67,6 @@ function stopLoading(){                                             //Deletes th
     $("#background").hide();
 }
 
-
-function setBarInfo(){ 
-                                                 //called by fillBarInfo(),it opens barInfo panel
-    $( "#barInfo" ).panel( "open" );
-
-};
-
 var numIcon_blue = L.Icon.extend({                  // new marker to stand out the selected bar on the map
     options: {
         shadowUrl: '/static/js/leaflet-0.7.3/images/marker-shadow.png',

@@ -328,7 +328,7 @@ $(document).ready(function(){
                     for (i in comment){
                         $("#Comments").append('<span class="author">@'+comment[i].fields.author_name+'</span>');
                         if (comment[i].fields.author_name==user){
-                           $("#Comments").append('<span id="deleteComnt_'+comment[i].pk+'" class="clickable deleteComnt">Eliminar<span>');
+                           $("#Comments").append('<a id="deleteComnt_'+comment[i].pk+'" class="clickable deleteComnt ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext"></a>');
                             
                            $('#deleteComnt_'+comment[i].pk).click(function(event){
                                 var res = event.target.id.split("_");
@@ -372,9 +372,8 @@ $(document).ready(function(){
     }
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
-        setBarInfo();
-        
-        $('#barName').html('<h3>'+bar.fields.name+'</h3><h6>'+bar.fields.street+'</h6>');
+        $( "#barInfo" ).panel( "open" );
+        $('#barName').html('<h3>'+bar.fields.name+'</h3><h5>'+bar.fields.street+'</h5>');
         
         setPrices(bar);
         setImages(bar);
@@ -524,13 +523,14 @@ $(document).ready(function(){
     
     
     // form to leave bar opinions
-    $('#addComntForm').submit(function () {
+    $('#addComntForm a').click(function () {
         if ($('#textComnt').val()){
             $.ajax({
                 type: 'POST',
                 url: '/comments',
                 data: { 'bar_id': $('#id_bar_id').val(),'text':$('#textComnt').val()},
                 success: function (bar_id) {
+                    $('#textComnt').val('');
                     setComments(bar_id);
                 },
                 error: function(data) {
@@ -542,16 +542,7 @@ $(document).ready(function(){
         }
         return false;
     });
-    
-    
-    $('#openComnts').click(function(event){             //This opens a window with comments inside
-        $('#comntContainer').show();
-        $( '#background').show();
-        center("#comntContainer"); 
-        setComments($('#id_bar_id').val());
-    });
-    
-               
+           
     
     // Form to update bar prices
     $('#chBarForm').submit(function () {
@@ -575,5 +566,23 @@ $(document).ready(function(){
             });
         return false;
     });
+    
+    
+    //jq-mobile pages behaviour on showing and hidding
+    
+    $(document).on("pagebeforeshow","#comntPage",function(){ // When entering pagetwo
+      setComments($('#id_bar_id').val());
+      $('#textComnt').val('');
+    }); 
+    
+    $(document).on("pagehide","#comntPage",function(){ // When leaving pagetwo
+      setFirstComment($('#id_bar_id').val());
+      $( "#barInfo" ).panel( "open" );
+    });
+    
+    $(document).on("pageshow","#mainPage",function(){ // When entering pagetwo
+      console.log("aah");
+      map._onResize(); 
+    });   
      
 });
