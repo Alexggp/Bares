@@ -68,7 +68,7 @@
       
         <a href="#authentication" class="ui-btn ui-corner-all ui-icon-user ui-btn-icon-notext jqmIcon" id="logIcon"></a>
         <div id="authentication" data-role="panel" data-display="overlay" class='panel'>
-            <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext jqmIcon" id='backIconl'></a>
+            <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext jqmIcon backIconl"></a>
             {% if user_name %}
                 <div><p><span id='#userName'>{{user_name}}</span><a href = '/logout'> Salir </a> </p></div>
             {% else %} 
@@ -84,7 +84,7 @@
         
         
         <div data-role="panel" id="barList"  data-display="overlay" class='panel'>
-            <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-notext jqmIcon " id='backIconl'></a>
+            <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext jqmIcon backIconl"></a>
             <ol id="selectable"></ol>
         </div>
         
@@ -99,11 +99,12 @@
             <div id="map" ></div>
         </div> <!-- mainDiv -->
         
-        <div id="barInfo">
+        <div id="barInfo" data-role="panel" data-display="overlay" class='panel'  data-position="right" data-dismissible="false">
+            <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-carat-r ui-btn-icon-notext jqmIcon backIconr"></a>
+        
             <div id='barInfoHeader'>
                 <div class="rateit rateit bigstars" id="starsRate" data-rateit-resetable="false" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-min="0" data-rateit-max="5"></div>          
-                <div><img src="/static/images/camera.png" class='clickable' title="Añade una foto del bar" id="cameraIcon">
-                    <img src="/static/images/pencil.png" class='clickable' title="Editar" id="pencilIcon"></div>
+                
             </div>
             <div id="barInfoContainer">
                 <div id="barName"></div>
@@ -112,8 +113,10 @@
             <div id="barAlbum" class="popup-gallery"></div>
             <div id="oneComnt"></div>
             <hr>
-            <a id='openComnts'  title="Ver comentarios" class='clickable'>Ver comentarios</a>
-            
+            <a class="ui-btn ui-corner-all ui-icon-comment ui-btn-icon-notext jqmIcon" id='openComnts'  title="Ver comentarios" class='clickable'></a>
+            <div id="barInfoFooter"><img src="/static/images/camera.png" class='clickable' title="Añade una foto del bar" id="cameraIcon">
+                    <img src="/static/images/pencil.png" class='clickable' title="Editar" id="pencilIcon">
+            </div>
         </div>
        
         <div id="background"  class="hidable"></div>

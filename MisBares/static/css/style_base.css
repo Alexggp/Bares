@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	font-family:"Arial", sans-serif !important;
 	color: #F5EBDF !important;
+	text-shadow: 0 !important;
 	
 }
 
@@ -38,13 +39,8 @@ body {
 
 
 #barInfo{
-    min-height: 75%;
-    height:auto;
-    width: 25%;
-    display:none;
     background-color:#2E76DB; 
-    position:absolute;
-    z-index:1;
+    z-index:1003;
     text-align: center;
 }
 .miniIcon{    
@@ -66,7 +62,8 @@ body {
 #barInfoHeader div{
     display:inline-block;
 }
-#barInfoHeader img{
+#barInfoFooter img{
+    margin-top:20px;
     margin-left:15px;
     
 }
@@ -96,7 +93,7 @@ body {
     padding:0 20px 0 20px;
     font-size:0.90em;
 
-    overflow:hidden;
+    overflow-x:auto;
 }
 
 #oneComnt p{
@@ -105,8 +102,8 @@ body {
 }
 
 #openComnts{
-    font-size:0.75em;
-    margin-bottom:10px;
+    margin:0 auto;
+    width: 50px;
 }
 #changeBar{
    padding:0 40px 20px 40px;   
@@ -198,8 +195,11 @@ body {
     z-index:1002;
 }
 
-#backIconl{
+.backIconl{
     float:right;
+}
+.backIconr{
+    float:left;
 }
 
 #listIcon{
@@ -335,6 +335,9 @@ div.bigstars div.rateit-reset:hover
     background: url(/static/images/star-white32.png);
 }
 
-
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
+    font-family:"Arial", sans-serif !important;
+	color: #F5EBDF !important;
+}
 
 

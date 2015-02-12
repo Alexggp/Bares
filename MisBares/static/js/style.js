@@ -14,17 +14,16 @@ $(document).ready(function(){
 
 
 
-
-
-    $('#barInfo').click(function(event){            //Closes barInfo by clicking on it self
-        if(event.target != this) return false;
-        $('#barInfo').hide();
+    $( "#barInfo" ).panel({                     //When barInfo closes
+        close: function( event, ui ) {
+        
         markers_blueLayer.clearLayers();                 //delete selections on map
         $('#selectable li').removeClass( "selectedLi" );
         $('#selectable li').addClass( "barli" );
-
         
+        }
     });
+
 
 
 
@@ -70,9 +69,8 @@ function stopLoading(){                                             //Deletes th
 
 
 function setBarInfo(){ 
-                                                 //called by fillBarInfo(), set info about bars in #barInfo
-    $('#barInfo').css("left",$(window).width()-$('#barInfo').width());   
-    $('#barInfo').show();
+                                                 //called by fillBarInfo(),it opens barInfo panel
+    $( "#barInfo" ).panel( "open" );
 
 };
 
@@ -106,11 +104,11 @@ function selectBarList(bar){     //Stands out the selected bar on the map and th
                     $('#'+bar.pk).removeClass( "selectedLi" );
                     $('#'+bar.pk).addClass( "barli" );
                     markers_blueLayer.clearLayers();
-                    $('#barInfo').hide();
+                    $( "#barInfo" ).panel( "close" );
             });
         markers_blueLayer.addLayer(marker);
     }else if (obj.hasClass("selectedLi")){
-            $('#barInfo').hide();
+            $( "#barInfo" ).panel( "close" );
             obj.removeClass( "selectedLi" );
             obj.addClass( "barli" );
             
