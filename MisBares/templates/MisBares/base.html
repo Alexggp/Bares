@@ -133,7 +133,7 @@
                 <h4>Selecciona una imagen:<h4>
                 {{file_form.image}}<br>
                 {{file_form.bar_id}}
-                <input type="submit" class='clickable' value="enviar" /> 
+                <input type="submit" class='clickable' value="Enviar" /> 
             </form>    
         </div> 
         <div id="changeBar" class="hidable BIprices">  
@@ -155,26 +155,42 @@
     </div> <!-- #mainPage -->
    
     <div data-role="page" id="comntPage">
-        <div id='Comments'></div>
-        <div id='writeCmnt'>
-        {% if user_name %}
-            <div id='addComnContainer'>
-            <form method='post' id='addComntForm'>
-                {% csrf_token %}          
-                    
-                <textarea name='textComnt' rows="5" id='textComnt' placeholder="Cuéntanos tu opinion sobre éste bar"></textarea><br>
-                <div id='sendComnt'>
-                    <a class="clickable ui-btn ui-corner-all ui-icon-carat-r ui-btn-icon-notext"> </a>
-                </div>
-            </form>
-            </div>
-        {% else %}
-            Si quieres contarnos tu opinión sobre este bar, ¡registrate!
-        {% endif %}
+        <div class='pageHeader' id="comntHeader" data-role="header" data-position="fixed">
+            <a class="clickable ui-btn ui-corner-all ui-icon-home ui-btn-icon-notext jqmIcon headerBack" href="#mainPage" value="Volver" > </a>
+            <a id='sendComnt' class="clickable ui-btn ui-corner-all ui-icon-carat-r ui-btn-icon-notext jqmIcon headerFw" value="Enviar"></a>
+            <h1></h1>
         </div>
+        <div data-role="main">
+            <div id='Comments'></div>
+            <div id='writeCmnt'>
+            {% if user_name %}
+                <div id='addComnContainer'>
+                <form method='post' id='addComntForm'>
+                    {% csrf_token %}          
+                        
+                    <textarea name='textComnt' rows="5" id='textComnt' placeholder="Cuéntanos tu opinion sobre éste bar"></textarea><br>
+                    
+                </form>
+                </div>
+            {% else %}
+                Si quieres contarnos tu opinión sobre este bar, ¡registrate!
+            {% endif %}
+            </div>
+        </div>
+        <div data-role="popup" id="deleteComntDialog" data-dismissible="false" style="max-width:400px;">
+            <div data-role="header" class='pageHeader'>
+                <h1>¿Borrar?</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-content">
+                <h3 class="ui-title">¿Estás seguro de que quieres borrar este comentario?</h3>
+                <p>Esta acción no podrá deshacerse.</p>
+                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancelar</a>
+                <a href="#" id="YesDelete" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">Borrar</a>
+            </div>
+        </div> 
+        
     </div> <!-- #comntPage -->
-           
-           
+             
            
     <div id="addBarPage" data-role="page">
          <h4><span id="streetForm"></span></h4>
@@ -208,7 +224,10 @@
             
      </div><!-- #addBarPage -->
    
+     
+   
+   
     </body>
-    <footer>Alejando G-G Pérez © 2014 </footer>	
+    <!-- <footer>Alejando G-G Pérez © 2014 </footer> -->
 
 </html>

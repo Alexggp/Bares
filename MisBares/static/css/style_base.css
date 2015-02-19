@@ -231,11 +231,12 @@ body {
 }
 
 footer{
-    position:absolute;
-    top:96%;
-    z-index:1;
+    margin: 0 auto;
+    z-index:1004;
     color: #50503E;
     font-size: 0.8em;
+    position: fixed;
+    bottom: 0;
 }
 
 
@@ -286,7 +287,7 @@ footer{
 
 #comntPage{
     width:100%;
-    height:100%;
+    height:80%;
     text-align:left;
     z-index:1003;
     background-color:#2E76DB; 
@@ -295,39 +296,38 @@ footer{
 }
 #Comments{
     padding:20px;
-    height:50%;
+    height:60%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     overflow-y: auto;
     overflow-x: hidden;
 }
 #writeCmnt{
-    height:30%;    
-    padding:20px;
+    height:25%;    
+    margin-top:20px;
     text-align:center;
 }
 #textComnt{
-    width:85%;
+    width:95%;
+    height:100%;
+    margin:0 auto;
     bottom:0;
-    float:left;
     padding:0;
     resize:none;
     max-height:90%;
     overflow-y: auto;
     overflow-x: hidden;
-
 }
-#sendComnt{
-    bottom:0px;
-    margin-left:2%;
-    width:10%;
-    float:left;
-    height:;
-    text-align:center;
+.headerBack{
+    float: left;
+    margin-left:10px;
 }
-#sendComnt a{
-    position:relative;
-    padding:0;
-    margin: 0 auto;
+.pageHeader{
+    background-color: #0546A1 !important;
+    color: #F5EBDF !important;
+}
+.headerFw{
+    float: right;
+    margin-right:10px;
 }
 
 textarea {
@@ -339,6 +339,9 @@ textarea {
     color: #c0b9ab;
     font-size: 0.75em;
     float:right;
+}
+#deleteComntDialog{
+    z-index:1004;
 }
 
 hr{ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }

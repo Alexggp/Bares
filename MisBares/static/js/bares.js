@@ -331,16 +331,19 @@ $(document).ready(function(){
             data: {'first':false,'bar_id':bar_id},       
             success: function(data){
                 var comment=jQuery.parseJSON(data);
+                $("#comntHeader h1").html($("#barName h3").html());
                 $("#Comments").html('');
                 if (comment.length){
                     for (i in comment){
                         $("#Comments").append('<span class="author">@'+comment[i].fields.author_name+'</span>');
                         if (comment[i].fields.author_name==user){
-                           $("#Comments").append('<a id="deleteComnt_'+comment[i].pk+'" class="clickable deleteComnt ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext"></a>');
+                           $("#Comments").append('<a href="#deleteComntDialog" data-rel="popup" data-position-to="window" data-transition="fade" id="deleteComnt_'+comment[i].pk+'" class="clickable deleteComnt ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext"></a>');
                             
-                           $('#deleteComnt_'+comment[i].pk).click(function(event){
-                                var res = event.target.id.split("_");
-                                deleteComment(bar_id,res[1]);
+                          $('#deleteComnt_'+comment[i].pk).click(function(event){
+                                var res = event.target.id.split("_");           
+                                $('#YesDelete').click(function(event){
+                                    deleteComment(bar_id,res[1]);
+                                });
                            });
                             
                             
@@ -354,7 +357,7 @@ $(document).ready(function(){
                         $("#Comments").append('</div><hr>');
                     }
                 }else{
-                    $("#Comments").append('<h3>Se el primero en poner un comentario</h3>');
+                    $("#Comments").append('<h3>Sé el primero en poner un comentario</h3>');
                 }
             }
         });
@@ -540,7 +543,7 @@ $(document).ready(function(){
     
     
     // form to leave bar opinions
-    $('#addComntForm a').click(function () {
+    $('#sendComnt').click(function () {
         if ($('#textComnt').val()){
             $.ajax({
                 type: 'POST',
