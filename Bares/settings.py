@@ -91,7 +91,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-LOGIN_REDIRECT_URL='/bares/'
 #STATIC_URL = '/static/'
 MEDIA_ROOT = 'uploads/'
 MEDIA_URL = '/media/'
@@ -120,5 +119,5 @@ DATABASES['default'] =  dj_database_url.config(default='postgres://alexggp:zjone
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
+LOGIN_REDIRECT_URL = '/bares'
 

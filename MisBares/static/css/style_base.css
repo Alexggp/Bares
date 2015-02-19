@@ -52,7 +52,7 @@ body {
 
 .BIprices div{
     margin:2.5px;
-    width:100px;
+    width:50px;
     display:inline-block;
 }
 
@@ -157,32 +157,35 @@ body {
     width:200px;
     height:200px;
 }
-#addBar{
-    height: 300px;
-    width: 300px; 
-    float:left;
-    margin:10px;
+
+#addBarPage{
+    width:100%;
+    height:100%;
+    text-align:center;
+    z-index:1003;
+    background-color:#2E76DB; 
+    overflow:auto;
+}
+#addBarForm{
+    width:90%;
+    margin:0 auto;
+}
+#addBarFormltlg{
+    display:none;
 }
 
 #minimap{
-    height: 300px;
-    width: 300px;  
-    float:left;  
-    margin:10px;
-    display:none;
+    height: 25%; 
+    width: 80%;
+    margin:10px auto;
 }
 .moneyIn {
-   width: 60px;
+   width: 30px;
 }
 .latlngIn {
    width: 100px;
 }
 
-#addIcon{
-    position:absolute;
-    top:10px;
-    z-index:1;
-}
 
 
 #beerIcon{
@@ -217,6 +220,11 @@ body {
     top:10px;
     z-index:1;
 }
+#addIcon{
+    position:absolute;
+    top:10px;
+    z-index:1;
+}
 
 .jqmIcon{
     background:#2E76DB !important;
@@ -235,10 +243,10 @@ footer{
 #selectable { 
     list-style-type: none;
     position:absolute;
-    margin-right: 15px;
+    margin:0 auto;
     padding:0;
     top:60px;
-    width: auto;
+    width: 90%;
     height: 75%;
     overflow-y:auto;
     overflow-x:hidden;
@@ -274,13 +282,16 @@ footer{
     cursor:pointer;
 }
 
+
+
 #comntPage{
     width:100%;
     height:100%;
     text-align:left;
     z-index:1003;
     background-color:#2E76DB; 
-    overflow:hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 #Comments{
     padding:20px;
@@ -290,7 +301,7 @@ footer{
     overflow-x: hidden;
 }
 #writeCmnt{
-    height:50%;    
+    height:30%;    
     padding:20px;
     text-align:center;
 }
@@ -299,6 +310,10 @@ footer{
     bottom:0;
     float:left;
     padding:0;
+    resize:none;
+    max-height:90%;
+    overflow-y: auto;
+    overflow-x: hidden;
 
 }
 #sendComnt{
@@ -314,11 +329,7 @@ footer{
     padding:0;
     margin: 0 auto;
 }
-#addComnContainer{
-    height:auto;
-    overflow:hidden;
 
-}
 textarea {
     resize: none;
     font-size:1.2em;

@@ -43,8 +43,6 @@ def initialize(request):
                                     Q(longitude__gte = WestGet) )
     
     data = serializers.serialize("json", bar_list)   
-    
-
 
     return HttpResponse(data)
 

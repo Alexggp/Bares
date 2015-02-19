@@ -5,10 +5,9 @@ $(document).ready(function(){
     bar_list=[];    
     clstate=true;                                                                               //true= caña, false= litro
     tapastate=false;                                                                            //tapa or no tapa
-
-
+    mierda=false;
+    MapBounds=[];                                                                               //variable for map bounds
     
-
 
 // Geolocation
     
@@ -40,7 +39,7 @@ $(document).ready(function(){
     map.locate({setView: true, maxZoom: 16});    
  
  
- 
+    
  
  
     //map.on('click',function(e) {
@@ -74,6 +73,8 @@ $(document).ready(function(){
        
         markerDrag.setLatLng(e.latlng).addTo(minimap);
         LatLngOnForm(e.latlng);
+        
+        MapBounds =  map.getBounds();                //it gets map bounds to take bars in the zone
         
         get_bar_list()      
     }
@@ -128,28 +129,36 @@ $(document).ready(function(){
     
     
    //this function takes the location and sends a GET petition to django to take the bar_list value
-   function get_bar_list(barfound){
-        
-        var dataD =  map.getBounds();     
-        var dataDic={'East':dataD.getEast(),'West':dataD.getWest(),'North':dataD.getNorth(),'South':dataD.getSouth()} 
-        var responseAjaxGET= $.ajax({
-            type: "GET",
-            url: "/init",     
-            data: dataDic,       
-            success: function(data){
-                    if (data=='error'){alert("Error de inicializacion!")}
-                    else{
-                        bar_list=jQuery.parseJSON(data);                       
-                        bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});                            
-                        paintBars();
-                        if (barfound){                      //that means it has been called by changeBar callback
-                            selectBarList(barfound);        //it stands out again the updated bar
-                            fillBarInfo(barfound);          //and updates the information
+   function get_bar_list(barfound,callback){
+        var dataDic={'East':MapBounds.getEast(),'West':MapBounds.getWest(),'North':MapBounds.getNorth(),'South':MapBounds.getSouth()}     
+        function doAjaxGET(callbackGet){
+             $.ajax({
+                async : false,
+                type: "GET",
+                url: "/init",     
+                data: dataDic,       
+                success: function(data){
+                        if (data=='error'){alert("Error de inicializacion!")}
+                        else{
+                            return callbackGet(data);
                         }
-                    }
-            }
-        }); 
-    
+                }
+            });
+        }
+        doAjaxGET(function(data){
+            bar_list=jQuery.parseJSON(data);                       
+            bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});   
+            paintBars(); 
+            if(callback){
+                callback();
+            };                                            
+            if (barfound){                                             
+                fillBarInfo(barfound);          //it stands out again the updated bar
+                selectBarList(barfound);       //and updates the information
+           
+            };
+        });
+        
     
     };
     
@@ -280,7 +289,6 @@ $(document).ready(function(){
                                       });
                     } 
                }
-             	
             }            
         }); 
     }
@@ -372,13 +380,14 @@ $(document).ready(function(){
     }
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
-        $( "#barInfo" ).panel( "open" );
-        $('#barName').html('<h3>'+bar.fields.name+'</h3><h5>'+bar.fields.street+'</h5>');
+        $('#barName').html('<h3>'+bar.fields.name+'</h3><h5>'+bar.fields.street+'</h5>');        
+        setPrices(bar)
+        setImages(bar)
+        setRates(bar.pk)
+        setFirstComment(bar.pk)
+                                                
+        if(mierda==false){$("#barInfo" ).panel( "open" )}
         
-        setPrices(bar);
-        setImages(bar);
-        setRates(bar.pk);
-        setFirstComment(bar.pk);
    };
    
     
@@ -403,20 +412,28 @@ $(document).ready(function(){
                             "tapaForm":$('#tapaForm').is(':checked'),
                             "latForm":$('#latForm').val(),
                             "lonForm":$('#lonForm').val()}       
-            var responseAjaxPost= $.ajax({
-                type: "POST",
-                url: "/addBar",
-                data: dataDic,
-                success: function(data){
-                        if (data=='error'){alert("Este bar ya existe!")}
-                        else{
-                            $( '.hidable' ).hide();
-                            var barfound=jQuery.parseJSON(data)[0]; 
-                            get_bar_list(barfound);               
-
-                        }
-                }
-            });          
+            function doAjaxPost(callBack){
+                $.ajax({
+                    async : false,
+                    type: "POST",
+                    url: "/addBar",
+                    data: dataDic,
+                    success: function(data){
+                            if (data=='error'){alert("Este bar ya existe!")}
+                            else{
+                                return callBack(data);
+                                            
+                            }
+                    }
+                });
+           };
+           doAjaxPost(function(data){
+                var barfound=jQuery.parseJSON(data)[0];                             
+                get_bar_list(barfound,function(){
+                         mierda=true;
+                         window.location.href = "#mainPage";             
+                }); 
+           });          
         }
     });  
     
@@ -570,19 +587,29 @@ $(document).ready(function(){
     
     //jq-mobile pages behaviour on showing and hidding
     
-    $(document).on("pagebeforeshow","#comntPage",function(){ // When entering pagetwo
+    $(document).on("pagebeforeshow","#comntPage",function(){ 
       setComments($('#id_bar_id').val());
       $('#textComnt').val('');
     }); 
     
-    $(document).on("pagehide","#comntPage",function(){ // When leaving pagetwo
-      setFirstComment($('#id_bar_id').val());
-      $( "#barInfo" ).panel( "open" );
+    $(document).on("pagehide","#comntPage",function(){ 
+      setFirstComment($('#id_bar_id').val(),$( "#barInfo" ).panel( "open" ));
     });
+
+    $(document).on("pagehide","#addBarPage",function(){ 
+      if (mierda){
+        $( "#barInfo" ).panel( "open" );
+        mierda=false;
+      }
+    });
+
     
-    $(document).on("pageshow","#mainPage",function(){ // When entering pagetwo
-      console.log("aah");
+    $(document).on("pageshow","#mainPage",function(){ 
       map._onResize(); 
-    });   
-     
+    });  
+    $(document).on("pageshow","#addBarPage",function(){ 
+      minimap._onResize(); 
+    });  
+    
+    
 });

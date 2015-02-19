@@ -10,13 +10,12 @@ $(document).ready(function(){
     center("#loading");  //defined below
     $("footer").css("left",$(window).width()/2-$("footer").width()/2);
     $("#logIcon").css("left",$(window).width()-$("#logIcon").width()-7);
-    $("#addIcon").css("left",$(window).width()-$("#logIcon").width()-75);
+    $("#addIcon").css("left",$(window).width()-$("#logIcon").width()-40);
 
 
 
     $( "#barInfo" ).panel({                     //When barInfo closes
         close: function( event, ui ) {
-        
         markers_blueLayer.clearLayers();                 //delete selections on map
         $('#selectable li').removeClass( "selectedLi" );
         $('#selectable li').addClass( "barli" );
@@ -24,18 +23,6 @@ $(document).ready(function(){
         }
     });
 
-
-
-
-    $( '#addIcon' ).click(function( event ) {       //Displays the form to add bar, centered on the window
-        $( '#addBarContainer' ).show();
-        $( '#background').show();
-        $( '#minimap').show();
-        
-        center("#addBarContainer");                                  
-        minimap.invalidateSize();
-        
-    });
     $( '#background' ).click(function(event){           //Closes addBar by clicking on the background or
         $( '.hidable' ).hide();                                     //sending information
        
@@ -117,7 +104,6 @@ function selectBarList(bar){     //Stands out the selected bar on the map and th
                         }) 
         marker.on('click',function(e) {                        
                     markers_blueLayer.clearLayers();
-                    $('#barInfo').hide();
             });
         markers_blueLayer.addLayer(marker);
     }
