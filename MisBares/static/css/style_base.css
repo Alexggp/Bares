@@ -63,6 +63,10 @@ body {
 #barInfoHeader{
     height:30px;
 }
+#barInfoHeader a{
+    float:right;
+    background-color:#FADE91;
+}
 
 #barInfoFooter img{
     float:right;
@@ -176,6 +180,12 @@ body {
 }
 #addBarFormltlg{
     display:none;
+}
+#popupInfo{
+    background-color:#9AC3FE;
+    max-height:200px;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 #minimap{

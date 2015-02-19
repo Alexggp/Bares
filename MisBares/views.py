@@ -58,6 +58,7 @@ def addBar(request):
     tapaPost=request.POST[u'tapaForm']
     latPost=request.POST[u'latForm']
     lonPost=request.POST[u'lonForm']
+    textPost=request.POST[u'textForm']
     
     if (tapaPost=="false"):
         tapaPost=False
@@ -66,7 +67,14 @@ def addBar(request):
                                                                     #checks if the bar already exists, sends error message if true
         data='error'
     else:
-        r=Bar_db(name=namePost,street=streetPost,price=pricePost,litre=litrePost,tapa=tapaPost,latitude=latPost,longitude=lonPost)
+        r=Bar_db(name=namePost,
+                    street=streetPost,
+                    price=pricePost,
+                    litre=litrePost,
+                    tapa=tapaPost,
+                    latitude=latPost,
+                    longitude=lonPost,
+                    description=textPost)
         r.save()
       
         

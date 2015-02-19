@@ -106,10 +106,12 @@
         
             <div id='barInfoHeader'>
                 <div class="rateit rateit bigstars" id="starsRate" data-rateit-resetable="false" data-rateit-starwidth="32" data-rateit-starheight="32" data-rateit-min="0" data-rateit-max="5"></div>          
-                
+                <span></span>
             </div>
             <div id="barInfoContainer">
                 <div id="barName"></div>
+                
+                <div data-role="popup" id="popupInfo" class="ui-content"></div>
                 <div id="BIpr" class="BIprices" ></div>
             </div>
             <div id="barAlbum" class="popup-gallery"></div>
@@ -168,7 +170,7 @@
                 <form method='post' id='addComntForm'>
                     {% csrf_token %}          
                         
-                    <textarea name='textComnt' rows="5" id='textComnt' placeholder="Cuéntanos tu opinion sobre éste bar"></textarea><br>
+                    <textarea name='textComnt' rows="5" id='textComnt' placeholder="Cuéntanos tu opinion sobre éste bar"></textarea>
                     
                 </form>
                 </div>
@@ -214,6 +216,7 @@
                         <img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">
                         <input type="checkbox" id="tapaForm" name="tapaForm"><br><br>
                 </div>
+                <textarea name='textForm' rows="5" id='textForm' placeholder="Haz una breve descripcion del bar (opcional)"></textarea>
                 <div id="minimap"></div>
                 <div id="addBarFormltlg">
                     <label for="latForm">Latitud:</label>

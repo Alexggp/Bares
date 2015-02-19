@@ -5,7 +5,7 @@ $(document).ready(function(){
     bar_list=[];    
     clstate=true;                                                                               //true= caña, false= litro
     tapastate=false;                                                                            //tapa or no tapa
-    mierda=false;
+    BarAdded=false;
     MapBounds=[];                                                                               //variable for map bounds
     
 
@@ -383,13 +383,22 @@ $(document).ready(function(){
     }
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
-        $('#barName').html('<h3>'+bar.fields.name+'</h3><h5>'+bar.fields.street+'</h5>');        
+        $('#barName').html('<h3>'+bar.fields.name+'</h3>');
+        if (bar.fields.description){
+                    $('#barInfoHeader span').html('<a href="#popupInfo" data-rel="popup" class="ui-btn ui-corner-all ui-icon-info ui-btn-icon-notext" data-position-to="window"></a>');
+                    $('#popupInfo').html(bar.fields.description);
+        }
+        else{
+            $('#barInfoHeader span').html('');
+                    $('#popupInfo').html('');
+        }
+        $('#barName').append('<h5>'+bar.fields.street+'</h5>');        
         setPrices(bar)
         setImages(bar)
         setRates(bar.pk)
         setFirstComment(bar.pk)
                                                 
-        if(mierda==false){$("#barInfo" ).panel( "open" )}
+        if(BarAdded==false){$("#barInfo" ).panel( "open" )}
         
    };
    
@@ -402,12 +411,13 @@ $(document).ready(function(){
     
     $("#addBarForm").validate({         //Takes data form, validates and sends it to the view with ajax
         rules: {
-            nameForm: { required: true, minlength: 2},
+            nameForm: { required: true, minlength: 1},
             priceForm: { required: true},
             litreForm: { required: false},
             tapaForm: { required: false},
             latForm: { required:true},
-            lonForm: { required:true}
+            lonForm: { required:true},
+            textForm: {required:false}
         },
         messages: {
             nameForm: "Introduzca el nombre del Bar",
@@ -420,7 +430,9 @@ $(document).ready(function(){
                             "litreForm":$('#litreForm').val(),
                             "tapaForm":$('#tapaForm').is(':checked'),
                             "latForm":$('#latForm').val(),
-                            "lonForm":$('#lonForm').val()}       
+                            "lonForm":$('#lonForm').val(),
+                            "textForm":$('#textForm').val()}   
+                                
             function doAjaxPost(callBack){
                 $.ajax({
                     async : false,
@@ -439,7 +451,7 @@ $(document).ready(function(){
            doAjaxPost(function(data){
                 var barfound=jQuery.parseJSON(data)[0];                             
                 get_bar_list(barfound,function(){
-                         mierda=true;
+                         BarAdded=true;
                          window.location.href = "#mainPage";             
                 }); 
            });          
@@ -606,9 +618,10 @@ $(document).ready(function(){
     });
 
     $(document).on("pagehide","#addBarPage",function(){ 
-      if (mierda){
+      $("#addBarForm")[0].reset();
+      if (BarAdded){
         $( "#barInfo" ).panel( "open" );
-        mierda=false;
+        BarAdded=false;
       }
     });
 
@@ -617,6 +630,7 @@ $(document).ready(function(){
       map._onResize(); 
     });  
     $(document).on("pageshow","#addBarPage",function(){ 
+      LatLngOnForm(markerDrag.getLatLng());
       minimap._onResize(); 
     });  
     
