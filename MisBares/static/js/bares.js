@@ -394,6 +394,12 @@ $(document).ready(function(){
    };
    
     
+    $("#sendAddBar").click(function( event ) {
+        console.log("click");
+        $( "#addBarForm" ).submit();
+    });
+    
+    
     $("#addBarForm").validate({         //Takes data form, validates and sends it to the view with ajax
         rules: {
             nameForm: { required: true, minlength: 2},
