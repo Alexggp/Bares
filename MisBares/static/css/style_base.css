@@ -1,12 +1,9 @@
 body {
 	margin: 0;
-	font-family:"Arial", sans-serif !important;
-	color: #F5EBDF !important;
-	text-shadow: 0 !important;
-	
 }
 *{
-    text-shadow: 0 1px 0 #F5EBDF;
+    font-family:"Arial", sans-serif !important;
+	color: #F5EBDF;
 }
 
 .panel{
@@ -25,6 +22,8 @@ body {
 
 #barList span{
     font-weight:bold;
+    color: black;
+    float:right;
 }
 
 #authentication{
@@ -65,7 +64,6 @@ body {
 }
 #barInfoHeader a{
     float:right;
-    background-color:#FADE91;
 }
 
 #barInfoFooter img{
@@ -205,12 +203,12 @@ body {
 #beerIcon{
     position:absolute;
     top:10px;
-    left:40px;
+    left:80px;
     z-index:1002;
 }
 #plateIcon{
     position:absolute;
-    left:85px;
+    left:125px;
     top:10px;
     z-index:1002;
 }
@@ -344,10 +342,7 @@ footer{
     margin-right:10px;
 }
 
-textarea {
-    resize: none;
-    font-size:1.2em;
-}
+
 .deleteComnt{
     margin-left:10px;
     color: #c0b9ab;
@@ -396,5 +391,17 @@ div.bigstars div.rateit-reset:hover
     font-family:"Arial", sans-serif !important;
 	color: #F5EBDF !important;
 }
+
+textarea{
+    resize: none !important;
+    font-size:1.2em !important;
+    border-radius: 0 !important;
+    
+}
+input{
+    border-radius: 0px !important;
+}
+
+
 
 

@@ -147,7 +147,7 @@ $(document).ready(function(){
         }
         doAjaxGET(function(data){
             bar_list=jQuery.parseJSON(data);                       
-            bar_list = _.sortBy(bar_list, function(obj){ return obj.fields.price;});   
+            bar_list = _.sortBy(bar_list, function(obj,b){ return obj.fields.price - b});   
             paintBars(); 
             if(callback){
                 callback();
@@ -385,7 +385,7 @@ $(document).ready(function(){
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
         $('#barName').html('<h3>'+bar.fields.name+'</h3>');
         if (bar.fields.description){
-                    $('#barInfoHeader span').html('<a href="#popupInfo" data-rel="popup" class="ui-btn ui-corner-all ui-icon-info ui-btn-icon-notext" data-position-to="window"></a>');
+                    $('#barInfoHeader span').html('<a href="#popupInfo" data-rel="popup" class="ui-btn ui-corner-all ui-icon-info ui-btn-icon-notext jqmIcon" data-position-to="window"></a>');
                     $('#popupInfo').html(bar.fields.description);
         }
         else{
@@ -404,7 +404,6 @@ $(document).ready(function(){
    
     
     $("#sendAddBar").click(function( event ) {
-        console.log("click");
         $( "#addBarForm" ).submit();
     });
     
@@ -490,7 +489,7 @@ $(document).ready(function(){
         }
         if(!clstate) {
             var filtered_bar_list = _.filter(current_bar_list, function(obj){ return obj.fields.litre != "0"; });
-            filtered_bar_list = _.sortBy(filtered_bar_list, function(obj){ return obj.fields.litre;});
+            filtered_bar_list = _.sortBy(filtered_bar_list, function(a, b){ return (a.fields.litre - b)});
             return filtered_bar_list.slice(0, 10);
         }else{
             return current_bar_list.slice(0, 10);
@@ -498,6 +497,7 @@ $(document).ready(function(){
     
     
     }
+    
     
     // form to upload bar images
     var frm = $('#barImageForm');

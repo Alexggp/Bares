@@ -60,6 +60,10 @@ def addBar(request):
     lonPost=request.POST[u'lonForm']
     textPost=request.POST[u'textForm']
     
+   
+    if (litrePost==''):
+        litrePost=0
+    
     if (tapaPost=="false"):
         tapaPost=False
     
