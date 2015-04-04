@@ -64,9 +64,11 @@
     
     <div data-role="page" id='mainPage'>
         <img src="/static/images/loading.gif" id="loading">
-        
+        <img src="/static/images/beer_glass.png" class='clickable' title="Caña/Litro" id="beerIcon">
+        <img src="/static/images/plate_false.png" class='clickable' title="Tapa" id="plateIcon">
       
         <a href="#authentication" class="ui-btn ui-corner-all ui-icon-user ui-btn-icon-notext jqmIcon" id="logIcon"></a>
+		
         <div id="authentication" data-role="panel" data-display="overlay" class='panel'>
             <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext jqmIcon backIconl"></a>
             {% if user_name %}
@@ -82,14 +84,12 @@
             {% endif %}
         </div>
         
-        
         <div data-role="panel" id="barList"  data-display="overlay" class='panel'>
             <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext jqmIcon backIconl"></a>
             <ol id="selectable"></ol>
         </div>
         
-        <img src="/static/images/beer_glass.png" class='clickable' title="Caña/Litro" id="beerIcon">
-        <img src="/static/images/plate_false.png" class='clickable' title="Tapa" id="plateIcon">
+       
         <div data-role="main" id='mainDiv'>
             <a href="#barList" class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext jqmIcon"  id='listIcon'></a>
             {% if user_name %}
@@ -113,33 +113,7 @@
                 
                 <div data-role="popup" id="popupInfo" class="ui-content"></div>
                 <div id="BIpr" class="BIprices" ></div>
-            </div>
-            <div id="barAlbum" class="popup-gallery"></div>
-            <div id="oneComnt"></div>
-            <hr>
-            
-            <div id="barInfoFooter"> 
-                    <a class="ui-btn ui-corner-all ui-icon-comment ui-btn-icon-notext jqmIcon" href="#comntPage"  title="Ver comentarios" class='clickable'></a>
-                    <img src="/static/images/camera.png" class='clickable miniIcon' title="Añade una foto del bar" id="cameraIcon">
-                    <img src="/static/images/pencil.png" class='clickable miniIcon' title="Editar" id="pencilIcon">
-            </div>
-        </div>
-       
-        <div id="background"  class="hidable"></div>
-        
-        
-
-       <div id='addImage' class="hidable">
-            <form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
-                {% csrf_token %}
-                <h4>Selecciona una imagen:<h4>
-                {{file_form.image}}<br>
-                {{file_form.bar_id}}
-                <input type="submit" class='clickable' value="Enviar" /> 
-            </form>    
-        </div> 
-        <div id="changeBar" class="hidable BIprices">  
-                    <h3></h3>
+                <div id="BIpr2" class="BIprices" >
                     <form method="post" id="chBarForm">    
                         <div>
                             <img src="/static/images/beer_glass.png" title="Precio de la caña" class="miniIcon">
@@ -148,13 +122,44 @@
                         <div>
                             <img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">
                             <input type="number" step="0.05" class="moneyIn" min="0" name="litreFormCh" id="litreFormCh">
+                        </div><br>
+                        <div class="tapaCheckbox">
+                            <img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">
+                            <input type="checkbox" id="tapaFormCh" name="tapaFormCh">
                         </div>
-                        <br><img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">
-                        <input type="checkbox" id="tapaFormCh" name="tapaFormCh"><br><br>
-                        <input type="submit" class='clickable' id='sendChangeBar' value="Enviar"/>
+                        <a id="sendChBar" class="clickable ui-btn ui-corner-all ui-icon-action ui-btn-icon-notext jqmIcon" value="Enviar"></a>
                     </form>
+                    
+                </div>
+            </div>
+            <div id="barAlbum" class="popup-gallery"></div>
+            <div id="oneComnt"></div>
+            <hr>
+            
+            <div id="barInfoFooter"> 
+		            <a class="ui-btn ui-corner-all ui-icon-comment ui-btn-icon-notext jqmIcon clickable" href="#comntPage"  title="Ver comentarios"></a>
+		            <a id="cameraIcon" class="ui-btn ui-corner-all ui-icon-camera ui-btn-icon-notext jqmIcon clickable" href="" title="Añade una foto"></a>
+		            <a id="pencilIcon" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-notext jqmIcon clickable" href="#changeBar" title="Editar"></a>
+            </div>
         </div>
+       
+        <div id="background"  class="hidable"></div>
+        
+
+        <div id='addImage' class="hidable">
+            
+            <form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
+                {% csrf_token %}
+                <h4>Selecciona una imagen:<h4>
+                {{file_form.image}}<br>
+                {{file_form.bar_id}}
+                <input type="submit" class='clickable' value="Enviar" /> 
+            </form>    
+        </div> 
+        
     </div> <!-- #mainPage -->
+   
+   
    
     <div data-role="page" id="comntPage">
         <div class='pageHeader' id="comntHeader" data-role="header" data-position="fixed">
@@ -213,8 +218,10 @@
                             <img src="/static/images/beer_jar.png" title="Precio del litro" class="miniIcon">
                             <input type="number" step="0.05" class="moneyIn" min="0" name="litreForm" id="litreForm">
                         </div>
-                        <img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">
-                        <input type="checkbox" id="tapaForm" name="tapaForm"><br><br>
+                        <div class="tapaCheckbox">
+                            <img src="/static/images/plate_true.png" title="Ponen tapa" class="miniIcon">
+                            <input type="checkbox" id="tapaForm" name="tapaForm">
+                        </div>
                 </div>
                 <textarea name='textForm' rows="5" id='textForm' placeholder="Haz una breve descripcion del bar (opcional)"></textarea>
                 <div id="minimap"></div>

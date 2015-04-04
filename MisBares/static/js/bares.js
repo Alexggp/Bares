@@ -379,7 +379,6 @@ $(document).ready(function(){
             //sets values in hidden change bar values form  **
             $('#litreFormCh').val(bar.fields.litre);
             $('#priceFormCh').val(bar.fields.price); 
-            $('#changeBar h3').html(bar.fields.name); 
     }
    
     function fillBarInfo(bar){       //this function prints the info of the objet bar given as a parameter
@@ -582,6 +581,8 @@ $(document).ready(function(){
     });
            
     
+    
+    $('#sendChBar').click(function () {$('#chBarForm').submit()});
     // Form to update bar prices
     $('#chBarForm').submit(function () {
         var dataDic= { 'bar_id': $('#id_bar_id').val(),
@@ -595,7 +596,7 @@ $(document).ready(function(){
                 data: dataDic,
                 success: function (data) {
                     var barfound=jQuery.parseJSON(data)[0];                
-                    $('.hidable').hide();
+                    $('#pencilIcon').click();
                     get_bar_list(barfound);                     //we have to rebuild bar_list                      
                 },
                 error: function(data) {
@@ -626,13 +627,20 @@ $(document).ready(function(){
     });
 
     
+    $("#barInfo").on("panelclose",function(){
+        if ($('#BIpr2').css("display")!="none"){
+            $('#pencilIcon').click();
+        }
+    });
+    
     $(document).on("pageshow","#mainPage",function(){ 
-      map._onResize(); 
+      map._onResize();
     });  
     $(document).on("pageshow","#addBarPage",function(){ 
       LatLngOnForm(markerDrag.getLatLng());
       minimap._onResize(); 
     });  
+    
     
     
 });

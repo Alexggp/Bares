@@ -6,6 +6,7 @@ body {
 	color: #F5EBDF;
 }
 
+
 .panel{
     background-color:#2E76DB !important; 
     height:100%;
@@ -58,6 +59,13 @@ body {
     display:inline-block;
 }
 
+#addBarPage .BIprices div{
+	vertical-align:middle;
+}
+
+#BIpr2{
+	display: none;
+}
 
 #barInfoHeader{
     height:30px;
@@ -66,15 +74,34 @@ body {
     float:right;
 }
 
-#barInfoFooter img{
+#barInfoFooter a{
     float:right;
     margin-right: 15px;
+	margin-top:0px;
 }
-#barInfoFooter a{
+#barInfoFooter .ui-icon-comment{
     margin-left:15px; 
-    margin-top:0px;
     float:left;
 }
+
+#chBarForm a{
+	margin: 0 auto;
+	margin-top:15px;
+}
+
+.tapaCheckbox{
+	width: auto;
+}
+.tapaCheckbox img{
+	float: left;
+}
+.tapaCheckbox input{
+
+	position: absolute;
+	left: 25px;
+	top: -12px;
+}
+
 
 
 #barAlbum{
@@ -113,9 +140,7 @@ body {
 #openComnts{
     width: 50px;
 }
-#changeBar{
-   padding:0 40px 20px 40px;   
-}
+
 .author{
     border-bottom: 1px dotted #072957;
     color: #072957;

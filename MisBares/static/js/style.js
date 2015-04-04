@@ -34,9 +34,8 @@ $(document).ready(function(){
     });
     
     $('#pencilIcon').click(function(event){           //Displays the form to update bar, centered on the window
-        $('#changeBar').show();
-        $( '#background').show();
-        center("#changeBar"); 
+        $('#BIpr2').toggle();
+        $('#BIpr').toggle();
     });
     
 
