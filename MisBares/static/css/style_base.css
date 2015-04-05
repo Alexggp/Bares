@@ -164,9 +164,7 @@ body {
     display:none;
 }
 
-#addImage{
-    padding:40px;
-}
+
 #id_bar_id{display:none}
 
 #background{
@@ -374,9 +372,12 @@ footer{
     font-size: 0.75em;
     float:right;
 }
-#deleteComntDialog{
-    z-index:1004;
+#deleteComntDialog, #addImage{
+    z-index:1007;
+	background-color: #3489FF;
 }
+
+
 
 hr{ border: 0; height: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
 
@@ -412,10 +413,6 @@ div.bigstars div.rateit-reset:hover
     background: url(/static/images/star-white32.png);
 }
 
-.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
-    font-family:"Arial", sans-serif !important;
-	color: #F5EBDF !important;
-}
 
 textarea{
     resize: none !important;

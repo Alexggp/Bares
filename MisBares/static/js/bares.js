@@ -497,7 +497,7 @@ $(document).ready(function(){
     
     }
     
-    
+     
     // form to upload bar images
     var frm = $('#barImageForm');
     frm.submit(function () {

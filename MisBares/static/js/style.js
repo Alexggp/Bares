@@ -1,3 +1,13 @@
+	
+
+    window.addEventListener("load",function() {
+      setTimeout(function(){
+        window.scrollTo(0, 1);
+      }, 0);
+    });
+
+
+
 $(document).ready(function(){
 
 
@@ -6,13 +16,18 @@ $(document).ready(function(){
 
 //the following statements sets css position for diferent divs
 
-
-    center("#loading");  //defined below
-    $("footer").css("left",$(window).width()/2-$("footer").width()/2);
-    $("#logIcon").css("left",$(window).width()-$("#logIcon").width()-7);
-    $("#addIcon").css("left",$(window).width()-$("#logIcon").width()-40);
-
-
+    function placeIcons(){    
+        center("#loading");  //defined below
+        $("footer").css("left",$(window).width()/2-$("footer").width()/2);
+        $("#logIcon").css("left",$(window).width()-$("#logIcon").width()-7);
+        $("#addIcon").css("left",$(window).width()-$("#logIcon").width()-40);
+    };
+    placeIcons();
+    
+    $( window ).resize(function() {
+        placeIcons();
+        map._onResize();
+    });
 
     $( "#barInfo" ).panel({                     //When barInfo closes
         close: function( event, ui ) {
@@ -27,11 +42,7 @@ $(document).ready(function(){
         $( '.hidable' ).hide();                                     //sending information
        
     });
-    $('#cameraIcon').click(function( event ){        //Displays the form to add bar images, centered on the window
-        $('#addImage').show();
-        $( '#background').show();
-        center("#addImage"); 
-    });
+   
     
     $('#pencilIcon').click(function(event){           //Displays the form to update bar, centered on the window
         $('#BIpr2').toggle();

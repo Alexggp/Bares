@@ -66,7 +66,6 @@
         <img src="/static/images/loading.gif" id="loading">
         <img src="/static/images/beer_glass.png" class='clickable' title="Caña/Litro" id="beerIcon">
         <img src="/static/images/plate_false.png" class='clickable' title="Tapa" id="plateIcon">
-      
         <a href="#authentication" class="ui-btn ui-corner-all ui-icon-user ui-btn-icon-notext jqmIcon" id="logIcon"></a>
 		
         <div id="authentication" data-role="panel" data-display="overlay" class='panel'>
@@ -138,28 +137,51 @@
             
             <div id="barInfoFooter"> 
 		            <a class="ui-btn ui-corner-all ui-icon-comment ui-btn-icon-notext jqmIcon clickable" href="#comntPage"  title="Ver comentarios"></a>
-		            <a id="cameraIcon" class="ui-btn ui-corner-all ui-icon-camera ui-btn-icon-notext jqmIcon clickable" href="" title="Añade una foto"></a>
-		            <a id="pencilIcon" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-notext jqmIcon clickable" href="#changeBar" title="Editar"></a>
-            </div>
-        </div>
+		            <a id="cameraIcon" href="#addImage" data-rel="popup" class="ui-btn ui-corner-all ui-icon-camera ui-btn-icon-notext jqmIcon" data-position-to="window" title="Añade una foto"></a>
+		            <a id="pencilIcon" class="ui-btn ui-corner-all ui-icon-edit ui-btn-icon-notext jqmIcon clickable" href="" title="Editar"></a>
+					
+			</div>
+	    </div>
        
-        <div id="background"  class="hidable"></div>
-        
-
-        <div id='addImage' class="hidable">
-            
-            <form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
-                {% csrf_token %}
-                <h4>Selecciona una imagen:<h4>
-                {{file_form.image}}<br>
-                {{file_form.bar_id}}
-                <input type="submit" class='clickable' value="Enviar" /> 
-            </form>    
+		<div data-role="popup" id="addImage" style="max-width:400px;">
+            <div data-role="header" class='pageHeader'>
+                <h1>Añadir imágenes</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-content">
+				
+				
+				<form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
+					{% csrf_token %}
+					<h4>Selecciona una imagen:<h4>
+					{{file_form.image}}<br>
+					{{file_form.bar_id}}
+					<input type="submit" class='clickable' value="Enviar" /> 
+				</form>  
+				
+            </div>
         </div> 
-        
+		<div data-role="popup" id="addImage" data-dismissible="false" style="max-width:400px;">
+			<div data-role="header" class='pageHeader'>
+				<h1>Añadir imágenes</h1>
+			</div>
+			<div data-role="content" data-theme="d" class="ui-content">
+				
+				
+				<form id='barImageForm' enctype="multipart/form-data" method='post' action="/images" >
+					{% csrf_token %}
+					<h4>Selecciona una imagen:<h4>
+					{{file_form.image}}<br>
+					{{file_form.bar_id}}
+					<input type="submit" class='clickable' value="Enviar" /> 
+				</form>  
+				
+				<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="b">Cancelar</a>
+				<a href="#" id="YesDelete" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="c">Borrar</a>
+			</div>
+		</div> 
     </div> <!-- #mainPage -->
    
-   
+
    
     <div data-role="page" id="comntPage">
         <div class='pageHeader' id="comntHeader" data-role="header" data-position="fixed">
@@ -199,7 +221,7 @@
     </div> <!-- #comntPage -->
              
            
-    <div id="addBarPage" data-role="page">
+    <div data-role="page" id="addBarPage" >
         <div class='pageHeader' id="addBarHeader" data-role="header" data-position="fixed">
             <a class="clickable ui-btn ui-corner-all ui-icon-home ui-btn-icon-notext jqmIcon headerBack" href="#mainPage" value="Volver" > </a>
             <a id="sendAddBar" class="clickable ui-btn ui-corner-all ui-icon-action ui-btn-icon-notext jqmIcon headerFw" value="Enviar"></a>
@@ -237,7 +259,7 @@
             
      </div><!-- #addBarPage -->
    
-     
+    <div id="background"  class="hidable"></div> 
    
    
     </body>
