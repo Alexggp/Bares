@@ -5,8 +5,6 @@ body {
     font-family:"Arial", sans-serif !important;
 	color: #F5EBDF;
 }
-
-
 .panel{
     background-color:#2E76DB !important; 
     height:100%;
@@ -19,8 +17,6 @@ body {
     position:absolute;
 
 }
-
-
 #barList span{
     font-weight:bold;
     color: black;
@@ -29,19 +25,15 @@ body {
 
 #authentication{
     z-index:1003;
+	text-align: center;
 }
 #authentication form{
     top:60px;
     position:relative;
 }
-
-
 #id_username,#id_password{
     width:100px;
 }
-
-
-
 #barInfo{
     background-color:#2E76DB; 
     z-index:1003;
@@ -50,30 +42,23 @@ body {
 .miniIcon{    
     height:1.5em;
 }
-
-
-
 .BIprices div{
     margin:2.5px;
     width:50px;
     display:inline-block;
 }
-
 #addBarPage .BIprices div{
 	vertical-align:middle;
 }
-
 #BIpr2{
 	display: none;
 }
-
 #barInfoHeader{
     height:30px;
 }
 #barInfoHeader a{
     float:right;
 }
-
 #barInfoFooter a{
     float:right;
     margin-right: 15px;
@@ -83,12 +68,10 @@ body {
     margin-left:15px; 
     float:left;
 }
-
 #chBarForm a{
 	margin: 0 auto;
 	margin-top:15px;
 }
-
 .tapaCheckbox{
 	width: auto;
 }
@@ -101,9 +84,6 @@ body {
 	left: 25px;
 	top: -12px;
 }
-
-
-
 #barAlbum{
     margin-top:10px;
     background-color:#095FD7;
@@ -121,7 +101,6 @@ body {
     margin-top:10px;
     height:80px;
 }
-
 #oneComnt{
     background-color:#2E76DB; 
     max-height:100px;
@@ -131,12 +110,10 @@ body {
 
     overflow-y:auto;
 }
-
 #oneComnt p{
 
     font-style: italic;
 }
-
 #openComnts{
     width: 50px;
 }
@@ -163,10 +140,9 @@ body {
     text-align: center;
     display:none;
 }
-
-
-#id_bar_id{display:none}
-
+#id_bar_id{
+	display:none
+}
 #background{
     position:absolute;
     background-color: rgba(180,180,180,0.5);
@@ -423,7 +399,12 @@ textarea{
 input{
     border-radius: 0px !important;
 }
+#logoutUser{
+	background: red;
+}
 
-
-
+#loginGoogle{
+	background: green;
+	float:left;
+}
 

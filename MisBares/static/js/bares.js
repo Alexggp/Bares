@@ -602,9 +602,45 @@ $(document).ready(function(){
                 error: function(data) {
                     console.log("Something went wrong!: ",data.responseText);
                 }
-            });
+        });
         return false;
     });
+    
+    
+    $('#logout').click(function () {
+        $('#authentication').panel("close");
+        $( "#optionsList" ).popup( "close" );
+        $.ajax({
+                type: 'GET',
+                url: '/logout',
+                success: function () {
+                     location.reload();                 
+                },
+                error: function(data) {
+                    console.log("Something went wrong!: ",data.responseText);
+                }
+        });
+        return false;
+    });
+    
+    $('#loginForm').submit(function () {
+        
+        $.ajax({
+                type: 'POST',
+                url: '/login',
+                data: $('#loginForm').serialize(),
+                success: function () {
+                     location.reload();
+
+                },
+                error: function(data) {
+                    console.log("Something went wrong!: ",data.responseText);
+                    
+                }
+        });
+        return false;
+    });
+
     
     
     //jq-mobile pages behaviour on showing and hidding
@@ -625,7 +661,6 @@ $(document).ready(function(){
         BarAdded=false;
       }
     });
-
     
     $("#barInfo").on("panelclose",function(){
         if ($('#BIpr2').css("display")!="none"){

@@ -1,17 +1,5 @@
-	
-
-    window.addEventListener("load",function() {
-      setTimeout(function(){
-        window.scrollTo(0, 1);
-      }, 0);
-    });
-
-
-
 $(document).ready(function(){
 
-
-//sets relative positions and behaviour of divs
 
 
 //the following statements sets css position for diferent divs
@@ -118,4 +106,6 @@ function selectBarList(bar){     //Stands out the selected bar on the map and th
         markers_blueLayer.addLayer(marker);
     }
 };
+
+
 

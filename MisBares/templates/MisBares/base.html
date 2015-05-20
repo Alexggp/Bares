@@ -70,17 +70,29 @@
 		
         <div id="authentication" data-role="panel" data-display="overlay" class='panel'>
             <a href="#mainPage" data-rel="close" class="ui-btn ui-corner-all ui-icon-carat-l ui-btn-icon-notext jqmIcon backIconl"></a>
-            {% if user_name %}
-                <div><p><span id='#userName'>{{user_name}}</span><a href = '/logout'> Salir </a> </p></div>
-            {% else %} 
-                <div>
-                  <form method="post" action="/login"> {% csrf_token %}
-                    <b>Nombre<br> {{ login_form.username }}</b><br>
-                    <b>Contraseña<br>{{ login_form.password }}</b>
-                    <input type="submit" value="entrar" />
-                  </form>
-                </div>
-            {% endif %}
+			{% if user_name %}
+				<a id="options" href="#optionsList" data-rel="popup" class="ui-btn ui-corner-all ui-icon-gear ui-btn-icon-notext jqmIcon backIconr"></a> 
+				<div id="loginUser">
+					<div><p><span id='#userName'>{{user_name}}</span></p></div>
+					<div data-role="popup" id="optionsList">
+						<ul data-role="listview" data-inset="true">
+							<li data-role="list-divider">Opciones</li>
+							<li><a href="" id="logout">Salir</a></li>					
+						</ul>
+					</div>
+				</div>
+			{% else %} 
+			<!--	<div id="logoutUser">
+				  <form id='loginForm'> {% csrf_token %}
+					<b>Nombre<br> {{ login_form.username }}</b><br>
+					<b>Contraseña<br>{{ login_form.password }}</b>
+					<input type="submit" value="entrar" />
+				  </form>
+				</div>-->
+				<div id="loginGoogle"><a href="{% url 'social:begin' 'google-oauth2' %}" _blank>Entrar con la cuenta de Google</a></div>
+				
+				
+			{% endif %}
         </div>
         
         <div data-role="panel" id="barList"  data-display="overlay" class='panel'>

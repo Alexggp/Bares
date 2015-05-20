@@ -1,4 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseForbidden
+from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 from MisBares.models import Bar_db,BarImages_db,Rates_db,Comments_db
 from MisBares.forms import UploadFileForm
@@ -7,6 +8,7 @@ from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt # to avoid  403 FORBIDDEN error
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -15,9 +17,32 @@ login_form=AuthenticationForm()
 file_form=UploadFileForm()
 
 def logout_user(request):
-  logout(request)
+    logout(request)
 
-  return HttpResponseRedirect('/bares')
+    return HttpResponse(200)
+
+@csrf_exempt   
+def login_user(request):
+    namePost=request.POST['username']
+    pwdPost=request.POST['password']
+    request.session.set_test_cookie()     
+    user = authenticate(username=namePost, password=pwdPost)
+   
+    if user:
+      if user.is_active:
+          # If the account is valid and active, we can log the user in.
+          login(request, user)
+          return HttpResponse(200)
+      else:
+          # An inactive account was used - no logging in!
+          HttpResponseForbiden('Incorrect log')
+    
+    
+    
+    else:
+      return HttpResponseForbiden('Incorrect log')
+    
+    
 
 
 def bares(request):
@@ -28,7 +53,9 @@ def bares(request):
     request.session.set_test_cookie()
     return HttpResponse(template.render(context))
     
-
+def templates(request,path):
+   user_name=request.user.username
+   return render_to_response('MisBares/'+path,{'user_name':user_name ,'login_form':login_form},context_instance=RequestContext(request))
 
 def initialize(request):
 
