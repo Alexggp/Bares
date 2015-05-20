@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
                        
-    url(r'^accounts/', include('registration.backends.default.urls')),                   
+                       
     url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^init','MisBares.views.initialize'),

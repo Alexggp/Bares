@@ -1,0 +1,12 @@
+		
+       {% extends 'base.html' %} 
+        
+        {% block contenido %}
+        <div id="logoutUser">
+				  <form id='loginForm'> {% csrf_token %}
+					<b>Nombre<br> {{ login_form.username }}</b><br>
+					<b>Contraseña<br>{{ login_form.password }}</b>
+					<input type="submit" value="entrar" />
+		</form>
+				
+        {% endblock %}        
