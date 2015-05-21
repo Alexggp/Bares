@@ -131,12 +131,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'social.backends.google.GoogleOAuth2'
+    'social.backends.facebook.FacebookAppOAuth2',
+    'social.backends.facebook.FacebookOAuth2'
 )
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '489264111329-ckcac8bktr4s86s35affc16na4ll4eg4.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'pD8_d0tX3BoqZmi5LTRBjhJO'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-WHITELISTED_DOMAINS = ['gmail.com']
+
+SOCIAL_AUTH_FACEBOOK_KEY='102669346737155'
+SOCIAL_AUTH_FACEBOOK_SECRET='048996d6463831cd1ddfca915d0dd0b4'
+
 
 
 SOCIAL_AUTH_PIPELINE = (
@@ -154,6 +156,9 @@ SOCIAL_AUTH_PIPELINE = (
 
     # Crea un usuario nuevo si uno todavia no existe
     'social.pipeline.user.create_user',
+    
+    #Coge la foto de perfil
+    #'MisBares.mis_pipelines.save_profile',
 
     # Trata de conectar las cuentas
     'social.pipeline.social_auth.associate_user',
@@ -163,4 +168,5 @@ SOCIAL_AUTH_PIPELINE = (
 
     # Actualiza los campos de la instancia user con la informacion que obtiene via backend
     'social.pipeline.user.user_details',
+
 )

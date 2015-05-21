@@ -48,8 +48,10 @@ def login_user(request):
 def bares(request):
     user_name=request.user.username
     
+    
+    
     template = loader.get_template('MisBares/base.html')
-    context = RequestContext(request, {'user_name':user_name ,'login_form':login_form,'file_form':file_form})
+    context = RequestContext(request, {'user_name':user_name ,'login_form':login_form,'file_form':file_form,'facebookInfo':''})
     request.session.set_test_cookie()
     return HttpResponse(template.render(context))
     
@@ -241,3 +243,5 @@ def deleteComments(request):
         return HttpResponse('ok')
     else:
         return HttpResponseBadRequest('Method error') 
+
+

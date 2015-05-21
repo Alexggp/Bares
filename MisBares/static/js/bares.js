@@ -678,4 +678,28 @@ $(document).ready(function(){
     
     
     
+    //facebook
+    if (window.location.hash == "#_=_")
+    window.location.hash = "";
+
+    
+    $('#loginGoogle').click(function () {
+        $.ajax({
+                type: 'GET',
+                dataType: 'jsonp',
+                url: '/social/login/facebook',
+                success: function () {
+                     console.log('success');                 
+                },
+                error: function(data) {
+                    console.log("Something went wrong!: ",data.responseText);
+                }
+        });
+    return false;
+    
+    
+        //$.mobile.changePage('/social/login/facebook');
+    
+    });
+    
 });

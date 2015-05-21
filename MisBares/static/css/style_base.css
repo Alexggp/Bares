@@ -399,12 +399,11 @@ textarea{
 input{
     border-radius: 0px !important;
 }
-#logoutUser{
-	background: red;
+
+
+#loginFacebook img{
+	margin-top:60px;
+	width:100%;
 }
 
-#loginGoogle{
-	background: green;
-	float:left;
-}
 

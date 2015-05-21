@@ -12,8 +12,6 @@
         <script type="text/javascript" src="/static/js/underscore.js"></script>
         <script type="text/javascript" src="/static/js/jquery-validation-1.13.1/dist/jquery.validate.js"></script>
         
-   
-        
         <!-- Date.js to parse dates -->
         <script type="text/javascript" src="/static/js/Date.min.js"></script>  
         <!-- Magnific Popup core CSS file -->
@@ -50,6 +48,7 @@
         </script>
         <script>
              var user = '{{ user_name }}'
+			 var facebookInfo = '{{facebookInfo}}'
         </script>
         
     </head>
@@ -82,11 +81,20 @@
 					</div>
 				</div>
 			{% else %}
-			{%block auth%}{%endblock%}
-
-				<div id="loginGoogle"><a href="{% url 'social:begin' 'google-oauth2' %}">Entrar con la cuenta de Google</a></div>
-				
-				
+				<div id="logoutUser">
+					<form id='loginForm'> {% csrf_token %}
+							<b>Nombre<br> {{ login_form.username }}</b><br>
+							<b>Contraseña<br>{{ login_form.password }}</b>
+							<input type="submit" value="entrar" />
+					</form>
+	
+					
+				</div>
+				<div id="loginFacebook">
+						<a href="{% url 'social:begin' 'facebook' %}" rel="external">
+							<img src="/static/images/facebook.png">
+						</a>
+					</div>
 			{% endif %}
         </div>
         
