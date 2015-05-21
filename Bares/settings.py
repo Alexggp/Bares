@@ -133,10 +133,10 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social.backends.google.GoogleOAuth2'
 )
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '489264111329 '
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyDWhmurcnC2fvJprlQQHlEq-pHtb6YTiuc'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '489264111329-ckcac8bktr4s86s35affc16na4ll4eg4.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'pD8_d0tX3BoqZmi5LTRBjhJO'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
-WHITELISTED_DOMAINS = ['agmail.com']
+WHITELISTED_DOMAINS = ['gmail.com']
 
 
 SOCIAL_AUTH_PIPELINE = (
